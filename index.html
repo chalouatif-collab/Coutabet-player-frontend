@@ -380,11 +380,13 @@
                 <button onclick="openPolicyModal('confidentialite')" class="hover:text-brand-yellow transition">Confidentialité</button>
                 <button onclick="openPolicyModal('responsable')" class="hover:text-brand-yellow transition">Jeu Responsable</button>
             </div>
-            <p class="max-w-2xl mx-auto mb-2">COUTABET est une plateforme de paris sportifs et casino B2B. Les jeux d'argent sont interdits aux mineurs.</p>
-            <div class="text-[10px] font-black tracking-widest text-gray-600">© 2026 COUTABET. TOUS DROITS RÉSERVÉS.</div>
+            <p class="max-w-2xl mx-auto mb-2 leading-relaxed">
+                COUTABET est une plateforme de paris sportifs et casino B2B. Les jeux d'argent sont strictement interdits aux personnes de moins de 18 ans. Jouez avec modération.
+                <br><span class="text-gray-400 mt-1 block">* Note légale : Le gain et le retrait maximum autorisés par joueur sont limités à 30 000 TND par mois.</span>
+            </p>
+            <div class="text-[10px] font-black tracking-widest text-gray-600 mt-4">© 2026 COUTABET. TOUS DROITS RÉSERVÉS.</div>
         </div>
     </footer>
-
     <!-- ================= MODALS & POPUPS ================= -->
 
     <!-- Sidebar / Menu VIP -->
@@ -682,12 +684,51 @@
         }
 
         function openPolicyModal(type) {
-            // دالة فتح الشروط
-            alert("Ouvrir la politique: " + type);
+            const modal = document.getElementById('policy-modal');
+            const title = document.getElementById('policy-modal-title');
+            const body = document.getElementById('policy-modal-body');
+            
+            let content = '';
+            let titleText = '';
+
+            if (type === 'termes') {
+                titleText = 'Termes & Conditions';
+                content = `
+                    <h4 class="text-white font-bold mb-2">1. Acceptation des conditions</h4>
+                    <p class="mb-4 text-gray-400">En accédant à COUTABET, vous acceptez d'être lié par ces conditions générales d'utilisation. Vous devez avoir au moins 18 ans pour utiliser nos services.</p>
+                    
+                    <h4 class="text-white font-bold mb-2">2. Limites de Gains et Retraits</h4>
+                    <p class="mb-4 text-brand-yellow font-bold bg-[#0d1b2a] border border-gray-700 p-3 rounded-lg">
+                        Le gain maximum et la limite de retrait sont strictement fixés à 30 000 TND par joueur et par mois, quelles que soient les mises, les cotes ou les jackpots remportés.
+                    </p>
+                    
+                    <h4 class="text-white font-bold mb-2">3. Responsabilité du joueur</h4>
+                    <p class="text-gray-400">Le joueur est seul responsable de la sécurité de ses identifiants. Toute activité sur le compte est considérée comme effectuée par le titulaire légitime du compte.</p>
+                `;
+            } else if (type === 'confidentialite') {
+                titleText = 'Politique de Confidentialité';
+                content = `
+                    <p class="mb-4 text-gray-400">COUTABET s'engage à protéger vos données personnelles. Les informations collectées (nom, transactions, IP) sont utilisées uniquement pour la sécurité et la gestion de votre compte, et ne sont jamais partagées avec des tiers sans votre consentement.</p>
+                `;
+            } else if (type === 'responsable') {
+                titleText = 'Jeu Responsable';
+                content = `
+                    <p class="mb-4 text-gray-400">Les jeux d'argent doivent rester un divertissement. Ne misez que ce que vous pouvez vous permettre de perdre.</p>
+                    <p class="text-gray-400">Si vous sentez que vous perdez le contrôle, veuillez contacter notre support pour bloquer votre compte temporairement ou définitivement.</p>
+                `;
+            }
+
+            title.innerText = titleText;
+            body.innerHTML = content;
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
         }
-        
-        function openResultsModal() {
-            alert("Ouvrir la page des résultats sportifs");
+
+        function closePolicyModal() {
+            const modal = document.getElementById('policy-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
         }
 
         /* ---------------- Authentication Mockup ---------------- */
