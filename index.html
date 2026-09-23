@@ -147,81 +147,79 @@
     </div>
 
     <!-- MAIN NAVBAR -->
-    <nav class="bg-brand-blue sticky top-0 z-50 border-b border-gray-700 shadow-xl">
-        <div class="container mx-auto px-2 py-3">
-            <div class="flex justify-between items-center mb-3">
-                <!-- Logo -->
-<div class="flex items-center gap-2 cursor-pointer" onclick="switchSection('accueil')">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg" class="w-10 h-10 drop-shadow-[0_0_10px_rgba(251,191,36,0.5)]" alt="Coutabet Logo">
-    <span class="font-black text-3xl text-white tracking-tighter">Couta<span class="text-brand-yellow">bet</span></span>
-</div>
+<nav class="bg-brand-blue sticky top-0 z-50 border-b border-gray-700 shadow-xl">
+    <div class="container mx-auto px-2 py-2 md:py-3">
+        <div class="flex justify-between items-center mb-2 md:mb-3">
+            
+            <!-- Logo -->
+            <div class="flex items-center gap-1.5 md:gap-2 cursor-pointer shrink-0" onclick="switchSection('accueil')">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg" class="w-7 h-7 md:w-10 md:h-10 drop-shadow-[0_0_10px_rgba(251,191,36,0.5)]" alt="Coutabet Logo">
+                <span class="font-black text-lg md:text-3xl text-white tracking-tighter">COUTA<span class="text-brand-yellow">BET</span></span>
+            </div>
 
-                <!-- Ad Banner inside Header -->
-                <div
-                    class="hidden lg:block w-[400px] h-12 bg-red-600 rounded overflow-hidden relative cursor-pointer border border-red-400">
-                    <img src="https://images.unsplash.com/photo-1518133683791-0b9229971842?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-                        class="w-full h-full object-cover opacity-40 mix-blend-luminosity" alt="Jackpot">
-                    <div class="absolute inset-0 flex items-center justify-between px-4">
-                        <span class="font-black text-white text-lg italic">JACKPOT MYSTÈRE !</span>
-                        <span
-                            class="bg-brand-yellow text-black px-2 py-1 font-bold text-xs rounded animate-bounce">JOUER</span>
-                    </div>
-                </div>
-
-                <!-- Account / Wallet Actions -->
-                <div class="flex items-center gap-2">
-                    <div
-                        class="bg-[#1b263b] border border-gray-600 px-3 py-1 rounded text-right leading-tight hidden sm:block">
-                        <span class="text-[9px] text-gray-400 font-bold uppercase">Solde Principal</span>
-                        <span id="user-balance" class="block text-white font-bold">450.00 <span
-                                class="text-brand-yellow text-[10px]">TND</span></span>
-                    </div>
-                    <button
-                        class="bg-brand-green hover:bg-emerald-400 px-6 py-2 rounded text-sm font-black shadow-[0_0_10px_#10b981] transition">DÉPÔT</button>
-                    <button
-                        class="bg-[#1b263b] hover:bg-gray-700 px-4 py-2 rounded text-sm font-bold border border-gray-600"><i
-                            class="fas fa-user"></i> Mon Compte</button>
+            <!-- Ad Banner inside Header -->
+            <div class="hidden lg:block w-[400px] h-12 bg-red-600 rounded overflow-hidden relative cursor-pointer border border-red-400">
+                <img src="https://images.unsplash.com/photo-1518133683791-0b9229971842?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover opacity-40 mix-blend-luminosity" alt="Jackpot">
+                <div class="absolute inset-0 flex items-center justify-between px-4">
+                    <span class="font-black text-white text-lg italic">JACKPOT MYSTÈRE !</span>
+                    <span class="bg-brand-yellow text-black px-2 py-1 font-bold text-xs rounded animate-bounce">JOUER</span>
                 </div>
             </div>
 
-            <!-- Dense Navigation Tabs -->
-<div class="flex gap-1 overflow-x-auto pb-1 text-xs font-black uppercase tracking-wider no-scrollbar">
-    <button onclick="switchSection('accueil')" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-4 py-2 rounded transition whitespace-nowrap shrink-0">
-        <i class="fas fa-home"></i>
-    </button>
-    
-    <button onclick="openSportsbookForProvider('nexus')" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-4 py-2 rounded transition whitespace-nowrap shrink-0">
-        <i class="fas fa-futbol"></i> Sports
-    </button>
-    
-    <button onclick="openSportsbookForProvider('nexus')" class="bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded shadow-[0_0_10px_#dc2626] transition whitespace-nowrap shrink-0">
-        <i class="fas fa-satellite-dish animate-pulse"></i> En Direct (145)
-    </button>
-    
-    <button onclick="switchSection('casino'); initCasinoLobby();" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-4 py-2 rounded transition whitespace-nowrap shrink-0">
-        <i class="fas fa-slot-machine text-brand-yellow"></i> Casino
-    </button>
-    
-    <button onclick="switchSection('live-casino'); openLiveCasino();" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-4 py-2 rounded transition whitespace-nowrap shrink-0">
-        <i class="fas fa-dice text-brand-yellow"></i> Casino Live
-    </button>
-    
-    <button onclick="openSportsbookForProvider('nexus')" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-4 py-2 rounded transition whitespace-nowrap shrink-0">
-        <i class="fas fa-gamepad"></i> eSports
-    </button>
-    
-    <button onclick="playCasinoGame('SPRIBE', 'aviator')" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-4 py-2 rounded transition whitespace-nowrap shrink-0">
-        <i class="fas fa-plane-departure text-blue-400"></i> Aviator <span class="bg-red-500 text-[8px] px-1 rounded ml-1 text-white">HOT</span>
-    </button>
-    
-    <button onclick="switchSection('virtuals'); initVirtualsLobby();" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-4 py-2 rounded transition whitespace-nowrap shrink-0">
-        <i class="fas fa-horse-head"></i> Virtuels
-    </button>
-    
-    <button onclick="loadTVGames()" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-4 py-2 rounded transition whitespace-nowrap shrink-0">
-        <i class="fas fa-tv"></i> Jeux TV
-    </button>
-</div>
+            <!-- Account / Wallet Actions -->
+            <div class="flex items-center gap-1.5 md:gap-2">
+                
+                <!-- Logged Out State -->
+                <div id="auth-buttons-container" class="flex items-center gap-1 md:gap-2">
+                    <button onclick="openLoginModal()" class="text-[10px] md:text-xs font-bold text-gray-300 hover:text-white uppercase px-1 md:px-3 py-2">Connexion</button>
+                    <button onclick="openRegisterModal()" class="bg-brand-yellow hover:bg-yellow-400 text-black font-black text-[10px] md:text-xs px-2.5 md:px-4 py-1.5 md:py-2 rounded shadow-[0_0_10px_#fbbf24] transition whitespace-nowrap">S'inscrire</button>
+                </div>
+
+                <!-- Logged In State -->
+                <div id="top-user-profile" class="hidden items-center gap-1.5 md:gap-2">
+                    <div class="bg-[#1b263b] border border-gray-600 px-3 py-1 rounded text-right leading-tight hidden sm:block">
+                        <span class="text-[9px] text-gray-400 font-bold uppercase">Solde Principal</span>
+                        <span class="block text-white font-bold"><span id="player-balance-val">0.00</span> <span class="text-brand-yellow text-[10px]">TND</span></span>
+                    </div>
+                    
+                    <button onclick="toggleCashier()" class="bg-brand-green hover:bg-emerald-400 px-3 md:px-6 py-1.5 md:py-2 rounded text-[10px] md:text-sm font-black shadow-[0_0_10px_#10b981] transition whitespace-nowrap">DÉPÔT</button>
+                    
+                    <!-- Notifications Bell -->
+                    <div id="top-notification-bell" class="relative cursor-pointer flex items-center justify-center w-7 h-7 md:w-9 md:h-9 rounded bg-[#1b263b] border border-gray-600 hover:border-brand-yellow transition" onclick="toggleNotificationsPanel()">
+                        <i class="fas fa-bell text-gray-400 text-[10px] md:text-sm hover:text-white"></i>
+                        <span id="notif-badge" class="absolute -top-1 -right-1 bg-red-600 text-white text-[8px] font-bold px-1 py-0.5 rounded-full hidden shadow-md">0</span>
+                    </div>
+
+                    <!-- Profile Button -->
+                    <button onclick="toggleProfileSidebar()" class="bg-[#1b263b] hover:bg-gray-700 px-2.5 md:px-4 py-1.5 md:py-2 rounded text-[10px] md:text-sm font-bold border border-gray-600 whitespace-nowrap flex items-center gap-1.5">
+                        <i class="fas fa-user"></i> <span class="hidden sm:inline">Mon Compte</span>
+                    </button>
+                </div>
+
+                <!-- Notifications Dropdown -->
+                <div id="notifications-panel" class="absolute top-14 md:top-16 right-2 md:right-4 w-[280px] bg-[#1b263b] border border-gray-600 rounded-lg shadow-2xl hidden flex-col z-[100] overflow-hidden">
+                    <div class="p-3 border-b border-gray-700 bg-[#0d1b2a] flex justify-between items-center">
+                        <h3 class="text-white font-bold text-sm">Notifications 🔔</h3>
+                    </div>
+                    <div id="notifs-list" class="max-h-[300px] overflow-y-auto no-scrollbar p-2 flex flex-col gap-1"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dense Navigation Tabs -->
+        <div class="flex gap-1 overflow-x-auto pb-1 text-[10px] md:text-xs font-black uppercase tracking-wider no-scrollbar">
+            <button onclick="switchSection('accueil')" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i class="fas fa-home"></i></button>
+            <button onclick="openSportsbookForProvider('nexus')" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i class="fas fa-futbol text-brand-yellow md:hidden mr-1"></i>Sports</button>
+            <button onclick="switchSection('live-casino'); openLiveCasino();" class="bg-red-600 hover:bg-red-500 text-white px-3 md:px-4 py-1.5 md:py-2 rounded shadow-[0_0_10px_#dc2626] transition whitespace-nowrap shrink-0"><i class="fas fa-satellite-dish animate-pulse"></i> En Direct</button>
+            <button onclick="switchSection('casino'); initCasinoLobby();" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i class="fas fa-slot-machine text-brand-yellow"></i> Casino</button>
+            <button onclick="switchSection('live-casino'); openLiveCasino();" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i class="fas fa-dice text-brand-yellow"></i> Casino Live</button>
+            <button onclick="openSportsbookForProvider('nexus')" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i class="fas fa-gamepad"></i> eSports</button>
+            <button onclick="playCasinoGame('SPRIBE', 'aviator')" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i class="fas fa-plane-departure text-blue-400"></i> Aviator <span class="bg-red-500 text-[8px] px-1 rounded ml-1 text-white">HOT</span></button>
+            <button onclick="switchSection('virtuals'); initVirtualsLobby();" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i class="fas fa-horse-head"></i> Virtuels</button>
+            <button onclick="loadTVGames()" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i class="fas fa-tv"></i> Jeux TV</button>
+        </div>
+    </div>
+</nav>
 
     <!-- MAIN 3-COLUMN LAYOUT -->
     <div class="container mx-auto px-2 py-4 flex flex-col lg:flex-row gap-4">
