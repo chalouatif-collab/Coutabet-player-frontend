@@ -104,11 +104,21 @@
             background: #374151;
         }
 
-        .sticky-col {
-            position: sticky;
-            top: 110px;
-            height: calc(100vh - 110px);
-            overflow-y: auto;
+        @media (min-width: 1024px) {
+            .sticky-col {
+                position: sticky;
+                top: 110px;
+                height: calc(100vh - 110px);
+                overflow-y: auto;
+            }
+        }
+
+        @media (max-width: 1023px) {
+            .sticky-col {
+                height: auto;
+                overflow: visible;
+                position: relative;
+            }
         }
     </style>
 </head>
@@ -128,7 +138,7 @@
             </div>
             <div class="flex gap-4 items-center">
                 <a href="#" class="text-red-500 font-bold blink"><i class="fas fa-gift"></i> PROMOTIONS</a>
-                <span>Format: <b>Décimal (1.50)</b> <i class="fas fa-chevron-down text-[10px]"></i></span>
+                <span class="hidden md:inline">Format: <b>Décimal (1.50)</b> <i class="fas fa-chevron-down text-[10px]"></i></span>
                 <span class="flex items-center gap-1 border-l border-gray-700 pl-4"><img
                         src="https://upload.wikimedia.org/wikipedia/en/c/c3/Flag_of_France.svg" class="h-3 w-4"
                         alt="FR"> FR <i class="fas fa-chevron-down text-[10px]"></i></span>
@@ -141,14 +151,10 @@
         <div class="container mx-auto px-2 py-3">
             <div class="flex justify-between items-center mb-3">
                 <!-- Logo -->
-                <div class="flex items-center gap-2 cursor-pointer" onclick="switchSection('accueil')">
-                    <div
-                        class="w-10 h-10 bg-brand-yellow rounded-lg flex items-center justify-center border-2 border-white shadow-[0_0_10px_#fbbf24]">
-                        <i class="fas fa-futbol text-[#0d1b2a] text-2xl"></i>
-                    </div>
-                    <span class="font-black text-3xl text-white tracking-tighter">COUTA<span
-                            class="text-brand-yellow">BET</span></span>
-                </div>
+<div class="flex items-center gap-2 cursor-pointer" onclick="switchSection('accueil')">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg" class="w-10 h-10 drop-shadow-[0_0_10px_rgba(251,191,36,0.5)]" alt="Coutabet Logo">
+    <span class="font-black text-3xl text-white tracking-tighter">Couta<span class="text-brand-yellow">bet</span></span>
+</div>
 
                 <!-- Ad Banner inside Header -->
                 <div
@@ -179,29 +185,43 @@
             </div>
 
             <!-- Dense Navigation Tabs -->
-            <div class="flex gap-1 overflow-x-auto pb-1 text-xs font-black uppercase tracking-wider">
-                <a href="#" class="bg-[#1b263b] hover:bg-gray-700 text-white px-4 py-2 rounded"><i
-                        class="fas fa-home"></i></a>
-                <a href="#" class="bg-[#1b263b] hover:bg-gray-700 text-white px-4 py-2 rounded"><i
-                        class="fas fa-futbol"></i> Sports</a>
-                <a href="#" class="bg-red-600 text-white px-4 py-2 rounded shadow-[0_0_10px_#dc2626]"><i
-                        class="fas fa-satellite-dish animate-pulse"></i> En Direct (145)</a>
-                <a href="#" class="bg-[#1b263b] hover:bg-gray-700 text-white px-4 py-2 rounded"><i
-                        class="fas fa-slot-machine text-brand-yellow"></i> Casino</a>
-                <a href="#" class="bg-[#1b263b] hover:bg-gray-700 text-white px-4 py-2 rounded"><i
-                        class="fas fa-dice text-brand-yellow"></i> Casino Live</a>
-                <a href="#" class="bg-[#1b263b] hover:bg-gray-700 text-white px-4 py-2 rounded"><i
-                        class="fas fa-gamepad"></i> eSports</a>
-                <a href="#" class="bg-[#1b263b] hover:bg-gray-700 text-white px-4 py-2 rounded"><i
-                        class="fas fa-plane-departure text-blue-400"></i> Aviator <span
-                        class="bg-red-500 text-[8px] px-1 rounded ml-1">HOT</span></a>
-                <a href="#" class="bg-[#1b263b] hover:bg-gray-700 text-white px-4 py-2 rounded"><i
-                        class="fas fa-horse-head"></i> Virtuels</a>
-                <a href="#" class="bg-[#1b263b] hover:bg-gray-700 text-white px-4 py-2 rounded"><i
-                        class="fas fa-tv"></i> Jeux TV</a>
-            </div>
-        </div>
-    </nav>
+<div class="flex gap-1 overflow-x-auto pb-1 text-xs font-black uppercase tracking-wider no-scrollbar">
+    <button onclick="switchSection('accueil')" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-4 py-2 rounded transition whitespace-nowrap shrink-0">
+        <i class="fas fa-home"></i>
+    </button>
+    
+    <button onclick="openSportsbookForProvider('nexus')" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-4 py-2 rounded transition whitespace-nowrap shrink-0">
+        <i class="fas fa-futbol"></i> Sports
+    </button>
+    
+    <button onclick="openSportsbookForProvider('nexus')" class="bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded shadow-[0_0_10px_#dc2626] transition whitespace-nowrap shrink-0">
+        <i class="fas fa-satellite-dish animate-pulse"></i> En Direct (145)
+    </button>
+    
+    <button onclick="switchSection('casino'); initCasinoLobby();" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-4 py-2 rounded transition whitespace-nowrap shrink-0">
+        <i class="fas fa-slot-machine text-brand-yellow"></i> Casino
+    </button>
+    
+    <button onclick="switchSection('live-casino'); openLiveCasino();" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-4 py-2 rounded transition whitespace-nowrap shrink-0">
+        <i class="fas fa-dice text-brand-yellow"></i> Casino Live
+    </button>
+    
+    <button onclick="openSportsbookForProvider('nexus')" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-4 py-2 rounded transition whitespace-nowrap shrink-0">
+        <i class="fas fa-gamepad"></i> eSports
+    </button>
+    
+    <button onclick="playCasinoGame('SPRIBE', 'aviator')" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-4 py-2 rounded transition whitespace-nowrap shrink-0">
+        <i class="fas fa-plane-departure text-blue-400"></i> Aviator <span class="bg-red-500 text-[8px] px-1 rounded ml-1 text-white">HOT</span>
+    </button>
+    
+    <button onclick="switchSection('virtuals'); initVirtualsLobby();" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-4 py-2 rounded transition whitespace-nowrap shrink-0">
+        <i class="fas fa-horse-head"></i> Virtuels
+    </button>
+    
+    <button onclick="loadTVGames()" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-4 py-2 rounded transition whitespace-nowrap shrink-0">
+        <i class="fas fa-tv"></i> Jeux TV
+    </button>
+</div>
 
     <!-- MAIN 3-COLUMN LAYOUT -->
     <div class="container mx-auto px-2 py-4 flex flex-col lg:flex-row gap-4">
@@ -224,23 +244,27 @@
                     <span class="flex items-center gap-2"><img
                             src="https://upload.wikimedia.org/wikipedia/en/b/ba/Flag_of_Germany.svg"
                             class="w-4 h-3 rounded-sm" alt="Germany"> Bundesliga</span> <span
-                        class="bg-gray-900 px-1.5 rounded text-[10px]">12</span></li>
+                        class="bg-gray-900 px-1.5 rounded text-[10px]">12</span>
+                </li>
                 <li
                     class="hover:bg-gray-700 cursor-pointer p-2 px-3 border-b border-gray-800 flex justify-between items-center">
                     <span class="flex items-center gap-2"><img
                             src="https://upload.wikimedia.org/wikipedia/en/c/c3/Flag_of_France.svg"
                             class="w-4 h-3 rounded-sm" alt="France"> Ligue 1</span> <span
-                        class="bg-gray-900 px-1.5 rounded text-[10px]">10</span></li>
+                        class="bg-gray-900 px-1.5 rounded text-[10px]">10</span>
+                </li>
                 <li
                     class="hover:bg-gray-700 cursor-pointer p-2 px-3 border-b border-gray-800 flex justify-between items-center">
                     <span class="flex items-center gap-2"><img
                             src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg"
                             class="w-4 h-3 rounded-sm" alt="UK"> Premier League</span> <span
-                        class="bg-gray-900 px-1.5 rounded text-[10px]">24</span></li>
+                        class="bg-gray-900 px-1.5 rounded text-[10px]">24</span>
+                </li>
                 <li
                     class="hover:bg-gray-700 cursor-pointer p-2 px-3 border-b border-gray-800 flex justify-between items-center">
                     <span class="flex items-center gap-2"><i class="fas fa-basketball-ball text-orange-500 w-4"></i>
-                        NBA</span> <span class="bg-gray-900 px-1.5 rounded text-[10px]">8</span></li>
+                        NBA</span> <span class="bg-gray-900 px-1.5 rounded text-[10px]">8</span>
+                </li>
             </ul>
 
             <h3 class="font-bold p-3 bg-[#111827] text-white border-y border-gray-700 mt-2">Tous les Sports (A-Z)</h3>
@@ -248,31 +272,40 @@
                 <li
                     class="hover:bg-gray-700 cursor-pointer p-2 px-3 border-b border-gray-800 flex justify-between text-brand-yellow bg-gray-800">
                     <span class="flex items-center gap-2"><i class="fas fa-futbol w-4"></i> Football</span>
-                    <span>1,452</span></li>
+                    <span>1,452</span>
+                </li>
                 <li class="hover:bg-gray-700 cursor-pointer p-2 px-3 border-b border-gray-800 flex justify-between">
                     <span class="flex items-center gap-2"><i class="fas fa-baseball-ball text-green-400 w-4"></i>
-                        Tennis</span> <span>342</span></li>
+                        Tennis</span> <span>342</span>
+                </li>
                 <li class="hover:bg-gray-700 cursor-pointer p-2 px-3 border-b border-gray-800 flex justify-between">
                     <span class="flex items-center gap-2"><i class="fas fa-basketball-ball text-orange-400 w-4"></i>
-                        Basketball</span> <span>185</span></li>
+                        Basketball</span> <span>185</span>
+                </li>
                 <li class="hover:bg-gray-700 cursor-pointer p-2 px-3 border-b border-gray-800 flex justify-between">
                     <span class="flex items-center gap-2"><i class="fas fa-hockey-puck w-4"></i> Hockey sur glace</span>
-                    <span>96</span></li>
+                    <span>96</span>
+                </li>
                 <li class="hover:bg-gray-700 cursor-pointer p-2 px-3 border-b border-gray-800 flex justify-between">
                     <span class="flex items-center gap-2"><i class="fas fa-volleyball-ball text-yellow-200 w-4"></i>
-                        Volleyball</span> <span>45</span></li>
+                        Volleyball</span> <span>45</span>
+                </li>
                 <li class="hover:bg-gray-700 cursor-pointer p-2 px-3 border-b border-gray-800 flex justify-between">
                     <span class="flex items-center gap-2"><i class="fas fa-table-tennis text-blue-400 w-4"></i> Tennis
-                        de table</span> <span>210</span></li>
+                        de table</span> <span>210</span>
+                </li>
                 <li class="hover:bg-gray-700 cursor-pointer p-2 px-3 border-b border-gray-800 flex justify-between">
                     <span class="flex items-center gap-2"><i class="fas fa-gamepad text-purple-400 w-4"></i>
-                        eSports</span> <span>320</span></li>
+                        eSports</span> <span>320</span>
+                </li>
                 <li class="hover:bg-gray-700 cursor-pointer p-2 px-3 border-b border-gray-800 flex justify-between">
                     <span class="flex items-center gap-2"><i class="fas fa-boxing-glove text-red-400 w-4"></i> Boxe /
-                        UFC</span> <span>24</span></li>
+                        UFC</span> <span>24</span>
+                </li>
                 <li class="hover:bg-gray-700 cursor-pointer p-2 px-3 border-b border-gray-800 flex justify-between">
                     <span class="flex items-center gap-2"><i class="fas fa-flag-checkered w-4"></i> Formule 1</span>
-                    <span>5</span></li>
+                    <span>5</span>
+                </li>
             </ul>
         </div>
 
