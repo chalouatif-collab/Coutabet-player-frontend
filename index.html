@@ -372,26 +372,21 @@
 
     </main>
 
-    <!-- Policy Modal (نافذة الشروط والأحكام) -->
-    <div id="policy-modal" class="fixed inset-0 z-[800] bg-black/90 backdrop-blur-sm hidden flex-col items-center justify-center p-4">
-        <div class="bg-brand-light border border-gray-700 rounded-2xl w-full max-w-2xl flex flex-col max-h-[85vh] shadow-2xl overflow-hidden" id="policy-modal-content">
-            <!-- الهيدر -->
-            <div class="flex justify-between items-center p-5 border-b border-gray-700 bg-[#0d1b2a]">
-                <h3 id="policy-modal-title" class="text-brand-yellow font-black uppercase tracking-wider text-lg">Titre</h3>
-                <button onclick="closePolicyModal()" class="text-gray-400 hover:text-white transition text-xl w-8 h-8 flex items-center justify-center rounded-full bg-gray-800 hover:bg-gray-700">
-                    <i class="fas fa-times"></i>
-                </button>
+    <!-- ================= FOOTER ================= -->
+    <footer class="border-t border-gray-800 bg-[#08101a] py-6 text-center text-xs text-gray-500 mt-auto">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-center gap-4 mb-4 font-bold">
+                <button onclick="openPolicyModal('termes')" class="hover:text-brand-yellow transition">Termes & Conditions</button>
+                <button onclick="openPolicyModal('confidentialite')" class="hover:text-brand-yellow transition">Confidentialité</button>
+                <button onclick="openPolicyModal('responsable')" class="hover:text-brand-yellow transition">Jeu Responsable</button>
             </div>
-            <!-- المحتوى -->
-            <div id="policy-modal-body" class="p-6 overflow-y-auto text-sm text-gray-300 space-y-4 no-scrollbar">
-                <!-- سيتم حقن النص هنا عبر الجافاسكريبت -->
-            </div>
-            <!-- زر الموافقة -->
-            <div class="p-4 border-t border-gray-700 bg-[#0d1b2a] flex justify-end">
-                <button onclick="closePolicyModal()" class="bg-brand-yellow hover:bg-yellow-400 text-black font-bold text-xs uppercase px-6 py-2.5 rounded-xl transition">J'ai compris</button>
-            </div>
+            <p class="max-w-2xl mx-auto mb-2 leading-relaxed">
+                COUTABET est une plateforme de paris sportifs et casino B2B. Les jeux d'argent sont strictement interdits aux personnes de moins de 18 ans. Jouez avec modération.
+                <br><span class="text-gray-400 mt-1 block">* Note légale : Le gain et le retrait maximum autorisés par joueur sont limités à 30 000 TND par mois.</span>
+            </p>
+            <div class="text-[10px] font-black tracking-widest text-gray-600 mt-4">© 2026 COUTABET. TOUS DROITS RÉSERVÉS.</div>
         </div>
-    </div>
+    </footer>
     
     <!-- ================= MODALS & POPUPS ================= -->
 
