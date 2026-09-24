@@ -176,53 +176,39 @@
                 <!-- Account / Wallet Actions -->
                 <div class="flex items-center gap-1.5 md:gap-2">
 
-                    <!-- Logged Out State -->
+                    <!-- حالة الزائر (تسجيل الدخول فقط) -->
                     <div id="auth-buttons-container" class="flex items-center gap-1 md:gap-2">
-                        <button onclick="openLoginModal()"
-                            class="text-[10px] md:text-xs font-bold text-gray-300 hover:text-white uppercase px-1 md:px-3 py-2">Connexion</button>
-                        <button onclick="openRegisterModal()"
-                            class="bg-brand-yellow hover:bg-yellow-400 text-black font-black text-[10px] md:text-xs px-2.5 md:px-4 py-1.5 md:py-2 rounded shadow-[0_0_10px_#fbbf24] transition whitespace-nowrap">S'inscrire</button>
+                        <button onclick="openLoginModal()" class="bg-brand-yellow hover:bg-yellow-400 text-black font-black text-[10px] md:text-xs px-3 md:px-5 py-1.5 md:py-2 rounded shadow-[0_0_10px_#fbbf24] transition uppercase whitespace-nowrap">Connexion</button>
                     </div>
 
-                    <!-- Logged In State -->
+                    <!-- حالة تسجيل الدخول -->
                     <div id="top-user-profile" class="hidden items-center gap-1.5 md:gap-2">
-                        <div
-                            class="bg-[#1b263b] border border-gray-600 px-3 py-1 rounded text-right leading-tight hidden sm:block">
+                        <!-- الرصيد العلوي -->
+                        <div class="bg-[#1b263b] border border-gray-600 px-3 py-1 rounded text-right leading-tight hidden sm:block">
                             <span class="text-[9px] text-gray-400 font-bold uppercase">Solde Principal</span>
-                            <span class="block text-white font-bold"><span id="player-balance-val">0.00</span> <span
-                                    class="text-brand-yellow text-[10px]">TND</span></span>
+                            <span class="block text-white font-bold"><span id="player-balance-val">0.00</span> <span class="text-brand-yellow text-[10px]">TND</span></span>
                         </div>
 
-                        <button onclick="toggleCashier()"
-                            class="bg-brand-green hover:bg-emerald-400 px-3 md:px-6 py-1.5 md:py-2 rounded text-[10px] md:text-sm font-black shadow-[0_0_10px_#10b981] transition whitespace-nowrap">DÉPÔT</button>
-
-                        <!-- Notifications Bell -->
-                        <div id="top-notification-bell"
-                            class="relative cursor-pointer flex items-center justify-center w-7 h-7 md:w-9 md:h-9 rounded bg-[#1b263b] border border-gray-600 hover:border-brand-yellow transition"
-                            onclick="toggleNotificationsPanel()">
+                        <!-- جرس الإشعارات -->
+                        <div id="top-notification-bell" class="relative cursor-pointer flex items-center justify-center w-7 h-7 md:w-9 md:h-9 rounded bg-[#1b263b] border border-gray-600 hover:border-brand-yellow transition" onclick="toggleNotificationsPanel()">
                             <i class="fas fa-bell text-gray-400 text-[10px] md:text-sm hover:text-white"></i>
-                            <span id="notif-badge"
-                                class="absolute -top-1 -right-1 bg-red-600 text-white text-[8px] font-bold px-1 py-0.5 rounded-full hidden shadow-md">0</span>
+                            <span id="notif-badge" class="absolute -top-1 -right-1 bg-red-600 text-white text-[8px] font-bold px-1 py-0.5 rounded-full hidden shadow-md">0</span>
                         </div>
 
-                        <!-- Profile Button -->
-                        <button onclick="toggleProfileSidebar()"
-                            class="bg-[#1b263b] hover:bg-gray-700 px-2.5 md:px-4 py-1.5 md:py-2 rounded text-[10px] md:text-sm font-bold border border-gray-600 whitespace-nowrap flex items-center gap-1.5">
-                            <i class="fas fa-user"></i> <span class="hidden sm:inline">Mon Compte</span>
+                        <!-- زر القائمة الجانبية (حسابي) -->
+                        <button onclick="toggleProfileSidebar()" class="bg-[#1b263b] hover:bg-gray-700 px-2.5 md:px-4 py-1.5 md:py-2 rounded text-[10px] md:text-sm font-bold border border-gray-600 whitespace-nowrap flex items-center gap-1.5">
+                            <i class="fas fa-user text-brand-yellow"></i> <span class="hidden sm:inline">Mon Compte</span>
                         </button>
                     </div>
 
-                    <!-- Notifications Dropdown -->
-                    <div id="notifications-panel"
-                        class="absolute top-14 md:top-16 right-2 md:right-4 w-[280px] bg-[#1b263b] border border-gray-600 rounded-lg shadow-2xl hidden flex-col z-[100] overflow-hidden">
+                    <!-- قائمة الإشعارات المنسدلة -->
+                    <div id="notifications-panel" class="absolute top-14 md:top-16 right-2 md:right-4 w-[280px] bg-[#1b263b] border border-gray-600 rounded-lg shadow-2xl hidden flex-col z-[100] overflow-hidden">
                         <div class="p-3 border-b border-gray-700 bg-[#0d1b2a] flex justify-between items-center">
                             <h3 class="text-white font-bold text-sm">Notifications 🔔</h3>
                         </div>
-                        <div id="notifs-list"
-                            class="max-h-[300px] overflow-y-auto no-scrollbar p-2 flex flex-col gap-1"></div>
+                        <div id="notifs-list" class="max-h-[300px] overflow-y-auto no-scrollbar p-2 flex flex-col gap-1"></div>
                     </div>
                 </div>
-            </div>
 
             <!-- Dense Navigation Tabs -->
             <div
@@ -501,48 +487,43 @@
     <!-- ================= MODALS & POPUPS ================= -->
 
     <!-- Sidebar / Menu VIP -->
-    <div id="profile-overlay" onclick="toggleProfileSidebar()"
-        class="fixed inset-0 bg-black/80 z-[590] hidden backdrop-blur-sm transition-opacity"></div>
-    <div id="profile-sidebar"
-        class="fixed right-0 top-0 h-full w-72 md:w-80 bg-brand-light border-l border-gray-700 z-[600] shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+    <div id="profile-overlay" onclick="toggleProfileSidebar()" class="fixed inset-0 bg-black/80 z-[590] hidden backdrop-blur-sm transition-opacity"></div>
+    <div id="profile-sidebar" class="fixed right-0 top-0 h-full w-72 md:w-80 bg-brand-light border-l border-gray-700 z-[600] shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+        <!-- رأس القائمة مع الرصيد -->
         <div class="p-5 md:p-6 bg-[#0d1b2a] flex justify-between items-center border-b border-gray-700">
-            <h3 class="font-black text-white text-base uppercase tracking-wider">Mon Compte</h3>
-            <button onclick="toggleProfileSidebar()"
-                class="text-gray-400 hover:text-brand-yellow transition w-8 h-8 flex items-center justify-center"><i
-                    class="fas fa-times text-lg"></i></button>
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-full bg-brand-yellow text-[#0d1b2a] flex items-center justify-center text-xl font-black shadow-[0_0_10px_rgba(251,191,36,0.4)]">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div>
+                    <h3 class="font-black text-white text-sm uppercase tracking-wider" id="sidebar-username">Joueur</h3>
+                    <p class="text-brand-yellow font-black text-sm"><span id="sidebar-balance">0.00</span> TND</p>
+                </div>
+            </div>
+            <button onclick="toggleProfileSidebar()" class="text-gray-400 hover:text-brand-yellow transition w-8 h-8 flex items-center justify-center"><i class="fas fa-times text-lg"></i></button>
         </div>
-        <div class="flex-1 overflow-y-auto p-4 space-y-4 pb-24 no-scrollbar">
-            <button onclick="toggleProfileSidebar(); toggleCashier();"
-                class="w-full bg-brand-green hover:bg-emerald-400 text-white font-black py-4 rounded-xl transition uppercase tracking-widest text-sm shadow-lg mb-2 flex items-center justify-center gap-2">
-                <i class="fas fa-wallet"></i> CAISSE (Dépôt/Retrait)
+        
+        <!-- أزرار التحكم -->
+        <div class="flex-1 overflow-y-auto p-4 space-y-2 pb-24 no-scrollbar">
+            <h4 class="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-3 ml-1 mt-2">Mon Compte</h4>
+            
+            <button onclick="openHistoryModal()" class="w-full flex items-center gap-3 bg-[#0d1b2a] hover:border-brand-yellow border border-gray-700 text-white p-3.5 rounded-xl transition font-bold text-sm">
+                <i class="fas fa-history text-blue-400 w-5 text-center"></i> Historique des paris
             </button>
-            <div>
-                <h4 class="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-3 ml-1">Navigation Rapide
-                </h4>
-                <div class="space-y-2">
-                    <button onclick="toggleProfileSidebar(); openSportsbookForProvider('nexus');"
-                        class="w-full flex items-center gap-3 bg-[#0d1b2a] hover:border-brand-yellow border border-gray-700 text-white p-3.5 rounded-xl transition font-bold text-sm">
-                        <i class="fas fa-futbol text-brand-yellow w-5 text-center"></i> Paris Sportifs
-                    </button>
-                    <button onclick="toggleProfileSidebar(); switchSection('casino'); initCasinoLobby();"
-                        class="w-full flex items-center gap-3 bg-[#0d1b2a] hover:border-brand-yellow border border-gray-700 text-white p-3.5 rounded-xl transition font-bold text-sm">
-                        <i class="fas fa-slot-machine text-yellow-500 w-5 text-center"></i> Casino & Slots
-                    </button>
-                </div>
-            </div>
-            <div id="sidebar-account-section" class="border-t border-gray-700 pt-4">
-                <h4 class="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-3 ml-1">Historique</h4>
-                <div class="space-y-2">
-                    <button
-                        class="w-full flex items-center gap-3 bg-[#0d1b2a] hover:border-brand-yellow border border-gray-700 text-white p-3.5 rounded-xl transition font-bold text-sm">
-                        <i class="fas fa-history text-blue-400 w-5 text-center"></i> Historique Paris
-                    </button>
-                </div>
-            </div>
+            
+            <button onclick="openTransactionsModal()" class="w-full flex items-center gap-3 bg-[#0d1b2a] hover:border-brand-yellow border border-gray-700 text-white p-3.5 rounded-xl transition font-bold text-sm">
+                <i class="fas fa-exchange-alt text-brand-green w-5 text-center"></i> Transactions
+            </button>
+            
+            <button onclick="openBonusModal()" class="w-full flex items-center gap-3 bg-[#0d1b2a] hover:border-brand-yellow border border-gray-700 text-white p-3.5 rounded-xl transition font-bold text-sm relative">
+                <i class="fas fa-gift text-red-500 w-5 text-center"></i> Bonus & Offres
+                <span class="absolute right-3 bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">NEW</span>
+            </button>
         </div>
+        
+        <!-- زر الخروج -->
         <div class="p-4 bg-[#0d1b2a] border-t border-gray-700">
-            <button onclick="toggleProfileSidebar(); logoutPlayer();"
-                class="w-full bg-red-600 hover:bg-red-500 text-white font-black py-3.5 rounded-xl transition uppercase tracking-widest text-xs">Déconnexion</button>
+            <button onclick="toggleProfileSidebar(); logoutPlayer();" class="w-full bg-red-600/10 hover:bg-red-600 text-red-500 hover:text-white border border-red-600/30 font-black py-3.5 rounded-xl transition uppercase tracking-widest text-xs">Déconnexion</button>
         </div>
     </div>
 
@@ -594,97 +575,7 @@
             </div>
         </div>
     </div>
-
-    <!-- Cashier Modal -->
-    <div id="cashier-modal"
-        class="fixed inset-0 z-[400] hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-        <div
-            class="bg-brand-light border border-gray-700 rounded-2xl w-full max-w-md p-6 relative shadow-[0_0_40px_rgba(16,185,129,0.15)] max-h-[90vh] overflow-y-auto no-scrollbar">
-            <button onclick="toggleCashier()"
-                class="absolute top-4 right-4 text-gray-400 hover:text-brand-yellow font-bold text-2xl transition">&times;</button>
-            <h2 class="text-xl font-black text-white mb-6 flex items-center gap-2 uppercase tracking-wide"><i
-                    class="fas fa-wallet text-brand-green"></i> Caisse</h2>
-
-            <div class="flex gap-2 mb-6 bg-[#0d1b2a] p-1 rounded-xl border border-gray-700">
-                <button onclick="switchCashierTab('deposit')" id="tab-deposit"
-                    class="flex-1 bg-brand-green text-white font-bold py-2 rounded-lg text-xs transition-all shadow-md">Dépôt</button>
-                <button onclick="switchCashierTab('withdraw')" id="tab-withdraw"
-                    class="flex-1 text-gray-400 hover:text-white font-bold py-2 rounded-lg text-xs transition-all">Retrait</button>
-            </div>
-
-            <!-- Dépôt Section -->
-            <div id="deposit-section" class="space-y-4">
-                <label class="text-xs text-gray-400 font-bold">Méthodes disponibles:</label>
-                <div id="payment-methods-grid" class="grid grid-cols-2 gap-3">
-                    <button onclick="showForm('form-voucher')"
-                        class="bg-[#0d1b2a] border border-gray-600 hover:border-brand-yellow p-3 rounded-xl flex flex-col items-center gap-2 transition-all">
-                        <span class="text-2xl text-brand-yellow">🎟️</span><span
-                            class="text-[10px] font-bold text-white uppercase">Voucher</span>
-                    </button>
-                    <button onclick="showForm('form-usdt')"
-                        class="bg-[#0d1b2a] border border-gray-600 hover:border-green-500 p-3 rounded-xl flex flex-col items-center gap-2 transition-all">
-                        <span class="text-2xl text-green-400">💎</span><span
-                            class="text-[10px] font-bold text-white uppercase">USDT</span>
-                    </button>
-                </div>
-                <div id="form-voucher" class="hidden space-y-3 mt-4">
-                    <input type="text" id="voucher-code" placeholder="Code Voucher"
-                        class="tubet-input text-center tracking-widest font-mono">
-                    <div class="flex gap-2 mt-2">
-                        <button onclick="backToMethods()"
-                            class="flex-1 bg-transparent border border-gray-600 text-white font-bold rounded-lg py-2 hover:bg-gray-700 transition">Retour</button>
-                        <button
-                            class="flex-1 bg-brand-green text-white font-bold rounded-lg py-2 uppercase">Valider</button>
-                    </div>
-                </div>
-                <div id="form-usdt" class="hidden space-y-3 mt-4">
-                    <div class="bg-[#0d1b2a] p-3 rounded-lg border border-green-500/30 text-center">
-                        <p class="text-xs text-gray-400 mb-1">Adresse USDT (TRC20):</p>
-                        <p class="text-xs font-bold text-green-500 break-all font-mono">TVXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-                        </p>
-                    </div>
-                    <div class="flex gap-2 mt-2">
-                        <button onclick="backToMethods()"
-                            class="flex-1 bg-transparent border border-gray-600 text-white font-bold rounded-lg py-2">Retour</button>
-                        <button
-                            class="flex-1 bg-brand-green text-white font-bold rounded-lg py-2 uppercase">Confirmer</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Retrait Section -->
-            <div id="withdraw-section" class="hidden space-y-4">
-                <div class="bg-[#0d1b2a] border border-gray-700 p-3 rounded-xl flex justify-between items-center mb-2">
-                    <span class="text-xs text-gray-400 uppercase">Solde Retirable:</span>
-                    <span class="text-sm font-black text-brand-green"><span id="modal-balance">0.00</span> TND</span>
-                </div>
-                <div class="grid grid-cols-2 gap-2 mb-4">
-                    <button onclick="showWithdrawForm('form-w-d17')"
-                        class="bg-[#0d1b2a] border border-gray-600 hover:border-brand-yellow p-2.5 rounded-xl flex flex-col items-center gap-1 transition-all">
-                        <span class="text-xl">📱</span><span
-                            class="text-[10px] font-bold text-white uppercase">D17</span>
-                    </button>
-                </div>
-                <div id="form-w-d17" class="withdraw-form space-y-3 hidden">
-                    <input type="text" id="d17-nom" placeholder="Nom et Prénom" class="tubet-input">
-                    <input type="number" id="d17-amount" placeholder="Montant (TND)"
-                        class="tubet-input font-bold text-brand-yellow">
-                    <button
-                        class="w-full py-3 bg-brand-green hover:bg-emerald-400 text-white uppercase font-bold rounded-xl shadow-md">Retirer</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Casino Iframe Container (Full Screen Overlay) -->
-    <div id="casino-iframe-container" class="fixed inset-0 z-[900] bg-black hidden flex-col">
-        <div class="h-10 bg-[#0d1b2a] flex justify-between items-center px-4 border-b border-gray-700">
-            <span class="text-brand-yellow font-black uppercase text-xs tracking-widest">COUTABET CASINO</span>
-            <button onclick="closeCasinoGame()" class="text-gray-400 hover:text-white"><i
-                    class="fas fa-times text-xl"></i></button>
-        </div>
-        <iframe id="casino-iframe" class="w-full flex-grow border-0"></iframe>
-    </div>
+</html>
 
     <!-- ================= JAVASCRIPT ================= -->
     <script>
@@ -775,56 +666,6 @@
             }
         }
 
-        /* ---------------- Cashier (Dépôt/Retrait) ---------------- */
-        function toggleCashier() {
-            const modal = document.getElementById('cashier-modal');
-            if (modal.classList.contains('hidden')) {
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-            } else {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-            }
-        }
-
-        function switchCashierTab(tab) {
-            const depBtn = document.getElementById('tab-deposit');
-            const witBtn = document.getElementById('tab-withdraw');
-            const depSec = document.getElementById('deposit-section');
-            const witSec = document.getElementById('withdraw-section');
-
-            if (tab === 'deposit') {
-                depBtn.classList.add('bg-brand-green', 'text-white');
-                depBtn.classList.remove('text-gray-400');
-                witBtn.classList.remove('bg-brand-green', 'text-white');
-                witBtn.classList.add('text-gray-400');
-                depSec.classList.remove('hidden');
-                witSec.classList.add('hidden');
-            } else {
-                witBtn.classList.add('bg-brand-green', 'text-white');
-                witBtn.classList.remove('text-gray-400');
-                depBtn.classList.remove('bg-brand-green', 'text-white');
-                depBtn.classList.add('text-gray-400');
-                witSec.classList.remove('hidden');
-                depSec.classList.add('hidden');
-            }
-        }
-
-        function showForm(formId) {
-            document.getElementById('payment-methods-grid').classList.add('hidden');
-            document.getElementById(formId).classList.remove('hidden');
-        }
-
-        function backToMethods() {
-            document.getElementById('payment-methods-grid').classList.remove('hidden');
-            document.getElementById('form-voucher').classList.add('hidden');
-            document.getElementById('form-usdt').classList.add('hidden');
-        }
-
-        function showWithdrawForm(formId) {
-            document.querySelectorAll('.withdraw-form').forEach(f => f.classList.add('hidden'));
-            document.getElementById(formId).classList.remove('hidden');
-        }
 
         /* ---------------- Notifications & Policies ---------------- */
         function toggleNotificationsPanel() {
@@ -1104,32 +945,31 @@
     }
 
     async function refreshBalance() {
-        if (!playerSession) return;
-        try {
-            const res = await fetch(`${BACKEND_URL}/gold_api`, {
-                method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ method: 'user_balance', user_code: playerSession.username })
-            });
-            const data = await res.json();
-            if (data.user_balance !== undefined) {
-                playerSession.balance = data.user_balance;
-                const formattedBalance = parseFloat(data.user_balance).toFixed(2);
+            if (!playerSession) return;
+            try {
+                const res = await fetch(`${BACKEND_URL}/gold_api`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ method: 'user_balance', user_code: playerSession.username })
+                });
+                const data = await res.json();
+                if (data.status === 1 && data.user_balance !== undefined) {
+                    playerSession.balance = data.user_balance;
+                    localStorage.setItem('alpha_player_session', JSON.stringify(playerSession));
+                    
+                    const formattedBalance = parseFloat(data.user_balance).toFixed(2);
+                    
+                    // تحديث الرصيد في الشريط العلوي
+                    const balDisplay = document.getElementById('player-balance-val');
+                    if (balDisplay) balDisplay.innerText = formattedBalance;
 
-                // 1. تحديث الرصيد في الشريط العلوي المخفي
-                const balDisplay = document.getElementById('player-balance-val');
-                if (balDisplay) balDisplay.innerText = formattedBalance;
-
-                // 2. تحديث الرصيد في القائمة الجانبية (Sidebar)
-                const sidebarBalDisplay = document.getElementById('sidebar-balance');
-                if (sidebarBalDisplay) sidebarBalDisplay.innerText = formattedBalance + ' TND';
-
-                // 3. تحديث الرصيد في نافذة السحب (Cashier)
-                const modalBalDisplay = document.getElementById('modal-balance');
-                if (modalBalDisplay) modalBalDisplay.innerText = formattedBalance;
+                    // تحديث الرصيد في القائمة الجانبية
+                    const sidebarBalDisplay = document.getElementById('sidebar-balance');
+                    if (sidebarBalDisplay) sidebarBalDisplay.innerText = formattedBalance;
+                }
+            } catch (e) {
+                console.error("Erreur balance:", e);
             }
-        } catch (e) { }
-    }
-
+        }
     function getAuthHeaders() { return { 'Authorization': `Bearer ${localStorage.getItem('token')}`, 'Content-Type': 'application/json' }; }
 
     // ================= 3. الكازينو والسلوتس (محرك نكسيس النهائي + Infinite Scroll) =================
@@ -2315,79 +2155,7 @@
         container.innerHTML = finalHtml;
     }
 </script>
-<!-- 💬 مربع الشات (Modal في الهاتف، عائم في الكمبيوتر) -->
-<div id="live-chat-sidebar" onclick="if(event.target === this) closeChat()"
-    class="fixed inset-0 sm:inset-auto sm:bottom-24 sm:right-4 md:right-8 z-[500] hidden items-center justify-center p-4 sm:p-0 bg-black/80 sm:bg-transparent backdrop-blur-sm sm:backdrop-blur-none">
 
-    <!-- الحاوية الداخلية للشات -->
-    <div
-        class="w-full max-w-[350px] h-[75vh] sm:h-[500px] bg-[#12151d] border border-gray-700 rounded-2xl shadow-[0_0_30px_rgba(0,0,0,0.8)] flex flex-col overflow-hidden relative">
-
-        <!-- رأس الشات -->
-        <div class="h-16 bg-[#0f1117] flex justify-between items-center px-4 border-b border-gray-800 shrink-0">
-            <div class="flex items-center gap-3">
-                <span class="relative flex h-3 w-3">
-                    <span
-                        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
-                </span>
-                <div>
-                    <h3 class="text-white font-bold text-sm tracking-wide">CHAT EN DIRECT</h3>
-                    <p class="text-emerald-500 text-[10px] font-semibold"><i class="fas fa-users"></i> 142
-                        en ligne</p>
-                </div>
-            </div>
-            <!-- زر إغلاق الشات يدوياً -->
-            <button onclick="toggleChat()"
-                class="text-gray-400 hover:text-red-500 transition cursor-pointer w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-
-        <!-- رسائل الشات -->
-        <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-5 text-sm bg-[#12151d] hide-scroll">
-            <div class="bg-emerald-900/20 border border-emerald-500/30 rounded p-3 text-emerald-400 text-xs shadow-sm">
-                🚀 <strong>[SYSTÈME]</strong> Sarah*** vient de gagner <strong>693.97 TND</strong> sur
-                Aviator !
-            </div>
-            <div class="flex flex-col mt-4">
-                <span class="text-yellow-400 font-bold text-[11px] mb-1">👑 [VIP] Chalo</span>
-                <span
-                    class="text-gray-300 bg-[#161922] border border-emerald-500/30 p-2.5 rounded-xl rounded-tr-none text-xs break-words shadow-md">C'est
-                    le feu aujourd'hui 🔥 Qui joue avec moi ?</span>
-            </div>
-        </div>
-
-        <!-- منطقة الإدخال و الإيموجي -->
-        <div class="p-3 bg-[#0f1117] border-t border-gray-800 shrink-0 relative z-20">
-            <!-- شريط الإيموجي السريع -->
-            <div class="flex justify-around mb-3 px-1 text-lg">
-                <button type="button" onclick="addEmoji('🔥')"
-                    class="hover:bg-gray-800 rounded p-1.5 transition transform hover:scale-125 cursor-pointer">🔥</button>
-                <button type="button" onclick="addEmoji('🚀')"
-                    class="hover:bg-gray-800 rounded p-1.5 transition transform hover:scale-125 cursor-pointer">🚀</button>
-                <button type="button" onclick="addEmoji('🤑')"
-                    class="hover:bg-gray-800 rounded p-1.5 transition transform hover:scale-125 cursor-pointer">🤑</button>
-                <button type="button" onclick="addEmoji('😂')"
-                    class="hover:bg-gray-800 rounded p-1.5 transition transform hover:scale-125 cursor-pointer">😂</button>
-                <button type="button" onclick="addEmoji('❤️')"
-                    class="hover:bg-gray-800 rounded p-1.5 transition transform hover:scale-125 cursor-pointer">❤️</button>
-            </div>
-
-            <div class="relative w-full z-30">
-                <!-- تم إضافة maxlength="25" ومنع النسخ واللصق -->
-                <input type="text" id="chat-input" maxlength="25" oncopy="return false" onpaste="return false"
-                    oncut="return false" onkeypress="handleChatEnter(event)" placeholder="Écrivez (Max 25)..."
-                    class="w-full bg-[#161922] text-white text-xs rounded-xl py-3 pl-4 pr-12 outline-none border border-gray-700 focus:border-emerald-500 transition shadow-inner pointer-events-auto select-none"
-                    autocomplete="off">
-                <button type="button" onclick="sendMessage()"
-                    class="absolute right-1 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-emerald-500 rounded-lg text-[#0f1117] flex items-center justify-center hover:bg-emerald-400 transition shadow-md cursor-pointer z-40">
-                    <i class="fas fa-paper-plane text-xs pointer-events-none"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
 <!-- 👤 قائمة الملف الشخصي (Profile Sidebar) -->
 <!-- خلفية ضبابية عند فتح القائمة -->
 <div id="profile-overlay" onclick="toggleProfileSidebar()"
@@ -2462,13 +2230,6 @@
     </div>
 </div>
 
-<!-- 💬 الزر العائم للشات (يظهر في الكمبيوتر أسفل اليمين) -->
-<button id="floating-chat-btn" onclick="toggleChat()"
-    class="fixed bottom-6 right-6 z-[100] w-14 h-14 bg-emerald-500 hover:bg-emerald-400 rounded-full hidden xl:flex items-center justify-center text-[#0f1117] shadow-[0_0_20px_rgba(16,185,129,0.4)] transition transform hover:scale-110">
-    <i class="fas fa-comments text-2xl"></i>
-    <!-- نقطة الإشعارات الحمراء -->
-    <span class="absolute top-0 right-0 w-4 h-4 bg-red-500 border-2 border-[#12151d] rounded-full animate-pulse"></span>
-</button>
 
 <!-- 📜 نافذة سجل الرهانات (Historique des paris) -->
 <div id="history-modal"
