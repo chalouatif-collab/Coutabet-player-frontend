@@ -232,21 +232,66 @@
                 <!-- MAIN COLUMN: Promos & Casino -->
                 <div class="w-full lg:w-4/5 flex flex-col gap-4">
 
-                    <!-- Giant Promo Slider -->
-                    <div class="promo-banner h-[220px] md:h-[280px] group cursor-pointer" onclick="openRegisterModal()"
-                        style="background-image: url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80');">
-                        <div
-                            class="absolute inset-0 bg-gradient-to-r from-[#0d1b2a] via-[#0d1b2a]/80 to-transparent p-6 md:p-10 flex flex-col justify-center">
-                            <span
-                                class="bg-red-600 text-white text-xs font-black px-2 py-1 uppercase rounded self-start mb-2 blink">Nouveau
-                                Joueur</span>
-                            <h2 class="text-3xl md:text-5xl font-black text-white uppercase italic leading-none mb-2">
-                                BONUS <span class="text-brand-yellow">200%</span><br>JUSQU'À 1000 TND</h2>
-                            <p class="text-xs md:text-sm text-gray-300 font-bold w-full md:w-1/2 mb-4">Inscrivez-vous
-                                maintenant et doublez votre premier dépôt instantanément !</p>
-                            <button
-                                class="bg-brand-yellow hover:bg-yellow-400 text-black font-black uppercase px-6 py-2 md:py-3 rounded self-start shadow-[0_0_15px_#fbbf24]">Réclamer
-                                le Bonus <i class="fas fa-arrow-right"></i></button>
+                    <!-- السلايدر المتحرك الترحيبي (بدون مكافآت) -->
+                    <div id="welcome-slider-container" class="relative w-full h-[220px] md:h-[280px] rounded-lg overflow-hidden group shadow-[0_4px_15px_rgba(0,0,0,0.5)] border-2 border-gray-700">
+                        
+                        <!-- مسار الشرائح -->
+                        <div id="welcome-slider-track" class="flex w-full h-full transition-transform duration-500 ease-in-out">
+                            
+                            <!-- الشريحة 1: ترحيب عام -->
+                            <div class="w-full h-full flex-shrink-0 relative">
+                                <img src="https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover" alt="Welcome">
+                                <div class="absolute inset-0 bg-gradient-to-r from-[#0d1b2a] via-[#0d1b2a]/90 to-transparent p-6 md:p-10 flex flex-col justify-center">
+                                    <span class="bg-brand-green text-white text-[10px] md:text-xs font-black px-2 py-1 uppercase rounded self-start mb-2">Bienvenue</span>
+                                    <h2 class="text-3xl md:text-5xl font-black text-white uppercase italic leading-none mb-2">
+                                        VOTRE PLATEFORME<br><span class="text-brand-yellow">PREMIUM</span>
+                                    </h2>
+                                    <p class="text-xs md:text-sm text-gray-300 font-bold w-full md:w-2/3 mb-4">Découvrez la meilleure expérience de paris sportifs en ligne.</p>
+                                    <button onclick="openSportsbookForProvider('nexus')" class="bg-brand-yellow hover:bg-yellow-400 text-black font-black uppercase px-6 py-2 md:py-3 rounded self-start shadow-[0_0_15px_#fbbf24] transition">Découvrir <i class="fas fa-arrow-right"></i></button>
+                                </div>
+                            </div>
+
+                            <!-- الشريحة 2: الكازينو -->
+                            <div class="w-full h-full flex-shrink-0 relative">
+                                <img src="https://images.unsplash.com/photo-1596838132731-3301c3fd4317?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover" alt="Casino">
+                                <div class="absolute inset-0 bg-gradient-to-r from-[#0d1b2a] via-[#0d1b2a]/90 to-transparent p-6 md:p-10 flex flex-col justify-center">
+                                    <span class="bg-blue-500 text-white text-[10px] md:text-xs font-black px-2 py-1 uppercase rounded self-start mb-2">Divertissement</span>
+                                    <h2 class="text-3xl md:text-5xl font-black text-white uppercase italic leading-none mb-2">
+                                        UN CASINO <br><span class="text-brand-yellow">D'EXCEPTION</span>
+                                    </h2>
+                                    <p class="text-xs md:text-sm text-gray-300 font-bold w-full md:w-2/3 mb-4">Plongez dans un univers de jeux immersifs avec nos meilleurs fournisseurs.</p>
+                                    <button onclick="switchSection('casino'); initCasinoLobby();" class="bg-brand-yellow hover:bg-yellow-400 text-black font-black uppercase px-6 py-2 md:py-3 rounded self-start shadow-[0_0_15px_#fbbf24] transition">Jouer Maintenant <i class="fas fa-play"></i></button>
+                                </div>
+                            </div>
+
+                            <!-- الشريحة 3: الأمان والموثوقية -->
+                            <div class="w-full h-full flex-shrink-0 relative">
+                                <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover" alt="Security">
+                                <div class="absolute inset-0 bg-gradient-to-r from-[#0d1b2a] via-[#0d1b2a]/90 to-transparent p-6 md:p-10 flex flex-col justify-center">
+                                    <span class="bg-purple-500 text-white text-[10px] md:text-xs font-black px-2 py-1 uppercase rounded self-start mb-2">Fiabilité</span>
+                                    <h2 class="text-3xl md:text-5xl font-black text-white uppercase italic leading-none mb-2">
+                                        SÉCURITÉ <br><span class="text-brand-yellow">ABSOLUE</span>
+                                    </h2>
+                                    <p class="text-xs md:text-sm text-gray-300 font-bold w-full md:w-2/3 mb-4">Profitez d'un environnement de jeu 100% sécurisé, rapide et transparent.</p>
+                                    <button class="bg-gray-800 text-white font-black uppercase px-6 py-2 md:py-3 rounded self-start border border-gray-600 cursor-default">Certifié <i class="fas fa-shield-alt text-brand-green ml-1"></i></button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- أزرار التنقل (الأسهم) -->
+                        <button onclick="prevWelcomeSlide()" class="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/90 text-white w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10 border border-gray-600">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button onclick="nextWelcomeSlide()" class="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/90 text-white w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10 border border-gray-600">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+
+                        <!-- النقاط السفلية -->
+                        <div class="absolute bottom-3 left-0 right-0 flex justify-center gap-2 z-10">
+                            <button onclick="goToWelcomeSlide(0)" class="welcome-dot w-2 h-2 rounded-full bg-brand-yellow w-6 transition-all"></button>
+                            <button onclick="goToWelcomeSlide(1)" class="welcome-dot w-2 h-2 rounded-full bg-white/50 transition-all"></button>
+                            <button onclick="goToWelcomeSlide(2)" class="welcome-dot w-2 h-2 rounded-full bg-white/50 transition-all"></button>
                         </div>
                     </div>
 
@@ -2131,6 +2176,77 @@
         // طباعة كل الأقسام دفعة واحدة
         container.innerHTML = finalHtml;
     }
+// ================= محرك السلايدر الترحيبي =================
+        let currentWelcomeSlide = 0;
+        const totalWelcomeSlides = 3;
+        let welcomeSlideInterval;
+
+        function updateWelcomeSlider() {
+            const track = document.getElementById('welcome-slider-track');
+            const dots = document.querySelectorAll('.welcome-dot');
+            
+            if (track) {
+                track.style.transform = `translateX(-${currentWelcomeSlide * 100}%)`;
+            }
+            
+            dots.forEach((dot, index) => {
+                if (index === currentWelcomeSlide) {
+                    dot.classList.remove('bg-white/50');
+                    dot.classList.add('bg-brand-yellow', 'w-6');
+                } else {
+                    dot.classList.add('bg-white/50');
+                    dot.classList.remove('bg-brand-yellow', 'w-6');
+                }
+            });
+        }
+
+        function nextWelcomeSlide() {
+            currentWelcomeSlide = (currentWelcomeSlide + 1) % totalWelcomeSlides;
+            updateWelcomeSlider();
+            resetWelcomeInterval();
+        }
+
+        function prevWelcomeSlide() {
+            currentWelcomeSlide = (currentWelcomeSlide - 1 + totalWelcomeSlides) % totalWelcomeSlides;
+            updateWelcomeSlider();
+            resetWelcomeInterval();
+        }
+
+        function goToWelcomeSlide(index) {
+            currentWelcomeSlide = index;
+            updateWelcomeSlider();
+            resetWelcomeInterval();
+        }
+
+        function startWelcomeInterval() {
+            welcomeSlideInterval = setInterval(nextWelcomeSlide, 4000); // تغيير الصورة كل 4 ثواني
+        }
+
+        function resetWelcomeInterval() {
+            clearInterval(welcomeSlideInterval);
+            startWelcomeInterval();
+        }
+
+        // تفعيل السحب باللمس للهواتف (Swipe) وتفعيل التشغيل التلقائي
+        document.addEventListener("DOMContentLoaded", () => {
+            startWelcomeInterval();
+            
+            const sliderContainer = document.getElementById('welcome-slider-container');
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            if (sliderContainer) {
+                sliderContainer.addEventListener('touchstart', e => {
+                    touchStartX = e.changedTouches[0].screenX;
+                });
+                sliderContainer.addEventListener('touchend', e => {
+                    touchEndX = e.changedTouches[0].screenX;
+                    if (touchEndX < touchStartX - 40) nextWelcomeSlide(); // سحب لليسار
+                    if (touchEndX > touchStartX + 40) prevWelcomeSlide(); // سحب لليمين
+                });
+            }
+        });
+
 </script>
 
 <!-- 👤 قائمة الملف الشخصي (Profile Sidebar) -->
