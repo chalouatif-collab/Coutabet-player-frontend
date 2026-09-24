@@ -150,35 +150,31 @@
     <!-- MAIN NAVBAR -->
     <nav class="bg-brand-blue sticky top-0 z-50 border-b border-gray-700 shadow-xl">
         <div class="container mx-auto px-2 py-2 md:py-3">
+            
+            <!-- الصف الأول: اللوغو + الإعلان + الأزرار الشخصية -->
             <div class="flex justify-between items-center mb-2 md:mb-3">
 
                 <!-- Logo -->
-                <div class="flex items-center gap-1.5 md:gap-2 cursor-pointer shrink-0"
-                    onclick="switchSection('accueil')">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg"
-                        class="w-7 h-7 md:w-10 md:h-10 drop-shadow-[0_0_10px_rgba(251,191,36,0.5)]" alt="Coutabet Logo">
-                    <span class="font-black text-lg md:text-3xl text-white tracking-tighter">COUTA<span
-                            class="text-brand-yellow">BET</span></span>
+                <div class="flex items-center gap-1.5 md:gap-2 cursor-pointer shrink-0" onclick="switchSection('accueil')">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg" class="w-7 h-7 md:w-10 md:h-10 drop-shadow-[0_0_10px_rgba(251,191,36,0.5)]" alt="Coutabet Logo">
+                    <span class="font-black text-lg md:text-3xl text-white tracking-tighter">COUTA<span class="text-brand-yellow">BET</span></span>
                 </div>
 
                 <!-- Ad Banner inside Header -->
-                <div
-                    class="hidden lg:block w-[400px] h-12 bg-red-600 rounded overflow-hidden relative cursor-pointer border border-red-400">
-                    <img src="https://images.unsplash.com/photo-1518133683791-0b9229971842?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-                        class="w-full h-full object-cover opacity-40 mix-blend-luminosity" alt="Jackpot">
+                <div class="hidden lg:block w-[400px] h-12 bg-red-600 rounded overflow-hidden relative cursor-pointer border border-red-400">
+                    <img src="https://images.unsplash.com/photo-1518133683791-0b9229971842?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover opacity-40 mix-blend-luminosity" alt="Jackpot">
                     <div class="absolute inset-0 flex items-center justify-between px-4">
                         <span class="font-black text-white text-lg italic">JACKPOT MYSTÈRE !</span>
-                        <span
-                            class="bg-brand-yellow text-black px-2 py-1 font-bold text-xs rounded animate-bounce">JOUER</span>
+                        <span class="bg-brand-yellow text-black px-2 py-1 font-bold text-xs rounded animate-bounce">JOUER</span>
                     </div>
                 </div>
 
                 <!-- Account / Wallet Actions -->
                 <div class="flex items-center gap-1.5 md:gap-2">
 
-                    <!-- حالة الزائر (تسجيل الدخول فقط) -->
+                    <!-- حالة الزائر (تسجيل الدخول فقط - بدون زر تسجيل جديد) -->
                     <div id="auth-buttons-container" class="flex items-center gap-1 md:gap-2">
-                        <button onclick="openLoginModal()" class="bg-brand-yellow hover:bg-yellow-400 text-black font-black text-[10px] md:text-xs px-3 md:px-5 py-1.5 md:py-2 rounded shadow-[0_0_10px_#fbbf24] transition uppercase whitespace-nowrap">Connexion</button>
+                        <button onclick="openLoginModal()" class="bg-brand-yellow hover:bg-yellow-400 text-black font-black text-[10px] md:text-xs px-4 py-1.5 md:py-2 rounded shadow-[0_0_10px_#fbbf24] transition uppercase whitespace-nowrap">Connexion</button>
                     </div>
 
                     <!-- حالة تسجيل الدخول -->
@@ -209,38 +205,19 @@
                         <div id="notifs-list" class="max-h-[300px] overflow-y-auto no-scrollbar p-2 flex flex-col gap-1"></div>
                     </div>
                 </div>
+            </div> <!-- 🛡️ هذا هو الوسم الذي كان مفقوداً وتسبب في تبعثر الواجهة -->
 
-            <!-- Dense Navigation Tabs -->
-            <div
-                class="flex gap-1 overflow-x-auto pb-1 text-[10px] md:text-xs font-black uppercase tracking-wider no-scrollbar">
-                <button onclick="switchSection('accueil')"
-                    class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i
-                        class="fas fa-home"></i></button>
-                <button onclick="openSportsbookForProvider('nexus')"
-                    class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i
-                        class="fas fa-futbol text-brand-yellow md:hidden mr-1"></i>Sports</button>
-                <button onclick="switchSection('live-casino'); openLiveCasino();"
-                    class="bg-red-600 hover:bg-red-500 text-white px-3 md:px-4 py-1.5 md:py-2 rounded shadow-[0_0_10px_#dc2626] transition whitespace-nowrap shrink-0"><i
-                        class="fas fa-satellite-dish animate-pulse"></i> En Direct</button>
-                <button onclick="switchSection('casino'); initCasinoLobby();"
-                    class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i
-                        class="fas fa-slot-machine text-brand-yellow"></i> Casino</button>
-                <button onclick="switchSection('live-casino'); openLiveCasino();"
-                    class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i
-                        class="fas fa-dice text-brand-yellow"></i> Casino Live</button>
-                <button onclick="openSportsbookForProvider('nexus')"
-                    class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i
-                        class="fas fa-gamepad"></i> eSports</button>
-                <button onclick="playCasinoGame('SPRIBE', 'aviator')"
-                    class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i
-                        class="fas fa-plane-departure text-blue-400"></i> Aviator <span
-                        class="bg-red-500 text-[8px] px-1 rounded ml-1 text-white">HOT</span></button>
-                <button onclick="switchSection('virtuals'); initVirtualsLobby();"
-                    class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i
-                        class="fas fa-horse-head"></i> Virtuels</button>
-                <button onclick="loadTVGames()"
-                    class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i
-                        class="fas fa-tv"></i> Jeux TV</button>
+            <!-- الصف الثاني: أزرار التنقل الرئيسية (Dense Navigation Tabs) -->
+            <div class="flex gap-1 overflow-x-auto pb-1 text-[10px] md:text-xs font-black uppercase tracking-wider no-scrollbar">
+                <button onclick="switchSection('accueil')" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i class="fas fa-home"></i></button>
+                <button onclick="openSportsbookForProvider('nexus')" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i class="fas fa-futbol text-brand-yellow md:hidden mr-1"></i>Sports</button>
+                <button onclick="switchSection('live-casino'); openLiveCasino();" class="bg-red-600 hover:bg-red-500 text-white px-3 md:px-4 py-1.5 md:py-2 rounded shadow-[0_0_10px_#dc2626] transition whitespace-nowrap shrink-0"><i class="fas fa-satellite-dish animate-pulse"></i> En Direct</button>
+                <button onclick="switchSection('casino'); initCasinoLobby();" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i class="fas fa-slot-machine text-brand-yellow"></i> Casino</button>
+                <button onclick="switchSection('live-casino'); openLiveCasino();" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i class="fas fa-dice text-brand-yellow"></i> Casino Live</button>
+                <button onclick="openSportsbookForProvider('nexus')" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i class="fas fa-gamepad"></i> eSports</button>
+                <button onclick="playCasinoGame('SPRIBE', 'aviator')" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i class="fas fa-plane-departure text-blue-400"></i> Aviator <span class="bg-red-500 text-[8px] px-1 rounded ml-1 text-white">HOT</span></button>
+                <button onclick="switchSection('virtuals'); initVirtualsLobby();" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i class="fas fa-horse-head"></i> Virtuels</button>
+                <button onclick="loadTVGames()" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i class="fas fa-tv"></i> Jeux TV</button>
             </div>
         </div>
     </nav>
