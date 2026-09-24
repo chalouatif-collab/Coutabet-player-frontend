@@ -1342,51 +1342,56 @@
         }
         loadFeaturedProvidersBlocks();
     }
-    // ================= تشغيل الألعاب =================
-    async function playCasinoGame(providerCode, gameCode) {
-        closeChat();
-        if (!playerSession) return openLoginModal();
-
-        // 🌟 إضافة حالة في سجل هاتف اللاعب لدعم زر الرجوع
-        history.pushState({modalOpen: true, type: 'casino'}, "", "");
-
-        const container = document.getElementById('casino-iframe-container');
-        const iframe = document.getElementById('casino-iframe');
-        if (!container || !iframe) return;
-
-        container.classList.remove('hidden'); container.classList.add('flex');
-        iframe.style.opacity = '0';
-        // ... (باقي الكود كما هو بدون تغيير) ...
-
-        try {
-            let endpointUrl = `${BACKEND_URL}/api/provider/launch-casino`;
-            let requestBody = {game_code: gameCode, provider_code: providerCode, user_code: playerSession.username};
-
-            if (providerCode === 'SMPL') {
-                endpointUrl = `${BACKEND_URL}/api/smpl/launch`;
-                requestBody = {game_uuid: gameCode, user_code: playerSession.username};
-            }
-
-            const res = await fetch(endpointUrl, {
-                method: 'POST',
-                headers: getAuthHeaders(),
-                body: JSON.stringify(requestBody)
-            });
-
-            const data = await res.json();
-
-            if (data.launch_url) {
-                iframe.src = data.launch_url;
-                iframe.onload = () => {iframe.style.opacity = '1';};
-            } else {
-                showNotification(data.error || "Jeu non disponible", "error");
-                closeCasinoGame();
-            }
-        } catch (error) {
-            showNotification("Erreur de connexion", "error");
-            closeCasinoGame();
-        }
+    // ==// =====================================================================
+// 2. دالة تشغيل اللعبة عند النقر عليها (Game Launcher)
+// =====================================================================
+async function playCasinoGame(providerCode, gameCode) {
+    if (providerCode !== '01TECH') {
+        console.log("Ce fournisseur n'est pas encore configuré:", providerCode);
+        return;
     }
+
+    // جلب معرف اللاعب من الجلسة (تأكد من أن نظام التسجيل الخاص بك يحفظه هنا)
+    const playerId = localStorage.getItem('player_id'); 
+    
+    // إذا لم يكن اللاعب مسجلاً، اطلب منه تسجيل الدخول
+    if (!playerId) {
+        alert("Veuillez vous connecter pour jouer."); 
+        // window.location.href = '/login.html'; // يمكنك توجيهه لصفحة الدخول
+        return;
+    }
+
+    // إظهار رسالة تحميل أو تغيير شكل المؤشر
+    document.body.style.cursor = 'wait';
+
+    try {
+        const BACKEND_URL = "https://coutabet-backend-server.onrender.com"; 
+
+        const response = await fetch(`${BACKEND_URL}/api/launch-01tech-game`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                game_id: gameCode,
+                account_id: playerId 
+            })
+        });
+
+        const data = await response.json();
+        
+        if (data.game_url) {
+            // فتح اللعبة في نافذة جديدة
+            window.open(data.game_url, '_blank'); 
+        } else {
+            alert("Erreur lors du lancement du jeu: " + (data.error || "Lien introuvable"));
+        }
+    } catch (error) {
+        console.error("Erreur de lancement:", error);
+        alert("Impossible de communiquer avec le serveur.");
+    } finally {
+        // إعادة شكل المؤشر لطبيعته
+        document.body.style.cursor = 'default';
+    }
+}
 
     window.playSMPLGame = playCasinoGame;
     window.playNexusGame = playCasinoGame;
@@ -2245,79 +2250,68 @@
         }
     });
 
-    // ================= محرك استخراج 8 ألعاب عشوائية للكازينو =================
-    async function loadRandomCasinoGames() {
-        const grid = document.getElementById('random-casino-games-grid');
-        if (!grid) return;
+    // =====================================================================
+// 1. دالة جلب وعرض 8 ألعاب عشوائية من مزود 01TECH
+// =====================================================================
+async function loadRandomCasinoGames() {
+    const grid = document.getElementById('random-casino-games-grid');
+    if (!grid) return;
 
-        try {
-            let allGames = [];
-            // قائمة بأهم المزودين لسحب تشكيلة عشوائية منهم
-            const providersToFetch = ['PRAGMATIC', 'HACKSAW', 'PLAYNGO', 'SPRIBE'];
+    try {
+        // يمكنك تغيير الرابط إذا كان الباك إند يعمل على مسار مختلف
+        const BACKEND_URL = "https://coutabet-backend-server.onrender.com"; 
 
-            // جلب الألعاب من المزودين
-            for (let pCode of providersToFetch) {
-                try {
-                    const pRes = await fetch(`${BACKEND_URL}/api/get-providers`, {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify({provider_code: pCode})
-                    });
-                    if (pRes.ok) {
-                        const pData = await pRes.json();
-                        let pGames = pData.games || pData.data || [];
-                        if (!Array.isArray(pGames)) pGames = [pGames];
+        const response = await fetch(`${BACKEND_URL}/api/get-providers`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ provider_code: '01TECH' })
+        });
 
-                        // إضافة كود المزود لكل لعبة لضمان تشغيلها بشكل صحيح
-                        pGames = pGames.map(g => ({...g, _provider: pCode}));
-                        allGames = allGames.concat(pGames);
-                    }
-                } catch (e) {
-                    console.warn("Erreur fetch provider:", pCode);
-                }
-            }
+        if (!response.ok) throw new Error("Erreur réseau");
 
-            if (allGames.length === 0) {
-                grid.innerHTML = '<div class="col-span-full text-center text-gray-500 py-6 text-xs font-bold">Aucun jeu disponible pour le moment.</div>';
-                return;
-            }
-
-            // خلط الألعاب عشوائياً (Fisher-Yates Shuffle)
-            for (let i = allGames.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [allGames[i], allGames[j]] = [allGames[j], allGames[i]];
-            }
-
-            // اقتطاع 8 ألعاب فقط
-            const random8Games = allGames.slice(0, 8);
-
-            // رسم الألعاب في الواجهة
-            grid.innerHTML = random8Games.map(g => {
-                const rawName = String(g.game_name || g.name || "Game");
-                const title = rawName.replace(/[&<>'"]/g, tag => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'}[tag] || tag));
-                const img = g.banner || g.image || g.thumb || `https://placehold.co/400x400/180A2B/10b981?text=${encodeURIComponent(title.substring(0, 10))}`;
-                const code = g.game_code || g.id;
-                const pCode = g._provider || 'PRAGMATIC';
-
-                return `
-                    <div onclick="playCasinoGame('${pCode}', '${code}')" class="relative rounded-lg overflow-hidden cursor-pointer group border-2 border-transparent hover:border-brand-yellow transition-all shadow-lg bg-[#0d1b2a]">
-                        <div class="aspect-square w-full">
-                            <img src="${img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" alt="${title}" onerror="this.onerror=null; this.src='https://placehold.co/400x400/180A2B/10b981?text=Casino';">
-                        </div>
-                        <div class="absolute inset-0 bg-black/60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button class="bg-brand-yellow text-black px-4 py-1.5 font-black text-xs rounded shadow-lg transform -translate-y-2 group-hover:translate-y-0 transition-transform uppercase">Jouer</button>
-                        </div>
-                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-2 text-center">
-                            <span class="font-bold text-[10px] text-white block truncate">${title}</span>
-                        </div>
-                    </div>
-                    `;
-            }).join('');
-
-        } catch (error) {
-            grid.innerHTML = '<div class="col-span-full text-center text-red-500 py-6 text-xs font-bold">Erreur de chargement des jeux.</div>';
+        const data = await response.json();
+        let allGames = data.games || [];
+        
+        if (allGames.length === 0) {
+            grid.innerHTML = '<div class="col-span-full text-center text-gray-500 py-6 text-xs font-bold">Aucun jeu disponible pour le moment.</div>';
+            return;
         }
+
+        // خلط الألعاب عشوائياً لاختيار 8 ألعاب مختلفة في كل مرة
+        for (let i = allGames.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [allGames[i], allGames[j]] = [allGames[j], allGames[i]];
+        }
+
+        const random8Games = allGames.slice(0, 8);
+
+        // رسم بطاقات الألعاب في الواجهة
+        grid.innerHTML = random8Games.map(g => {
+            const title = String(g.game_name || "Casino Game").replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
+            const img = g.banner || `https://placehold.co/400x400/180A2B/10b981?text=${encodeURIComponent(title.substring(0, 10))}`;
+            const code = g.game_code;
+            const pCode = '01TECH';
+
+            return `
+            <div onclick="playCasinoGame('${pCode}', '${code}')" class="relative rounded-lg overflow-hidden cursor-pointer group border-2 border-transparent hover:border-brand-yellow transition-all shadow-lg bg-[#0d1b2a]">
+                <div class="aspect-square w-full">
+                    <img src="${img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" alt="${title}" onerror="this.onerror=null; this.src='https://placehold.co/400x400/180A2B/10b981?text=Casino';">
+                </div>
+                <div class="absolute inset-0 bg-black/60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button class="bg-brand-yellow text-black px-4 py-1.5 font-black text-xs rounded shadow-lg transform -translate-y-2 group-hover:translate-y-0 transition-transform uppercase">Jouer</button>
+                </div>
+                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-2 text-center">
+                    <span class="font-bold text-[10px] text-white block truncate">${title}</span>
+                </div>
+            </div>
+            `;
+        }).join('');
+
+    } catch (error) {
+        console.error("Erreur de chargement des jeux 01TECH:", error);
+        grid.innerHTML = '<div class="col-span-full text-center text-red-500 py-6 text-xs font-bold">Erreur de chargement des jeux.</div>';
     }
+}
 </script>
 
 <!-- 👤 قائمة الملف الشخصي (Profile Sidebar) -->
