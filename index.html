@@ -295,82 +295,25 @@
                         </div>
                     </div>
 
-                    <!-- Casino Grid Preview -->
-                    <div>
-                        <div
-                            class="flex justify-between items-center bg-gray-800 p-3 border-l-4 border-purple-500 rounded-t mb-1">
-                            <h3 class="font-black text-white uppercase flex items-center gap-2"><i
-                                    class="fas fa-gem text-purple-400"></i> TOP JEUX CASINO</h3>
-                            <button onclick="switchSection('casino'); initCasinoLobby();"
-                                class="text-xs font-bold text-brand-yellow hover:underline uppercase">Voir tout le
-                                casino</button>
+                    <!-- Casino Grid Preview (Dynamic 8 Random Games) -->
+                    <div class="mt-2">
+                        <div class="flex justify-between items-center bg-gray-800 p-3 border-l-4 border-purple-500 rounded-t mb-2 shadow-md">
+                            <h3 class="font-black text-white uppercase flex items-center gap-2 text-sm"><i class="fas fa-gem text-purple-400"></i> TOP JEUX CASINO</h3>
+                            
+                            <!-- الزر المطلوب (VOIR TOUT) ينقل لقسم الكازينو -->
+                            <button onclick="switchSection('casino'); initCasinoLobby();" class="text-[10px] sm:text-xs font-black bg-brand-yellow text-black px-3 py-1.5 rounded shadow hover:bg-yellow-400 transition uppercase flex items-center gap-1">
+                                VOIR TOUT <i class="fas fa-arrow-right"></i>
+                            </button>
                         </div>
 
-                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
-                            <!-- اللعبة الأولى: Aviator -->
-                            <div onclick="playCasinoGame('SPRIBE', 'aviator')"
-                                class="relative rounded overflow-hidden cursor-pointer group border-2 border-transparent hover:border-brand-yellow">
-                                <span
-                                    class="absolute top-1 left-1 bg-red-600 text-[9px] font-black uppercase px-1 rounded z-10 blink">HOT</span>
-                                <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80"
-                                    class="w-full aspect-square object-cover" alt="Aviator">
-                                <div
-                                    class="absolute inset-0 bg-black/60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <button
-                                        class="bg-brand-yellow text-black px-4 py-1 font-black text-xs rounded mb-1">JOUER</button>
-                                </div>
-                                <div
-                                    class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-1 text-center">
-                                    <span class="font-bold text-[10px] text-white">Aviator</span></div>
-                            </div>
-
-                            <!--  Lightning Roulette -->
-                            <div onclick="switchSection('live-casino'); openLiveCasino();"
-                                class="relative rounded overflow-hidden cursor-pointer group border-2 border-transparent hover:border-brand-yellow">
-                                <span
-                                    class="absolute top-1 left-1 bg-green-500 text-[9px] text-black font-black uppercase px-1 rounded z-10">NEW</span>
-                                <img src="https://images.unsplash.com/photo-1605870445919-838d190e8e1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80"
-                                    class="w-full aspect-square object-cover" alt="Roulette">
-                                <div
-                                    class="absolute inset-0 bg-black/60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <button
-                                        class="bg-brand-yellow text-black px-4 py-1 font-black text-xs rounded mb-1">JOUER</button>
-                                </div>
-                                <div
-                                    class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-1 text-center">
-                                    <span class="font-bold text-[10px] text-white">Lightning Roulette</span></div>
-                            </div>
-                            <div
-                                class="relative rounded overflow-hidden cursor-pointer group border-2 border-transparent hover:border-brand-yellow">
-                                <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80"
-                                    class="w-full aspect-square object-cover" alt="Slots">
-                                <div
-                                    class="absolute inset-0 bg-black/60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <button
-                                        class="bg-brand-yellow text-black px-4 py-1 font-black text-xs rounded mb-1">JOUER</button>
-                                </div>
-                                <div
-                                    class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-1 text-center">
-                                    <span class="font-bold text-[10px] text-white">Gates of Olympus</span>
-                                </div>
-                            </div>
-                            <div
-                                class="hidden sm:block relative rounded overflow-hidden cursor-pointer group border-2 border-transparent hover:border-brand-yellow">
-                                <img src="https://images.unsplash.com/photo-1605870445919-838d190e8e1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80"
-                                    class="w-full aspect-square object-cover" alt="Virtuals">
-                                <div
-                                    class="absolute inset-0 bg-black/60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <button
-                                        class="bg-brand-yellow text-black px-4 py-1 font-black text-xs rounded mb-1">JOUER</button>
-                                </div>
-                                <div
-                                    class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-1 text-center">
-                                    <span class="font-bold text-[10px] text-white">Virtual Football</span>
-                                </div>
+                        <!-- الحاوية التي سيتم حقن الألعاب الثمانية بداخلها -->
+                        <div id="random-casino-games-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                            <!-- مؤشر التحميل ريثما يجلب الجافاسكريبت الألعاب -->
+                            <div class="col-span-full py-10 text-center text-brand-yellow text-xs font-bold animate-pulse">
+                                <i class="fas fa-circle-notch fa-spin text-2xl mb-2 block"></i> Chargement des jeux...
                             </div>
                         </div>
                     </div>
-                </div>
 
                 <!-- RIGHT COLUMN: Flashy Ads & Mini Games -->
                 <div class="w-full lg:w-1/5 flex flex-col gap-4">
@@ -823,7 +766,9 @@
         if (savedSession) {
             playerSession = JSON.parse(savedSession);
             setupLoggedInUI();
-        }
+            loadRandomCasinoGames();
+        };
+        
 
         // 2. استرجاع القسم الذي كان فيه اللاعب قبل الريفرش
         const savedSection = localStorage.getItem('active_section') || 'accueil';
@@ -2247,6 +2192,79 @@
             }
         });
 
+// ================= محرك استخراج 8 ألعاب عشوائية للكازينو =================
+        async function loadRandomCasinoGames() {
+            const grid = document.getElementById('random-casino-games-grid');
+            if (!grid) return;
+
+            try {
+                let allGames = [];
+                // قائمة بأهم المزودين لسحب تشكيلة عشوائية منهم
+                const providersToFetch = ['PRAGMATIC', 'HACKSAW', 'PLAYNGO', 'SPRIBE'];
+                
+                // جلب الألعاب من المزودين
+                for (let pCode of providersToFetch) {
+                    try {
+                        const pRes = await fetch(`${BACKEND_URL}/api/get-providers`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ provider_code: pCode })
+                        });
+                        if (pRes.ok) {
+                            const pData = await pRes.json();
+                            let pGames = pData.games || pData.data || [];
+                            if (!Array.isArray(pGames)) pGames = [pGames];
+                            
+                            // إضافة كود المزود لكل لعبة لضمان تشغيلها بشكل صحيح
+                            pGames = pGames.map(g => ({...g, _provider: pCode}));
+                            allGames = allGames.concat(pGames);
+                        }
+                    } catch (e) { 
+                        console.warn("Erreur fetch provider:", pCode); 
+                    }
+                }
+
+                if (allGames.length === 0) {
+                    grid.innerHTML = '<div class="col-span-full text-center text-gray-500 py-6 text-xs font-bold">Aucun jeu disponible pour le moment.</div>';
+                    return;
+                }
+
+                // خلط الألعاب عشوائياً (Fisher-Yates Shuffle)
+                for (let i = allGames.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [allGames[i], allGames[j]] = [allGames[j], allGames[i]];
+                }
+
+                // اقتطاع 8 ألعاب فقط
+                const random8Games = allGames.slice(0, 8);
+
+                // رسم الألعاب في الواجهة
+                grid.innerHTML = random8Games.map(g => {
+                    const rawName = String(g.game_name || g.name || "Game");
+                    const title = rawName.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
+                    const img = g.banner || g.image || g.thumb || `https://placehold.co/400x400/180A2B/10b981?text=${encodeURIComponent(title.substring(0, 10))}`;
+                    const code = g.game_code || g.id;
+                    const pCode = g._provider || 'PRAGMATIC';
+
+                    return `
+                    <div onclick="playCasinoGame('${pCode}', '${code}')" class="relative rounded-lg overflow-hidden cursor-pointer group border-2 border-transparent hover:border-brand-yellow transition-all shadow-lg bg-[#0d1b2a]">
+                        <div class="aspect-square w-full">
+                            <img src="${img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" alt="${title}" onerror="this.onerror=null; this.src='https://placehold.co/400x400/180A2B/10b981?text=Casino';">
+                        </div>
+                        <div class="absolute inset-0 bg-black/60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button class="bg-brand-yellow text-black px-4 py-1.5 font-black text-xs rounded shadow-lg transform -translate-y-2 group-hover:translate-y-0 transition-transform uppercase">Jouer</button>
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-2 text-center">
+                            <span class="font-bold text-[10px] text-white block truncate">${title}</span>
+                        </div>
+                    </div>
+                    `;
+                }).join('');
+
+            } catch (error) {
+                grid.innerHTML = '<div class="col-span-full text-center text-red-500 py-6 text-xs font-bold">Erreur de chargement des jeux.</div>';
+            }
+        }
 </script>
 
 <!-- 👤 قائمة الملف الشخصي (Profile Sidebar) -->
