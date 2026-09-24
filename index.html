@@ -150,22 +150,28 @@
     <!-- MAIN NAVBAR -->
     <nav class="bg-brand-blue sticky top-0 z-50 border-b border-gray-700 shadow-xl">
         <div class="container mx-auto px-2 py-2 md:py-3">
-            
+
             <!-- الصف الأول: اللوغو + الإعلان + الأزرار الشخصية -->
             <div class="flex justify-between items-center mb-2 md:mb-3">
 
                 <!-- Logo -->
-                <div class="flex items-center gap-1.5 md:gap-2 cursor-pointer shrink-0" onclick="switchSection('accueil')">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg" class="w-7 h-7 md:w-10 md:h-10 drop-shadow-[0_0_10px_rgba(251,191,36,0.5)]" alt="Coutabet Logo">
-                    <span class="font-black text-lg md:text-3xl text-white tracking-tighter">COUTA<span class="text-brand-yellow">BET</span></span>
+                <div class="flex items-center gap-1.5 md:gap-2 cursor-pointer shrink-0"
+                    onclick="switchSection('accueil')">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg"
+                        class="w-7 h-7 md:w-10 md:h-10 drop-shadow-[0_0_10px_rgba(251,191,36,0.5)]" alt="Coutabet Logo">
+                    <span class="font-black text-lg md:text-3xl text-white tracking-tighter">COUTA<span
+                            class="text-brand-yellow">BET</span></span>
                 </div>
 
                 <!-- Ad Banner inside Header -->
-                <div class="hidden lg:block w-[400px] h-12 bg-red-600 rounded overflow-hidden relative cursor-pointer border border-red-400">
-                    <img src="https://images.unsplash.com/photo-1518133683791-0b9229971842?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover opacity-40 mix-blend-luminosity" alt="Jackpot">
+                <div
+                    class="hidden lg:block w-[400px] h-12 bg-red-600 rounded overflow-hidden relative cursor-pointer border border-red-400">
+                    <img src="https://images.unsplash.com/photo-1518133683791-0b9229971842?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                        class="w-full h-full object-cover opacity-40 mix-blend-luminosity" alt="Jackpot">
                     <div class="absolute inset-0 flex items-center justify-between px-4">
                         <span class="font-black text-white text-lg italic">JACKPOT MYSTÈRE !</span>
-                        <span class="bg-brand-yellow text-black px-2 py-1 font-bold text-xs rounded animate-bounce">JOUER</span>
+                        <span
+                            class="bg-brand-yellow text-black px-2 py-1 font-bold text-xs rounded animate-bounce">JOUER</span>
                     </div>
                 </div>
 
@@ -174,50 +180,80 @@
 
                     <!-- حالة الزائر (تسجيل الدخول فقط - بدون زر تسجيل جديد) -->
                     <div id="auth-buttons-container" class="flex items-center gap-1 md:gap-2">
-                        <button onclick="openLoginModal()" class="bg-brand-yellow hover:bg-yellow-400 text-black font-black text-[10px] md:text-xs px-4 py-1.5 md:py-2 rounded shadow-[0_0_10px_#fbbf24] transition uppercase whitespace-nowrap">Connexion</button>
+                        <button onclick="openLoginModal()"
+                            class="bg-brand-yellow hover:bg-yellow-400 text-black font-black text-[10px] md:text-xs px-4 py-1.5 md:py-2 rounded shadow-[0_0_10px_#fbbf24] transition uppercase whitespace-nowrap">Connexion</button>
                     </div>
 
                     <!-- حالة تسجيل الدخول -->
                     <div id="top-user-profile" class="hidden items-center gap-1.5 md:gap-2">
                         <!-- الرصيد العلوي -->
-                        <div class="bg-[#1b263b] border border-gray-600 px-3 py-1 rounded text-right leading-tight hidden sm:block">
+                        <div
+                            class="bg-[#1b263b] border border-gray-600 px-3 py-1 rounded text-right leading-tight hidden sm:block">
                             <span class="text-[9px] text-gray-400 font-bold uppercase">Solde Principal</span>
-                            <span class="block text-white font-bold"><span id="player-balance-val">0.00</span> <span class="text-brand-yellow text-[10px]">TND</span></span>
+                            <span class="block text-white font-bold"><span id="player-balance-val">0.00</span> <span
+                                    class="text-brand-yellow text-[10px]">TND</span></span>
                         </div>
 
                         <!-- جرس الإشعارات -->
-                        <div id="top-notification-bell" class="relative cursor-pointer flex items-center justify-center w-7 h-7 md:w-9 md:h-9 rounded bg-[#1b263b] border border-gray-600 hover:border-brand-yellow transition" onclick="toggleNotificationsPanel()">
+                        <div id="top-notification-bell"
+                            class="relative cursor-pointer flex items-center justify-center w-7 h-7 md:w-9 md:h-9 rounded bg-[#1b263b] border border-gray-600 hover:border-brand-yellow transition"
+                            onclick="toggleNotificationsPanel()">
                             <i class="fas fa-bell text-gray-400 text-[10px] md:text-sm hover:text-white"></i>
-                            <span id="notif-badge" class="absolute -top-1 -right-1 bg-red-600 text-white text-[8px] font-bold px-1 py-0.5 rounded-full hidden shadow-md">0</span>
+                            <span id="notif-badge"
+                                class="absolute -top-1 -right-1 bg-red-600 text-white text-[8px] font-bold px-1 py-0.5 rounded-full hidden shadow-md">0</span>
                         </div>
 
                         <!-- زر القائمة الجانبية (حسابي) -->
-                        <button onclick="toggleProfileSidebar()" class="bg-[#1b263b] hover:bg-gray-700 px-2.5 md:px-4 py-1.5 md:py-2 rounded text-[10px] md:text-sm font-bold border border-gray-600 whitespace-nowrap flex items-center gap-1.5">
-                            <i class="fas fa-user text-brand-yellow"></i> <span class="hidden sm:inline">Mon Compte</span>
+                        <button onclick="toggleProfileSidebar()"
+                            class="bg-[#1b263b] hover:bg-gray-700 px-2.5 md:px-4 py-1.5 md:py-2 rounded text-[10px] md:text-sm font-bold border border-gray-600 whitespace-nowrap flex items-center gap-1.5">
+                            <i class="fas fa-user text-brand-yellow"></i> <span class="hidden sm:inline">Mon
+                                Compte</span>
                         </button>
                     </div>
 
                     <!-- قائمة الإشعارات المنسدلة -->
-                    <div id="notifications-panel" class="absolute top-14 md:top-16 right-2 md:right-4 w-[280px] bg-[#1b263b] border border-gray-600 rounded-lg shadow-2xl hidden flex-col z-[100] overflow-hidden">
+                    <div id="notifications-panel"
+                        class="absolute top-14 md:top-16 right-2 md:right-4 w-[280px] bg-[#1b263b] border border-gray-600 rounded-lg shadow-2xl hidden flex-col z-[100] overflow-hidden">
                         <div class="p-3 border-b border-gray-700 bg-[#0d1b2a] flex justify-between items-center">
                             <h3 class="text-white font-bold text-sm">Notifications 🔔</h3>
                         </div>
-                        <div id="notifs-list" class="max-h-[300px] overflow-y-auto no-scrollbar p-2 flex flex-col gap-1"></div>
+                        <div id="notifs-list"
+                            class="max-h-[300px] overflow-y-auto no-scrollbar p-2 flex flex-col gap-1"></div>
                     </div>
                 </div>
             </div> <!-- 🛡️ هذا هو الوسم الذي كان مفقوداً وتسبب في تبعثر الواجهة -->
 
             <!-- الصف الثاني: أزرار التنقل الرئيسية (Dense Navigation Tabs) -->
-            <div class="flex gap-1 overflow-x-auto pb-1 text-[10px] md:text-xs font-black uppercase tracking-wider no-scrollbar">
-                <button onclick="switchSection('accueil')" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i class="fas fa-home"></i></button>
-                <button onclick="openSportsbookForProvider('nexus')" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i class="fas fa-futbol text-brand-yellow md:hidden mr-1"></i>Sports</button>
-                <button onclick="switchSection('live-casino'); openLiveCasino();" class="bg-red-600 hover:bg-red-500 text-white px-3 md:px-4 py-1.5 md:py-2 rounded shadow-[0_0_10px_#dc2626] transition whitespace-nowrap shrink-0"><i class="fas fa-satellite-dish animate-pulse"></i> En Direct</button>
-                <button onclick="switchSection('casino'); initCasinoLobby();" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i class="fas fa-slot-machine text-brand-yellow"></i> Casino</button>
-                <button onclick="switchSection('live-casino'); openLiveCasino();" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i class="fas fa-dice text-brand-yellow"></i> Casino Live</button>
-                <button onclick="openSportsbookForProvider('nexus')" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i class="fas fa-gamepad"></i> eSports</button>
-                <button onclick="playCasinoGame('SPRIBE', 'aviator')" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i class="fas fa-plane-departure text-blue-400"></i> Aviator <span class="bg-red-500 text-[8px] px-1 rounded ml-1 text-white">HOT</span></button>
-                <button onclick="switchSection('virtuals'); initVirtualsLobby();" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i class="fas fa-horse-head"></i> Virtuels</button>
-                <button onclick="loadTVGames()" class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i class="fas fa-tv"></i> Jeux TV</button>
+            <div
+                class="flex gap-1 overflow-x-auto pb-1 text-[10px] md:text-xs font-black uppercase tracking-wider no-scrollbar">
+                <button onclick="switchSection('accueil')"
+                    class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i
+                        class="fas fa-home"></i></button>
+                <button onclick="openSportsbookForProvider('nexus')"
+                    class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i
+                        class="fas fa-futbol text-brand-yellow md:hidden mr-1"></i>Sports</button>
+                <button onclick="switchSection('live-casino'); openLiveCasino();"
+                    class="bg-red-600 hover:bg-red-500 text-white px-3 md:px-4 py-1.5 md:py-2 rounded shadow-[0_0_10px_#dc2626] transition whitespace-nowrap shrink-0"><i
+                        class="fas fa-satellite-dish animate-pulse"></i> En Direct</button>
+                <button onclick="switchSection('casino'); initCasinoLobby();"
+                    class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i
+                        class="fas fa-slot-machine text-brand-yellow"></i> Casino</button>
+                <button onclick="switchSection('live-casino'); openLiveCasino();"
+                    class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i
+                        class="fas fa-dice text-brand-yellow"></i> Casino Live</button>
+                <button onclick="openSportsbookForProvider('nexus')"
+                    class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i
+                        class="fas fa-gamepad"></i> eSports</button>
+                <button onclick="playCasinoGame('SPRIBE', 'aviator')"
+                    class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i
+                        class="fas fa-plane-departure text-blue-400"></i> Aviator <span
+                        class="bg-red-500 text-[8px] px-1 rounded ml-1 text-white">HOT</span></button>
+                <button onclick="switchSection('virtuals'); initVirtualsLobby();"
+                    class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i
+                        class="fas fa-horse-head"></i> Virtuels</button>
+                <button onclick="loadTVGames()"
+                    class="bg-[#1b263b] hover:bg-brand-yellow hover:text-black text-white px-3 md:px-4 py-1.5 md:py-2 rounded transition whitespace-nowrap shrink-0"><i
+                        class="fas fa-tv"></i> Jeux TV</button>
             </div>
         </div>
     </nav>
@@ -233,36 +269,62 @@
                 <div class="w-full lg:w-4/5 flex flex-col gap-4">
 
                     <!-- 1. السلايدر المتحرك الترحيبي -->
-                    <div id="welcome-slider-container" class="relative w-full h-[220px] md:h-[280px] rounded-lg overflow-hidden group shadow-[0_4px_15px_rgba(0,0,0,0.5)] border-2 border-gray-700">
-                        <div id="welcome-slider-track" class="flex w-full h-full transition-transform duration-500 ease-in-out">
+                    <div id="welcome-slider-container"
+                        class="relative w-full h-[220px] md:h-[280px] rounded-lg overflow-hidden group shadow-[0_4px_15px_rgba(0,0,0,0.5)] border-2 border-gray-700">
+                        <div id="welcome-slider-track"
+                            class="flex w-full h-full transition-transform duration-500 ease-in-out">
                             <!-- الشريحة 1 -->
                             <div class="w-full h-full flex-shrink-0 relative">
-                                <img src="https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover" alt="Welcome">
-                                <div class="absolute inset-0 bg-gradient-to-r from-[#0d1b2a] via-[#0d1b2a]/90 to-transparent p-6 md:p-10 flex flex-col justify-center">
-                                    <span class="bg-brand-green text-white text-[10px] md:text-xs font-black px-2 py-1 uppercase rounded self-start mb-2">Bienvenue</span>
-                                    <h2 class="text-3xl md:text-5xl font-black text-white uppercase italic leading-none mb-2">VOTRE PLATEFORME<br><span class="text-brand-yellow">PREMIUM</span></h2>
-                                    <p class="text-xs md:text-sm text-gray-300 font-bold w-full md:w-2/3 mb-4">Découvrez la meilleure expérience de paris sportifs en ligne.</p>
-                                    <button onclick="openSportsbookForProvider('nexus')" class="bg-brand-yellow hover:bg-yellow-400 text-black font-black uppercase px-6 py-2 md:py-3 rounded self-start shadow-[0_0_15px_#fbbf24] transition">Découvrir <i class="fas fa-arrow-right"></i></button>
+                                <img src="https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"
+                                    class="w-full h-full object-cover" alt="Welcome">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-r from-[#0d1b2a] via-[#0d1b2a]/90 to-transparent p-6 md:p-10 flex flex-col justify-center">
+                                    <span
+                                        class="bg-brand-green text-white text-[10px] md:text-xs font-black px-2 py-1 uppercase rounded self-start mb-2">Bienvenue</span>
+                                    <h2
+                                        class="text-3xl md:text-5xl font-black text-white uppercase italic leading-none mb-2">
+                                        VOTRE PLATEFORME<br><span class="text-brand-yellow">PREMIUM</span></h2>
+                                    <p class="text-xs md:text-sm text-gray-300 font-bold w-full md:w-2/3 mb-4">Découvrez
+                                        la meilleure expérience de paris sportifs en ligne.</p>
+                                    <button onclick="openSportsbookForProvider('nexus')"
+                                        class="bg-brand-yellow hover:bg-yellow-400 text-black font-black uppercase px-6 py-2 md:py-3 rounded self-start shadow-[0_0_15px_#fbbf24] transition">Découvrir
+                                        <i class="fas fa-arrow-right"></i></button>
                                 </div>
                             </div>
                             <!-- الشريحة 2 -->
                             <div class="w-full h-full flex-shrink-0 relative">
-                                <img src="https://images.unsplash.com/photo-1596838132731-3301c3fd4317?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover" alt="Casino">
-                                <div class="absolute inset-0 bg-gradient-to-r from-[#0d1b2a] via-[#0d1b2a]/90 to-transparent p-6 md:p-10 flex flex-col justify-center">
-                                    <span class="bg-blue-500 text-white text-[10px] md:text-xs font-black px-2 py-1 uppercase rounded self-start mb-2">Divertissement</span>
-                                    <h2 class="text-3xl md:text-5xl font-black text-white uppercase italic leading-none mb-2">UN CASINO <br><span class="text-brand-yellow">D'EXCEPTION</span></h2>
-                                    <p class="text-xs md:text-sm text-gray-300 font-bold w-full md:w-2/3 mb-4">Plongez dans un univers de jeux immersifs avec nos meilleurs fournisseurs.</p>
-                                    <button onclick="switchSection('casino'); initCasinoLobby();" class="bg-brand-yellow hover:bg-yellow-400 text-black font-black uppercase px-6 py-2 md:py-3 rounded self-start shadow-[0_0_15px_#fbbf24] transition">Jouer Maintenant <i class="fas fa-play"></i></button>
+                                <img src="https://images.unsplash.com/photo-1596838132731-3301c3fd4317?auto=format&fit=crop&w=1200&q=80"
+                                    class="w-full h-full object-cover" alt="Casino">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-r from-[#0d1b2a] via-[#0d1b2a]/90 to-transparent p-6 md:p-10 flex flex-col justify-center">
+                                    <span
+                                        class="bg-blue-500 text-white text-[10px] md:text-xs font-black px-2 py-1 uppercase rounded self-start mb-2">Divertissement</span>
+                                    <h2
+                                        class="text-3xl md:text-5xl font-black text-white uppercase italic leading-none mb-2">
+                                        UN CASINO <br><span class="text-brand-yellow">D'EXCEPTION</span></h2>
+                                    <p class="text-xs md:text-sm text-gray-300 font-bold w-full md:w-2/3 mb-4">Plongez
+                                        dans un univers de jeux immersifs avec nos meilleurs fournisseurs.</p>
+                                    <button onclick="switchSection('casino'); initCasinoLobby();"
+                                        class="bg-brand-yellow hover:bg-yellow-400 text-black font-black uppercase px-6 py-2 md:py-3 rounded self-start shadow-[0_0_15px_#fbbf24] transition">Jouer
+                                        Maintenant <i class="fas fa-play"></i></button>
                                 </div>
                             </div>
                             <!-- الشريحة 3 -->
                             <div class="w-full h-full flex-shrink-0 relative">
-                                <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover" alt="Security">
-                                <div class="absolute inset-0 bg-gradient-to-r from-[#0d1b2a] via-[#0d1b2a]/90 to-transparent p-6 md:p-10 flex flex-col justify-center">
-                                    <span class="bg-purple-500 text-white text-[10px] md:text-xs font-black px-2 py-1 uppercase rounded self-start mb-2">Fiabilité</span>
-                                    <h2 class="text-3xl md:text-5xl font-black text-white uppercase italic leading-none mb-2">SÉCURITÉ <br><span class="text-brand-yellow">ABSOLUE</span></h2>
-                                    <p class="text-xs md:text-sm text-gray-300 font-bold w-full md:w-2/3 mb-4">Profitez d'un environnement de jeu 100% sécurisé, rapide et transparent.</p>
-                                    <button class="bg-gray-800 text-white font-black uppercase px-6 py-2 md:py-3 rounded self-start border border-gray-600 cursor-default">Certifié <i class="fas fa-shield-alt text-brand-green ml-1"></i></button>
+                                <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80"
+                                    class="w-full h-full object-cover" alt="Security">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-r from-[#0d1b2a] via-[#0d1b2a]/90 to-transparent p-6 md:p-10 flex flex-col justify-center">
+                                    <span
+                                        class="bg-purple-500 text-white text-[10px] md:text-xs font-black px-2 py-1 uppercase rounded self-start mb-2">Fiabilité</span>
+                                    <h2
+                                        class="text-3xl md:text-5xl font-black text-white uppercase italic leading-none mb-2">
+                                        SÉCURITÉ <br><span class="text-brand-yellow">ABSOLUE</span></h2>
+                                    <p class="text-xs md:text-sm text-gray-300 font-bold w-full md:w-2/3 mb-4">Profitez
+                                        d'un environnement de jeu 100% sécurisé, rapide et transparent.</p>
+                                    <button
+                                        class="bg-gray-800 text-white font-black uppercase px-6 py-2 md:py-3 rounded self-start border border-gray-600 cursor-default">Certifié
+                                        <i class="fas fa-shield-alt text-brand-green ml-1"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -270,15 +332,19 @@
 
                     <!-- 2. قسم الـ 8 ألعاب العشوائية (TOP JEUX CASINO) -->
                     <div class="mt-2">
-                        <div class="flex justify-between items-center bg-gray-800 p-3 border-l-4 border-purple-500 rounded-t mb-2 shadow-md">
-                            <h3 class="font-black text-white uppercase flex items-center gap-2 text-sm"><i class="fas fa-gem text-purple-400"></i> TOP JEUX CASINO</h3>
-                            <button onclick="switchSection('casino'); initCasinoLobby();" class="text-[10px] sm:text-xs font-black bg-brand-yellow text-black px-3 py-1.5 rounded shadow hover:bg-yellow-400 transition uppercase flex items-center gap-1">
+                        <div
+                            class="flex justify-between items-center bg-gray-800 p-3 border-l-4 border-purple-500 rounded-t mb-2 shadow-md">
+                            <h3 class="font-black text-white uppercase flex items-center gap-2 text-sm"><i
+                                    class="fas fa-gem text-purple-400"></i> TOP JEUX CASINO</h3>
+                            <button onclick="switchSection('casino'); initCasinoLobby();"
+                                class="text-[10px] sm:text-xs font-black bg-brand-yellow text-black px-3 py-1.5 rounded shadow hover:bg-yellow-400 transition uppercase flex items-center gap-1">
                                 VOIR TOUT <i class="fas fa-arrow-right"></i>
                             </button>
                         </div>
                         <!-- شبكة الـ 8 ألعاب -->
                         <div id="random-casino-games-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                            <div class="col-span-full py-10 text-center text-brand-yellow text-xs font-bold animate-pulse">
+                            <div
+                                class="col-span-full py-10 text-center text-brand-yellow text-xs font-bold animate-pulse">
                                 <i class="fas fa-circle-notch fa-spin text-2xl mb-2 block"></i> Chargement des jeux...
                             </div>
                         </div>
@@ -287,30 +353,40 @@
                 </div>
 
                 <!-- العمود الجانبي الأيمن: مربعات الرياضة والألعاب السريعة -->
-                <div class="w-full lg:w-1/5 flex flex-col gap-4">
+                <!-- العمود الجانبي الأيمن: مربعات الرياضة والألعاب السريعة -->
+                <div class="w-full lg:w-1/5 hidden lg:flex flex-col gap-4">
                     <div class="bg-brand-light border border-gray-700 rounded overflow-hidden p-4 text-center">
                         <i class="fas fa-futbol text-4xl text-brand-yellow mb-2"></i>
                         <h4 class="font-black text-white uppercase mb-2">Paris Sportifs</h4>
-                        <p class="text-[10px] text-gray-400 font-bold mb-3">Découvrez les meilleures cotes sur des millions d'événements.</p>
-                        <button onclick="openSportsbookForProvider('nexus')" class="w-full bg-brand-green hover:bg-emerald-400 text-white font-black uppercase py-3 rounded shadow-[0_4px_10px_rgba(16,185,129,0.4)] transition">PARIER MAINTENANT</button>
+                        <p class="text-[10px] text-gray-400 font-bold mb-3">Découvrez les meilleures cotes sur des
+                            millions d'événements.</p>
+                        <button onclick="openSportsbookForProvider('nexus')"
+                            class="w-full bg-brand-green hover:bg-emerald-400 text-white font-black uppercase py-3 rounded shadow-[0_4px_10px_rgba(16,185,129,0.4)] transition">PARIER
+                            MAINTENANT</button>
                     </div>
 
                     <div class="bg-brand-light border border-gray-700 rounded overflow-hidden">
-                        <div class="bg-gray-800 text-white font-black p-2 text-center border-b border-gray-700 uppercase text-xs">Jeux Rapides</div>
+                        <div
+                            class="bg-gray-800 text-white font-black p-2 text-center border-b border-gray-700 uppercase text-xs">
+                            Jeux Rapides</div>
                         <div class="grid grid-cols-2 gap-1 p-2">
-                            <div onclick="playCasinoGame('SPRIBE', 'aviator')" class="bg-[#0d1b2a] aspect-square rounded flex flex-col items-center justify-center cursor-pointer hover:border hover:border-brand-yellow transition text-gray-300">
+                            <div onclick="playCasinoGame('SPRIBE', 'aviator')"
+                                class="bg-[#0d1b2a] aspect-square rounded flex flex-col items-center justify-center cursor-pointer hover:border hover:border-brand-yellow transition text-gray-300">
                                 <i class="fas fa-rocket text-2xl mb-1 text-red-500"></i>
                                 <span class="text-[9px] font-bold uppercase">Crash</span>
                             </div>
-                            <div onclick="switchSection('virtuals'); initVirtualsLobby();" class="bg-[#0d1b2a] aspect-square rounded flex flex-col items-center justify-center cursor-pointer hover:border hover:border-brand-yellow transition text-gray-300">
+                            <div onclick="switchSection('virtuals'); initVirtualsLobby();"
+                                class="bg-[#0d1b2a] aspect-square rounded flex flex-col items-center justify-center cursor-pointer hover:border hover:border-brand-yellow transition text-gray-300">
                                 <i class="fas fa-gamepad text-2xl mb-1 text-purple-400"></i>
                                 <span class="text-[9px] font-bold uppercase">Virtuel</span>
                             </div>
-                            <div class="bg-[#0d1b2a] aspect-square rounded flex flex-col items-center justify-center cursor-pointer hover:border hover:border-brand-yellow transition text-gray-300">
+                            <div
+                                class="bg-[#0d1b2a] aspect-square rounded flex flex-col items-center justify-center cursor-pointer hover:border hover:border-brand-yellow transition text-gray-300">
                                 <i class="fas fa-dice text-2xl mb-1 text-brand-yellow"></i>
                                 <span class="text-[9px] font-bold uppercase">Dés</span>
                             </div>
-                            <div class="bg-[#0d1b2a] aspect-square rounded flex flex-col items-center justify-center cursor-pointer hover:border hover:border-brand-yellow transition text-gray-300">
+                            <div
+                                class="bg-[#0d1b2a] aspect-square rounded flex flex-col items-center justify-center cursor-pointer hover:border hover:border-brand-yellow transition text-gray-300">
                                 <i class="fas fa-bomb text-2xl mb-1 text-green-400"></i>
                                 <span class="text-[9px] font-bold uppercase">Mines</span>
                             </div>
@@ -414,12 +490,15 @@
     <!-- ================= MODALS & POPUPS ================= -->
 
     <!-- Sidebar / Menu VIP -->
-    <div id="profile-overlay" onclick="toggleProfileSidebar()" class="fixed inset-0 bg-black/80 z-[590] hidden backdrop-blur-sm transition-opacity"></div>
-    <div id="profile-sidebar" class="fixed right-0 top-0 h-full w-72 md:w-80 bg-brand-light border-l border-gray-700 z-[600] shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+    <div id="profile-overlay" onclick="toggleProfileSidebar()"
+        class="fixed inset-0 bg-black/80 z-[590] hidden backdrop-blur-sm transition-opacity"></div>
+    <div id="profile-sidebar"
+        class="fixed right-0 top-0 h-full w-72 md:w-80 bg-brand-light border-l border-gray-700 z-[600] shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
         <!-- رأس القائمة مع الرصيد -->
         <div class="p-5 md:p-6 bg-[#0d1b2a] flex justify-between items-center border-b border-gray-700">
             <div class="flex items-center gap-3">
-                <div class="w-11 h-11 rounded-full bg-brand-yellow text-[#0d1b2a] flex items-center justify-center text-xl font-black shadow-[0_0_10px_rgba(251,191,36,0.4)]">
+                <div
+                    class="w-11 h-11 rounded-full bg-brand-yellow text-[#0d1b2a] flex items-center justify-center text-xl font-black shadow-[0_0_10px_rgba(251,191,36,0.4)]">
                     <i class="fas fa-user"></i>
                 </div>
                 <div>
@@ -427,30 +506,37 @@
                     <p class="text-brand-yellow font-black text-sm"><span id="sidebar-balance">0.00</span> TND</p>
                 </div>
             </div>
-            <button onclick="toggleProfileSidebar()" class="text-gray-400 hover:text-brand-yellow transition w-8 h-8 flex items-center justify-center"><i class="fas fa-times text-lg"></i></button>
+            <button onclick="toggleProfileSidebar()"
+                class="text-gray-400 hover:text-brand-yellow transition w-8 h-8 flex items-center justify-center"><i
+                    class="fas fa-times text-lg"></i></button>
         </div>
-        
+
         <!-- أزرار التحكم -->
         <div class="flex-1 overflow-y-auto p-4 space-y-2 pb-24 no-scrollbar">
             <h4 class="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-3 ml-1 mt-2">Mon Compte</h4>
-            
-            <button onclick="openHistoryModal()" class="w-full flex items-center gap-3 bg-[#0d1b2a] hover:border-brand-yellow border border-gray-700 text-white p-3.5 rounded-xl transition font-bold text-sm">
+
+            <button onclick="openHistoryModal()"
+                class="w-full flex items-center gap-3 bg-[#0d1b2a] hover:border-brand-yellow border border-gray-700 text-white p-3.5 rounded-xl transition font-bold text-sm">
                 <i class="fas fa-history text-blue-400 w-5 text-center"></i> Historique des paris
             </button>
-            
-            <button onclick="openTransactionsModal()" class="w-full flex items-center gap-3 bg-[#0d1b2a] hover:border-brand-yellow border border-gray-700 text-white p-3.5 rounded-xl transition font-bold text-sm">
+
+            <button onclick="openTransactionsModal()"
+                class="w-full flex items-center gap-3 bg-[#0d1b2a] hover:border-brand-yellow border border-gray-700 text-white p-3.5 rounded-xl transition font-bold text-sm">
                 <i class="fas fa-exchange-alt text-brand-green w-5 text-center"></i> Transactions
             </button>
-            
-            <button onclick="openBonusModal()" class="w-full flex items-center gap-3 bg-[#0d1b2a] hover:border-brand-yellow border border-gray-700 text-white p-3.5 rounded-xl transition font-bold text-sm relative">
+
+            <button onclick="openBonusModal()"
+                class="w-full flex items-center gap-3 bg-[#0d1b2a] hover:border-brand-yellow border border-gray-700 text-white p-3.5 rounded-xl transition font-bold text-sm relative">
                 <i class="fas fa-gift text-red-500 w-5 text-center"></i> Bonus & Offres
-                <span class="absolute right-3 bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">NEW</span>
+                <span
+                    class="absolute right-3 bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">NEW</span>
             </button>
         </div>
-        
+
         <!-- زر الخروج -->
         <div class="p-4 bg-[#0d1b2a] border-t border-gray-700">
-            <button onclick="toggleProfileSidebar(); logoutPlayer();" class="w-full bg-red-600/10 hover:bg-red-600 text-red-500 hover:text-white border border-red-600/30 font-black py-3.5 rounded-xl transition uppercase tracking-widest text-xs">Déconnexion</button>
+            <button onclick="toggleProfileSidebar(); logoutPlayer();"
+                class="w-full bg-red-600/10 hover:bg-red-600 text-red-500 hover:text-white border border-red-600/30 font-black py-3.5 rounded-xl transition uppercase tracking-widest text-xs">Déconnexion</button>
         </div>
     </div>
 
@@ -502,116 +588,117 @@
             </div>
         </div>
     </div>
+
 </html>
 
-    <!-- ================= JAVASCRIPT ================= -->
-    <script>
-        /* ---------------- Navigation / Sections ---------------- */
-        function switchSection(sectionId) {
-            // إخفاء كل الأقسام
-            document.querySelectorAll('.player-view-section').forEach(sec => {
-                sec.classList.remove('block');
-                sec.classList.add('hidden');
-            });
-            // إظهار القسم المطلوب
-            const target = document.getElementById('pane-' + sectionId);
-            if (target) {
-                target.classList.remove('hidden');
-                target.classList.add('block');
-            }
+<!-- ================= JAVASCRIPT ================= -->
+<script>
+    /* ---------------- Navigation / Sections ---------------- */
+    function switchSection(sectionId) {
+        // إخفاء كل الأقسام
+        document.querySelectorAll('.player-view-section').forEach(sec => {
+            sec.classList.remove('block');
+            sec.classList.add('hidden');
+        });
+        // إظهار القسم المطلوب
+        const target = document.getElementById('pane-' + sectionId);
+        if (target) {
+            target.classList.remove('hidden');
+            target.classList.add('block');
         }
+    }
 
-        /* ---------------- Sportsbook (Iframe) ---------------- */
-        function openSportsbookForProvider(provider) {
-            switchSection('sport');
-            const iframe = document.getElementById('sportsbook-iframe');
-            const loader = document.getElementById('sport-loader');
+    /* ---------------- Sportsbook (Iframe) ---------------- */
+    function openSportsbookForProvider(provider) {
+        switchSection('sport');
+        const iframe = document.getElementById('sportsbook-iframe');
+        const loader = document.getElementById('sport-loader');
 
-            // محاكاة التحميل والتوصيل بالرابط (سيتم وضع رابط NexStrike هنا لاحقاً)
-            loader.classList.remove('hidden');
-            iframe.style.opacity = '0';
+        // محاكاة التحميل والتوصيل بالرابط (سيتم وضع رابط NexStrike هنا لاحقاً)
+        loader.classList.remove('hidden');
+        iframe.style.opacity = '0';
 
-            setTimeout(() => {
-                // iframe.src = "https://your-nexstrike-url.com";
-                loader.classList.add('hidden');
-                iframe.style.opacity = '1';
-            }, 1000);
+        setTimeout(() => {
+            // iframe.src = "https://your-nexstrike-url.com";
+            loader.classList.add('hidden');
+            iframe.style.opacity = '1';
+        }, 1000);
+    }
+
+    /* ---------------- Casino / Games ---------------- */
+    function playCasinoGame(provider, gameId) {
+        const container = document.getElementById('casino-iframe-container');
+        const iframe = document.getElementById('casino-iframe');
+        container.classList.remove('hidden');
+        container.classList.add('flex');
+
+        // سيتم تمرير رابط اللعبة عبر API
+        // iframe.src = `https://game-url...`;
+    }
+
+    function closeCasinoGame() {
+        const container = document.getElementById('casino-iframe-container');
+        const iframe = document.getElementById('casino-iframe');
+        container.classList.add('hidden');
+        container.classList.remove('flex');
+        iframe.src = "";
+    }
+
+    function initCasinoLobby() {console.log("Chargement lobby casino...");}
+    function openLiveCasino() {console.log("Chargement live casino...");}
+    function initVirtualsLobby() {console.log("Chargement virtuels...");}
+
+    /* ---------------- Modals (Login & Sidebar) ---------------- */
+    function openLoginModal() {
+        const modal = document.getElementById('player-login-modal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+
+    function closeLoginModal() {
+        const modal = document.getElementById('player-login-modal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+
+    function openRegisterModal() {
+        openLoginModal(); // يمكن استبدالها لاحقاً بنافذة تسجيل منفصلة
+    }
+
+    function toggleProfileSidebar() {
+        const sidebar = document.getElementById('profile-sidebar');
+        const overlay = document.getElementById('profile-overlay');
+
+        if (sidebar.classList.contains('translate-x-full')) {
+            sidebar.classList.remove('translate-x-full');
+            overlay.classList.remove('hidden');
+            overlay.classList.add('block');
+        } else {
+            sidebar.classList.add('translate-x-full');
+            overlay.classList.add('hidden');
+            overlay.classList.remove('block');
         }
-
-        /* ---------------- Casino / Games ---------------- */
-        function playCasinoGame(provider, gameId) {
-            const container = document.getElementById('casino-iframe-container');
-            const iframe = document.getElementById('casino-iframe');
-            container.classList.remove('hidden');
-            container.classList.add('flex');
-
-            // سيتم تمرير رابط اللعبة عبر API
-            // iframe.src = `https://game-url...`;
-        }
-
-        function closeCasinoGame() {
-            const container = document.getElementById('casino-iframe-container');
-            const iframe = document.getElementById('casino-iframe');
-            container.classList.add('hidden');
-            container.classList.remove('flex');
-            iframe.src = "";
-        }
-
-        function initCasinoLobby() { console.log("Chargement lobby casino..."); }
-        function openLiveCasino() { console.log("Chargement live casino..."); }
-        function initVirtualsLobby() { console.log("Chargement virtuels..."); }
-
-        /* ---------------- Modals (Login & Sidebar) ---------------- */
-        function openLoginModal() {
-            const modal = document.getElementById('player-login-modal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
-
-        function closeLoginModal() {
-            const modal = document.getElementById('player-login-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-
-        function openRegisterModal() {
-            openLoginModal(); // يمكن استبدالها لاحقاً بنافذة تسجيل منفصلة
-        }
-
-        function toggleProfileSidebar() {
-            const sidebar = document.getElementById('profile-sidebar');
-            const overlay = document.getElementById('profile-overlay');
-
-            if (sidebar.classList.contains('translate-x-full')) {
-                sidebar.classList.remove('translate-x-full');
-                overlay.classList.remove('hidden');
-                overlay.classList.add('block');
-            } else {
-                sidebar.classList.add('translate-x-full');
-                overlay.classList.add('hidden');
-                overlay.classList.remove('block');
-            }
-        }
+    }
 
 
-        /* ---------------- Notifications & Policies ---------------- */
-        function toggleNotificationsPanel() {
-            const panel = document.getElementById('notifications-panel');
-            panel.classList.toggle('hidden');
-            panel.classList.toggle('flex');
-        }
+    /* ---------------- Notifications & Policies ---------------- */
+    function toggleNotificationsPanel() {
+        const panel = document.getElementById('notifications-panel');
+        panel.classList.toggle('hidden');
+        panel.classList.toggle('flex');
+    }
 
-        function openPolicyModal(type) {
-            const modal = document.getElementById('policy-modal');
-            const title = document.getElementById('policy-modal-title');
-            const body = document.getElementById('policy-modal-body');
+    function openPolicyModal(type) {
+        const modal = document.getElementById('policy-modal');
+        const title = document.getElementById('policy-modal-title');
+        const body = document.getElementById('policy-modal-body');
 
-            let content = '';
-            let titleText = '';
+        let content = '';
+        let titleText = '';
 
-            if (type === 'termes') {
-                titleText = 'Termes & Conditions';
-                content = `
+        if (type === 'termes') {
+            titleText = 'Termes & Conditions';
+            content = `
                     <h4 class="text-white font-bold mb-2">1. Acceptation des conditions</h4>
                     <p class="mb-4 text-gray-400">En accédant à COUTABET, vous acceptez d'être lié par ces conditions générales d'utilisation. Vous devez avoir au moins 18 ans pour utiliser nos services.</p>
                     
@@ -623,53 +710,53 @@
                     <h4 class="text-white font-bold mb-2">3. Responsabilité du joueur</h4>
                     <p class="text-gray-400">Le joueur est seul responsable de la sécurité de ses identifiants. Toute activité sur le compte est considérée comme effectuée par le titulaire légitime du compte.</p>
                 `;
-            } else if (type === 'confidentialite') {
-                titleText = 'Politique de Confidentialité';
-                content = `
+        } else if (type === 'confidentialite') {
+            titleText = 'Politique de Confidentialité';
+            content = `
                     <p class="mb-4 text-gray-400">COUTABET s'engage à protéger vos données personnelles. Les informations collectées (nom, transactions, IP) sont utilisées uniquement pour la sécurité et la gestion de votre compte, et ne sont jamais partagées avec des tiers sans votre consentement.</p>
                 `;
-            } else if (type === 'responsable') {
-                titleText = 'Jeu Responsable';
-                content = `
+        } else if (type === 'responsable') {
+            titleText = 'Jeu Responsable';
+            content = `
                     <p class="mb-4 text-gray-400">Les jeux d'argent doivent rester un divertissement. Ne misez que ce que vous pouvez vous permettre de perdre.</p>
                     <p class="text-gray-400">Si vous sentez que vous perdez le contrôle, veuillez contacter notre support pour bloquer votre compte temporairement ou définitivement.</p>
                 `;
-            }
-
-            title.innerText = titleText;
-            body.innerHTML = content;
-
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
         }
 
-        function closePolicyModal() {
-            const modal = document.getElementById('policy-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
+        title.innerText = titleText;
+        body.innerHTML = content;
 
-        /* ---------------- Authentication Mockup ---------------- */
-        function handlePlayerAuth() {
-            // محاكاة تسجيل الدخول (يتم ربطها بـ Firebase لاحقاً)
-            closeLoginModal();
-            document.getElementById('auth-buttons-container').classList.add('hidden');
-            document.getElementById('auth-buttons-container').classList.remove('flex');
-            document.getElementById('top-user-profile').classList.remove('hidden');
-            document.getElementById('top-user-profile').classList.add('flex');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
 
-            // تحديث الرصيد الوهمي
-            document.getElementById('player-balance-val').innerText = "1450.50";
-            document.getElementById('modal-balance').innerText = "1450.50";
-        }
+    function closePolicyModal() {
+        const modal = document.getElementById('policy-modal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
 
-        function logoutPlayer() {
-            document.getElementById('auth-buttons-container').classList.remove('hidden');
-            document.getElementById('auth-buttons-container').classList.add('flex');
-            document.getElementById('top-user-profile').classList.add('hidden');
-            document.getElementById('top-user-profile').classList.remove('flex');
-        }
-    </script>
+    /* ---------------- Authentication Mockup ---------------- */
+    function handlePlayerAuth() {
+        // محاكاة تسجيل الدخول (يتم ربطها بـ Firebase لاحقاً)
+        closeLoginModal();
+        document.getElementById('auth-buttons-container').classList.add('hidden');
+        document.getElementById('auth-buttons-container').classList.remove('flex');
+        document.getElementById('top-user-profile').classList.remove('hidden');
+        document.getElementById('top-user-profile').classList.add('flex');
+
+        // تحديث الرصيد الوهمي
+        document.getElementById('player-balance-val').innerText = "1450.50";
+        document.getElementById('modal-balance').innerText = "1450.50";
+    }
+
+    function logoutPlayer() {
+        document.getElementById('auth-buttons-container').classList.remove('hidden');
+        document.getElementById('auth-buttons-container').classList.add('flex');
+        document.getElementById('top-user-profile').classList.add('hidden');
+        document.getElementById('top-user-profile').classList.remove('flex');
+    }
+</script>
 </body>
 
 </html>
@@ -682,23 +769,23 @@
     }
 
     const BACKEND_URL = "https://coutabet-backend-server.onrender.com";
-        let playerSession = null;
+    let playerSession = null;
     function escapeHTML(str) {
         if (!str) return '';
         return str.toString().replace(/[&<>'"]/g,
-            tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+            tag => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'}[tag] || tag)
         );
     }
 
     // ================= دوال التحكم في النوافذ والإشعارات المفقودة =================
     function openLoginModal() {
         const modal = document.getElementById('player-login-modal');
-        if (modal) { modal.classList.remove('hidden'); modal.classList.add('flex'); }
+        if (modal) {modal.classList.remove('hidden'); modal.classList.add('flex');}
     }
 
     function closeLoginModal() {
         const modal = document.getElementById('player-login-modal');
-        if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+        if (modal) {modal.classList.add('hidden'); modal.classList.remove('flex');}
     }
 
     function openRegisterModal() {
@@ -707,7 +794,7 @@
 
     function showNotification(message, type = "success") {
         const container = document.getElementById('toast-container');
-        if (!container) { alert(message); return; }
+        if (!container) {alert(message); return;}
 
         const toast = document.createElement('div');
         toast.className = `px-4 py-3 rounded-xl font-bold text-sm shadow-xl transform transition-all translate-x-full flex items-center gap-2 ${type === 'error' ? 'bg-red-500 text-white' : 'bg-emerald text-black'
@@ -730,7 +817,7 @@
             setupLoggedInUI();
             loadRandomCasinoGames();
         };
-        
+
 
         // 2. استرجاع القسم الذي كان فيه اللاعب قبل الريفرش
         const savedSection = localStorage.getItem('active_section') || 'accueil';
@@ -760,10 +847,10 @@
             const elGrand = document.getElementById('jackpot-grand');
 
             // تحديث الأرقام في الواجهة وتنسيقها كعملة
-            if (elMini) elMini.innerText = parseFloat(data.mini).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TND';
-            if (elMinor) elMinor.innerText = parseFloat(data.minor).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TND';
-            if (elMajor) elMajor.innerText = parseFloat(data.major).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TND';
-            if (elGrand) elGrand.innerText = parseFloat(data.grand).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TND';
+            if (elMini) elMini.innerText = parseFloat(data.mini).toLocaleString('fr-FR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' TND';
+            if (elMinor) elMinor.innerText = parseFloat(data.minor).toLocaleString('fr-FR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' TND';
+            if (elMajor) elMajor.innerText = parseFloat(data.major).toLocaleString('fr-FR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' TND';
+            if (elGrand) elGrand.innerText = parseFloat(data.grand).toLocaleString('fr-FR', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' TND';
         };
 
         socket.onerror = function (error) {
@@ -810,7 +897,7 @@
         }
 
         if (!fromPopState) {
-            history.pushState({ section: sectionId }, "", `#${sectionId}`);
+            history.pushState({section: sectionId}, "", `#${sectionId}`);
         }
 
         if (typeof setActiveMenuBtn === 'function') {
@@ -828,8 +915,8 @@
         if (!username || !password) return;
         try {
             const res = await fetch(`${BACKEND_URL}/api/login`, {
-                method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
+                method: 'POST', headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({username, password})
             });
             const data = await res.json();
             if (res.ok) {
@@ -839,7 +926,7 @@
                 setupLoggedInUI();
                 showNotification("Bienvenue !");
             } else showNotification(data.detail, 'error');
-        } catch (e) { showNotification("Erreur serveur", 'error'); }
+        } catch (e) {showNotification("Erreur serveur", 'error');}
     }
 
     function setupLoggedInUI() {
@@ -848,11 +935,11 @@
         if (authBtns) authBtns.classList.add('hidden');
 
         const userProfile = document.getElementById('top-user-profile');
-        if (userProfile) { userProfile.classList.remove('hidden'); userProfile.classList.add('flex'); }
+        if (userProfile) {userProfile.classList.remove('hidden'); userProfile.classList.add('flex');}
 
         // 🔔 إظهار جرس الإشعارات
         const notifBell = document.getElementById('top-notification-bell');
-        if (notifBell) { notifBell.classList.remove('hidden'); notifBell.classList.add('flex'); }
+        if (notifBell) {notifBell.classList.remove('hidden'); notifBell.classList.add('flex');}
 
         const nameDisplay = document.getElementById('player-name-display');
         if (nameDisplay) nameDisplay.innerText = playerSession.username;
@@ -874,56 +961,56 @@
     }
 
     async function refreshBalance() {
-            if (!playerSession) return;
-            try {
-                const res = await fetch(`${BACKEND_URL}/gold_api`, {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ method: 'user_balance', user_code: playerSession.username })
-                });
-                const data = await res.json();
-                if (data.status === 1 && data.user_balance !== undefined) {
-                    playerSession.balance = data.user_balance;
-                    localStorage.setItem('alpha_player_session', JSON.stringify(playerSession));
-                    
-                    const formattedBalance = parseFloat(data.user_balance).toFixed(2);
-                    
-                    // تحديث الرصيد في الشريط العلوي
-                    const balDisplay = document.getElementById('player-balance-val');
-                    if (balDisplay) balDisplay.innerText = formattedBalance;
+        if (!playerSession) return;
+        try {
+            const res = await fetch(`${BACKEND_URL}/gold_api`, {
+                method: 'POST', headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({method: 'user_balance', user_code: playerSession.username})
+            });
+            const data = await res.json();
+            if (data.status === 1 && data.user_balance !== undefined) {
+                playerSession.balance = data.user_balance;
+                localStorage.setItem('alpha_player_session', JSON.stringify(playerSession));
 
-                    // تحديث الرصيد في القائمة الجانبية
-                    const sidebarBalDisplay = document.getElementById('sidebar-balance');
-                    if (sidebarBalDisplay) sidebarBalDisplay.innerText = formattedBalance;
-                }
-            } catch (e) {
-                console.error("Erreur balance:", e);
+                const formattedBalance = parseFloat(data.user_balance).toFixed(2);
+
+                // تحديث الرصيد في الشريط العلوي
+                const balDisplay = document.getElementById('player-balance-val');
+                if (balDisplay) balDisplay.innerText = formattedBalance;
+
+                // تحديث الرصيد في القائمة الجانبية
+                const sidebarBalDisplay = document.getElementById('sidebar-balance');
+                if (sidebarBalDisplay) sidebarBalDisplay.innerText = formattedBalance;
             }
+        } catch (e) {
+            console.error("Erreur balance:", e);
         }
-    function getAuthHeaders() { return { 'Authorization': `Bearer ${localStorage.getItem('token')}`, 'Content-Type': 'application/json' }; }
+    }
+    function getAuthHeaders() {return {'Authorization': `Bearer ${localStorage.getItem('token')}`, 'Content-Type': 'application/json'};}
 
     // ================= 3. الكازينو والسلوتس (محرك نكسيس النهائي + Infinite Scroll) =================
     window.currentProviderGames = [];
     window.nexusProviders = [
-        { code: 'PRAGMATIC', name: 'Pragmatic Slot' },
-        { code: 'HACKSAW', name: 'Hacksaw' },
-        { code: 'SPRIBE', name: 'Spribe' },
-        { code: 'PLAYNGO', name: "Play'n Go" },
-        { code: 'PGSOFT', name: 'PGSoft' },
-        { code: 'HABANERO', name: 'Habanero' },
-        { code: 'PLAYSON', name: 'Playson' },
-        { code: 'EVOPLAY', name: 'Evoplay' },
-        { code: 'AMUSNET', name: 'Amusnet' },
-        { code: 'EGT', name: 'EGT Digital' },
-        { code: 'BOOONGO', name: 'Booongo' },
-        { code: 'CQ9', name: 'CQ9' },
-        { code: 'TOPTREND', name: 'TopTrend' },
-        { code: 'DREAMTECH', name: 'DreamTech' },
-        { code: 'FACHAI', name: 'FaChai' },
-        { code: 'SPADEGAMING', name: 'Spadegaming' },
-        { code: 'FASTSPIN', name: 'FastSpin' },
-        { code: 'JOKERGAMING', name: 'Joker Gaming' },
-        { code: 'RUBYPLAY', name: 'RubyPlay' },
-        { code: 'AMATIC', name: 'Amatic' }
+        {code: 'PRAGMATIC', name: 'Pragmatic Slot'},
+        {code: 'HACKSAW', name: 'Hacksaw'},
+        {code: 'SPRIBE', name: 'Spribe'},
+        {code: 'PLAYNGO', name: "Play'n Go"},
+        {code: 'PGSOFT', name: 'PGSoft'},
+        {code: 'HABANERO', name: 'Habanero'},
+        {code: 'PLAYSON', name: 'Playson'},
+        {code: 'EVOPLAY', name: 'Evoplay'},
+        {code: 'AMUSNET', name: 'Amusnet'},
+        {code: 'EGT', name: 'EGT Digital'},
+        {code: 'BOOONGO', name: 'Booongo'},
+        {code: 'CQ9', name: 'CQ9'},
+        {code: 'TOPTREND', name: 'TopTrend'},
+        {code: 'DREAMTECH', name: 'DreamTech'},
+        {code: 'FACHAI', name: 'FaChai'},
+        {code: 'SPADEGAMING', name: 'Spadegaming'},
+        {code: 'FASTSPIN', name: 'FastSpin'},
+        {code: 'JOKERGAMING', name: 'Joker Gaming'},
+        {code: 'RUBYPLAY', name: 'RubyPlay'},
+        {code: 'AMATIC', name: 'Amatic'}
     ];
 
     let currentDisplayLimit = 50;
@@ -958,8 +1045,8 @@
         try {
             const res = await fetch(`${BACKEND_URL}/api/get-providers`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ provider_code: providerCode })
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({provider_code: providerCode})
             });
 
             if (!res.ok) throw new Error("HTTP Status: " + res.status);
@@ -1033,7 +1120,7 @@
                             renderCasinoGrid();
                         }
                     });
-                }, { rootMargin: '300px' });
+                }, {rootMargin: '300px'});
             }
             gamesObserver.observe(sentinel);
         } else if (sentinel) {
@@ -1138,8 +1225,8 @@
         try {
             const res = await fetch(`${BACKEND_URL}/api/get-providers`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ provider_code: "SPRIBE" })
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({provider_code: "SPRIBE"})
             });
             const data = await res.json();
             window.currentProviderGames = data.games || data.data || [];
@@ -1162,8 +1249,8 @@
             // يفترض وجود مزود TVBET أو BetGames في الـ API الخاص بك
             const res = await fetch(`${BACKEND_URL}/api/get-providers`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ provider_code: "TVBET" })
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({provider_code: "TVBET"})
             });
             const data = await res.json();
             window.currentProviderGames = data.games || data.data || [];
@@ -1195,8 +1282,8 @@
                 try {
                     const res = await fetch(`${BACKEND_URL}/api/get-providers`, {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ provider_code: pCode })
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({provider_code: pCode})
                     });
 
                     if (res.ok) {
@@ -1209,7 +1296,7 @@
                         else if (Array.isArray(data)) games = data;
 
                         if (games && games.length > 0) {
-                            games.slice(0, 4).forEach(g => mixedGames.push({ ...g, provider: pCode }));
+                            games.slice(0, 4).forEach(g => mixedGames.push({...g, provider: pCode}));
                         }
                     }
                 } catch (err) {
@@ -1222,7 +1309,7 @@
             if (mixedGames.length > 0) {
                 grid.innerHTML = mixedGames.map(g => {
                     const rawName = String(g.game_name || g.name || "Game");
-                    const title = rawName.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
+                    const title = rawName.replace(/[&<>'"]/g, tag => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'}[tag] || tag));
 
                     const img = g.banner || g.image || g.thumb || `https://placehold.co/400x400/180A2B/10b981?text=${encodeURIComponent(title.substring(0, 15))}`;
                     const code = g.game_code || g.id;
@@ -1257,7 +1344,7 @@
         if (!playerSession) return openLoginModal();
 
         // 🌟 إضافة حالة في سجل هاتف اللاعب لدعم زر الرجوع
-        history.pushState({ modalOpen: true, type: 'casino' }, "", "");
+        history.pushState({modalOpen: true, type: 'casino'}, "", "");
 
         const container = document.getElementById('casino-iframe-container');
         const iframe = document.getElementById('casino-iframe');
@@ -1269,11 +1356,11 @@
 
         try {
             let endpointUrl = `${BACKEND_URL}/api/provider/launch-casino`;
-            let requestBody = { game_code: gameCode, provider_code: providerCode, user_code: playerSession.username };
+            let requestBody = {game_code: gameCode, provider_code: providerCode, user_code: playerSession.username};
 
             if (providerCode === 'SMPL') {
                 endpointUrl = `${BACKEND_URL}/api/smpl/launch`;
-                requestBody = { game_uuid: gameCode, user_code: playerSession.username };
+                requestBody = {game_uuid: gameCode, user_code: playerSession.username};
             }
 
             const res = await fetch(endpointUrl, {
@@ -1286,7 +1373,7 @@
 
             if (data.launch_url) {
                 iframe.src = data.launch_url;
-                iframe.onload = () => { iframe.style.opacity = '1'; };
+                iframe.onload = () => {iframe.style.opacity = '1';};
             } else {
                 showNotification(data.error || "Jeu non disponible", "error");
                 closeCasinoGame();
@@ -1324,8 +1411,8 @@
         if (grid) grid.innerHTML = '<div class="col-span-full text-red-500 text-center py-10">Chargement Live...</div>';
         try {
             const res = await fetch(`${BACKEND_URL}/api/get-providers`, {
-                method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ provider_code: 'PP_LIVE_PRO' })
+                method: 'POST', headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({provider_code: 'PP_LIVE_PRO'})
             });
             const data = await res.json();
             if (grid) grid.innerHTML = (data.games || []).map(g => {
@@ -1373,16 +1460,16 @@
         if (!playerSession) return openLoginModal();
 
         // 🌟 إضافة حالة في سجل هاتف اللاعب لدعم زر الرجوع
-        history.pushState({ modalOpen: true, type: 'virtual' }, "", "");
+        history.pushState({modalOpen: true, type: 'virtual'}, "", "");
 
         const container = document.getElementById('casino-iframe-container');
         const iframe = document.getElementById('casino-iframe');
-        if (container) { container.classList.remove('hidden'); container.classList.add('flex'); }
+        if (container) {container.classList.remove('hidden'); container.classList.add('flex');}
         if (iframe) iframe.src = '';
         try {
             const res = await fetch(`${BACKEND_URL}/api/provider/launch-eurovirtuals`, {
                 method: 'POST', headers: getAuthHeaders(),
-                body: JSON.stringify({ user_code: playerSession.username, game_uuid: uuid })
+                body: JSON.stringify({user_code: playerSession.username, game_uuid: uuid})
             });
             const data = await res.json();
             if (data.launch_url) {
@@ -1487,7 +1574,7 @@
             const response = await fetch(`${BACKEND_URL}/api/admin/request-transaction`, {
                 method: 'POST',
                 // لا نستخدم getAuthHeaders() هنا لأن FormData يحتاج أن يحدد المتصفح الـ Content-Type بنفسه
-                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+                headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`},
                 body: formData
             });
 
@@ -1538,7 +1625,7 @@
             const response = await fetch(`${BACKEND_URL}/api/admin/request-transaction`, {
                 method: 'POST',
                 // نضع التوكن فقط بدون فرض Content-Type
-                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+                headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`},
                 body: formData
             });
 
@@ -1588,7 +1675,7 @@
         const loader = document.getElementById('sport-loader');
 
         if (loader) loader.classList.remove('hidden');
-        if (iframe) { iframe.classList.add('hidden'); iframe.src = ''; }
+        if (iframe) {iframe.classList.add('hidden'); iframe.src = '';}
 
         try {
             const response = await fetch(`${BACKEND_URL}/api/provider/launch-sportsbook`, {
@@ -1724,11 +1811,11 @@
 
             // هذه البيانات سنقوم بتغييرها لاحقاً لـ fetch من السيرفر
             const dummyData = [
-                { date: "2026-08-28 12:15", game: "Sweet Bonanza", provider: "Pragmatic", amount: 10.00, multiplier: 2.5, win: 25.00 },
-                { date: "2026-08-28 11:30", game: "Aviator", provider: "Spribe", amount: 5.00, multiplier: 0, win: -5.00 },
-                { date: "2026-08-27 20:45", game: "Gates of Olympus", provider: "Pragmatic", amount: 20.00, multiplier: 15.2, win: 304.00 },
-                { date: "2026-08-27 19:20", game: "Swift League", provider: "EuroVirtuals", amount: 10.00, multiplier: 2.0, win: 20.00 },
-                { date: "2026-08-26 15:10", game: "Wanted Dead or a Wild", provider: "Hacksaw", amount: 2.00, multiplier: 0, win: -2.00 }
+                {date: "2026-08-28 12:15", game: "Sweet Bonanza", provider: "Pragmatic", amount: 10.00, multiplier: 2.5, win: 25.00},
+                {date: "2026-08-28 11:30", game: "Aviator", provider: "Spribe", amount: 5.00, multiplier: 0, win: -5.00},
+                {date: "2026-08-27 20:45", game: "Gates of Olympus", provider: "Pragmatic", amount: 20.00, multiplier: 15.2, win: 304.00},
+                {date: "2026-08-27 19:20", game: "Swift League", provider: "EuroVirtuals", amount: 10.00, multiplier: 2.0, win: 20.00},
+                {date: "2026-08-26 15:10", game: "Wanted Dead or a Wild", provider: "Hacksaw", amount: 2.00, multiplier: 0, win: -2.00}
             ];
 
             if (dummyData.length === 0) {
@@ -1907,7 +1994,7 @@
             // تشغيل حركة الظهور (Animation) والتمرير للأسفل
             setTimeout(() => {
                 msgDiv.classList.remove('translate-y-4', 'opacity-0');
-                chatBox.scrollTo({ top: chatBox.scrollHeight, behavior: 'smooth' });
+                chatBox.scrollTo({top: chatBox.scrollHeight, behavior: 'smooth'});
             }, 50);
         }
     }
@@ -1921,7 +2008,7 @@
     async function fetchNotifications() {
         if (!playerSession) return;
         try {
-            const res = await fetch(`${BACKEND_URL}/api/user/notifications`, { headers: getAuthHeaders() });
+            const res = await fetch(`${BACKEND_URL}/api/user/notifications`, {headers: getAuthHeaders()});
             const data = await res.json();
 
             const badge = document.getElementById('notif-badge');
@@ -1971,7 +2058,7 @@
     async function markAsRead(id) {
         await fetch(`${BACKEND_URL}/api/user/read-notification`, {
             method: 'POST', headers: getAuthHeaders(),
-            body: JSON.stringify({ notif_id: id })
+            body: JSON.stringify({notif_id: id})
         });
         fetchNotifications();
     }
@@ -1984,7 +2071,7 @@
             await fetch(`${BACKEND_URL}/api/user/delete-notification`, {
                 method: 'POST',
                 headers: getAuthHeaders(),
-                body: JSON.stringify({ notif_id: id })
+                body: JSON.stringify({notif_id: id})
             });
             // تحديث القائمة فوراً بعد المسح
             fetchNotifications();
@@ -2007,9 +2094,9 @@
         container.innerHTML = '';
 
         const featured = [
-            { name: "Pragmatic Play", code: "PRAGMATIC", color: "bg-emerald-500", hover: "hover:border-emerald-500" },
-            { name: "Amatic", code: "AMATIC", color: "bg-blue-500", hover: "hover:border-blue-500" },
-            { name: "Hacksaw", code: "HACKSAW", color: "bg-purple-500", hover: "hover:border-purple-500" }
+            {name: "Pragmatic Play", code: "PRAGMATIC", color: "bg-emerald-500", hover: "hover:border-emerald-500"},
+            {name: "Amatic", code: "AMATIC", color: "bg-blue-500", hover: "hover:border-blue-500"},
+            {name: "Hacksaw", code: "HACKSAW", color: "bg-purple-500", hover: "hover:border-purple-500"}
         ];
 
         let finalHtml = ''; // تجميع الكود هنا لمنع ظهوره متكرراً أو متقطعاً
@@ -2018,8 +2105,8 @@
             try {
                 const res = await fetch(`${BACKEND_URL}/api/get-providers`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ provider_code: provider.code })
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({provider_code: provider.code})
                 });
 
                 if (res.ok) {
@@ -2083,132 +2170,132 @@
         // طباعة كل الأقسام دفعة واحدة
         container.innerHTML = finalHtml;
     }
-// ================= محرك السلايدر الترحيبي =================
-        let currentWelcomeSlide = 0;
-        const totalWelcomeSlides = 3;
-        let welcomeSlideInterval;
+    // ================= محرك السلايدر الترحيبي =================
+    let currentWelcomeSlide = 0;
+    const totalWelcomeSlides = 3;
+    let welcomeSlideInterval;
 
-        function updateWelcomeSlider() {
-            const track = document.getElementById('welcome-slider-track');
-            const dots = document.querySelectorAll('.welcome-dot');
-            
-            if (track) {
-                track.style.transform = `translateX(-${currentWelcomeSlide * 100}%)`;
-            }
-            
-            dots.forEach((dot, index) => {
-                if (index === currentWelcomeSlide) {
-                    dot.classList.remove('bg-white/50');
-                    dot.classList.add('bg-brand-yellow', 'w-6');
-                } else {
-                    dot.classList.add('bg-white/50');
-                    dot.classList.remove('bg-brand-yellow', 'w-6');
-                }
-            });
+    function updateWelcomeSlider() {
+        const track = document.getElementById('welcome-slider-track');
+        const dots = document.querySelectorAll('.welcome-dot');
+
+        if (track) {
+            track.style.transform = `translateX(-${currentWelcomeSlide * 100}%)`;
         }
 
-        function nextWelcomeSlide() {
-            currentWelcomeSlide = (currentWelcomeSlide + 1) % totalWelcomeSlides;
-            updateWelcomeSlider();
-            resetWelcomeInterval();
-        }
-
-        function prevWelcomeSlide() {
-            currentWelcomeSlide = (currentWelcomeSlide - 1 + totalWelcomeSlides) % totalWelcomeSlides;
-            updateWelcomeSlider();
-            resetWelcomeInterval();
-        }
-
-        function goToWelcomeSlide(index) {
-            currentWelcomeSlide = index;
-            updateWelcomeSlider();
-            resetWelcomeInterval();
-        }
-
-        function startWelcomeInterval() {
-            welcomeSlideInterval = setInterval(nextWelcomeSlide, 4000); // تغيير الصورة كل 4 ثواني
-        }
-
-        function resetWelcomeInterval() {
-            clearInterval(welcomeSlideInterval);
-            startWelcomeInterval();
-        }
-
-        // تفعيل السحب باللمس للهواتف (Swipe) وتفعيل التشغيل التلقائي
-        document.addEventListener("DOMContentLoaded", () => {
-            startWelcomeInterval();
-            
-            const sliderContainer = document.getElementById('welcome-slider-container');
-            let touchStartX = 0;
-            let touchEndX = 0;
-            
-            if (sliderContainer) {
-                sliderContainer.addEventListener('touchstart', e => {
-                    touchStartX = e.changedTouches[0].screenX;
-                });
-                sliderContainer.addEventListener('touchend', e => {
-                    touchEndX = e.changedTouches[0].screenX;
-                    if (touchEndX < touchStartX - 40) nextWelcomeSlide(); // سحب لليسار
-                    if (touchEndX > touchStartX + 40) prevWelcomeSlide(); // سحب لليمين
-                });
+        dots.forEach((dot, index) => {
+            if (index === currentWelcomeSlide) {
+                dot.classList.remove('bg-white/50');
+                dot.classList.add('bg-brand-yellow', 'w-6');
+            } else {
+                dot.classList.add('bg-white/50');
+                dot.classList.remove('bg-brand-yellow', 'w-6');
             }
         });
+    }
 
-// ================= محرك استخراج 8 ألعاب عشوائية للكازينو =================
-        async function loadRandomCasinoGames() {
-            const grid = document.getElementById('random-casino-games-grid');
-            if (!grid) return;
+    function nextWelcomeSlide() {
+        currentWelcomeSlide = (currentWelcomeSlide + 1) % totalWelcomeSlides;
+        updateWelcomeSlider();
+        resetWelcomeInterval();
+    }
 
-            try {
-                let allGames = [];
-                // قائمة بأهم المزودين لسحب تشكيلة عشوائية منهم
-                const providersToFetch = ['PRAGMATIC', 'HACKSAW', 'PLAYNGO', 'SPRIBE'];
-                
-                // جلب الألعاب من المزودين
-                for (let pCode of providersToFetch) {
-                    try {
-                        const pRes = await fetch(`${BACKEND_URL}/api/get-providers`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ provider_code: pCode })
-                        });
-                        if (pRes.ok) {
-                            const pData = await pRes.json();
-                            let pGames = pData.games || pData.data || [];
-                            if (!Array.isArray(pGames)) pGames = [pGames];
-                            
-                            // إضافة كود المزود لكل لعبة لضمان تشغيلها بشكل صحيح
-                            pGames = pGames.map(g => ({...g, _provider: pCode}));
-                            allGames = allGames.concat(pGames);
-                        }
-                    } catch (e) { 
-                        console.warn("Erreur fetch provider:", pCode); 
+    function prevWelcomeSlide() {
+        currentWelcomeSlide = (currentWelcomeSlide - 1 + totalWelcomeSlides) % totalWelcomeSlides;
+        updateWelcomeSlider();
+        resetWelcomeInterval();
+    }
+
+    function goToWelcomeSlide(index) {
+        currentWelcomeSlide = index;
+        updateWelcomeSlider();
+        resetWelcomeInterval();
+    }
+
+    function startWelcomeInterval() {
+        welcomeSlideInterval = setInterval(nextWelcomeSlide, 4000); // تغيير الصورة كل 4 ثواني
+    }
+
+    function resetWelcomeInterval() {
+        clearInterval(welcomeSlideInterval);
+        startWelcomeInterval();
+    }
+
+    // تفعيل السحب باللمس للهواتف (Swipe) وتفعيل التشغيل التلقائي
+    document.addEventListener("DOMContentLoaded", () => {
+        startWelcomeInterval();
+
+        const sliderContainer = document.getElementById('welcome-slider-container');
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        if (sliderContainer) {
+            sliderContainer.addEventListener('touchstart', e => {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+            sliderContainer.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                if (touchEndX < touchStartX - 40) nextWelcomeSlide(); // سحب لليسار
+                if (touchEndX > touchStartX + 40) prevWelcomeSlide(); // سحب لليمين
+            });
+        }
+    });
+
+    // ================= محرك استخراج 8 ألعاب عشوائية للكازينو =================
+    async function loadRandomCasinoGames() {
+        const grid = document.getElementById('random-casino-games-grid');
+        if (!grid) return;
+
+        try {
+            let allGames = [];
+            // قائمة بأهم المزودين لسحب تشكيلة عشوائية منهم
+            const providersToFetch = ['PRAGMATIC', 'HACKSAW', 'PLAYNGO', 'SPRIBE'];
+
+            // جلب الألعاب من المزودين
+            for (let pCode of providersToFetch) {
+                try {
+                    const pRes = await fetch(`${BACKEND_URL}/api/get-providers`, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({provider_code: pCode})
+                    });
+                    if (pRes.ok) {
+                        const pData = await pRes.json();
+                        let pGames = pData.games || pData.data || [];
+                        if (!Array.isArray(pGames)) pGames = [pGames];
+
+                        // إضافة كود المزود لكل لعبة لضمان تشغيلها بشكل صحيح
+                        pGames = pGames.map(g => ({...g, _provider: pCode}));
+                        allGames = allGames.concat(pGames);
                     }
+                } catch (e) {
+                    console.warn("Erreur fetch provider:", pCode);
                 }
+            }
 
-                if (allGames.length === 0) {
-                    grid.innerHTML = '<div class="col-span-full text-center text-gray-500 py-6 text-xs font-bold">Aucun jeu disponible pour le moment.</div>';
-                    return;
-                }
+            if (allGames.length === 0) {
+                grid.innerHTML = '<div class="col-span-full text-center text-gray-500 py-6 text-xs font-bold">Aucun jeu disponible pour le moment.</div>';
+                return;
+            }
 
-                // خلط الألعاب عشوائياً (Fisher-Yates Shuffle)
-                for (let i = allGames.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [allGames[i], allGames[j]] = [allGames[j], allGames[i]];
-                }
+            // خلط الألعاب عشوائياً (Fisher-Yates Shuffle)
+            for (let i = allGames.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [allGames[i], allGames[j]] = [allGames[j], allGames[i]];
+            }
 
-                // اقتطاع 8 ألعاب فقط
-                const random8Games = allGames.slice(0, 8);
+            // اقتطاع 8 ألعاب فقط
+            const random8Games = allGames.slice(0, 8);
 
-                // رسم الألعاب في الواجهة
-                grid.innerHTML = random8Games.map(g => {
-                    const rawName = String(g.game_name || g.name || "Game");
-                    const title = rawName.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
-                    const img = g.banner || g.image || g.thumb || `https://placehold.co/400x400/180A2B/10b981?text=${encodeURIComponent(title.substring(0, 10))}`;
-                    const code = g.game_code || g.id;
-                    const pCode = g._provider || 'PRAGMATIC';
+            // رسم الألعاب في الواجهة
+            grid.innerHTML = random8Games.map(g => {
+                const rawName = String(g.game_name || g.name || "Game");
+                const title = rawName.replace(/[&<>'"]/g, tag => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'}[tag] || tag));
+                const img = g.banner || g.image || g.thumb || `https://placehold.co/400x400/180A2B/10b981?text=${encodeURIComponent(title.substring(0, 10))}`;
+                const code = g.game_code || g.id;
+                const pCode = g._provider || 'PRAGMATIC';
 
-                    return `
+                return `
                     <div onclick="playCasinoGame('${pCode}', '${code}')" class="relative rounded-lg overflow-hidden cursor-pointer group border-2 border-transparent hover:border-brand-yellow transition-all shadow-lg bg-[#0d1b2a]">
                         <div class="aspect-square w-full">
                             <img src="${img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" alt="${title}" onerror="this.onerror=null; this.src='https://placehold.co/400x400/180A2B/10b981?text=Casino';">
@@ -2221,12 +2308,12 @@
                         </div>
                     </div>
                     `;
-                }).join('');
+            }).join('');
 
-            } catch (error) {
-                grid.innerHTML = '<div class="col-span-full text-center text-red-500 py-6 text-xs font-bold">Erreur de chargement des jeux.</div>';
-            }
+        } catch (error) {
+            grid.innerHTML = '<div class="col-span-full text-center text-red-500 py-6 text-xs font-bold">Erreur de chargement des jeux.</div>';
         }
+    }
 </script>
 
 <!-- 👤 قائمة الملف الشخصي (Profile Sidebar) -->
