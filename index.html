@@ -3,436 +3,593 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coutabet | Paris Sportifs & Mega Casino</title>
+    <title>Coutabet</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'mx-header': '#004de6',    
+                        'mx-sidebar': '#091325',   
+                        'mx-bg': '#eef2fb',        
+                        'mx-orange': '#ff8e00',    
+                        'mx-text-muted': '#7a8ba3',
+                        'mx-panel': '#111d35'      
+                    },
+                    fontFamily: {
+                        sans: ['Roboto', 'sans-serif'],
+                        arabic: ['Tajawal', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
     <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #08101a;
-            color: #d1d5db;
-            overflow-x: hidden;
-        }
-
-        /* Glassmorphism Classes */
-        .glass-panel {
-            background: rgba(13, 27, 42, 0.7);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(251, 191, 36, 0.15);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        }
-
-        .glass-card {
-            background: rgba(27, 38, 59, 0.6);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s ease;
-        }
-        
-        .glass-card:hover {
-            border-color: #fbbf24;
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(251, 191, 36, 0.2);
-        }
-
-        /* Colors & Highlights */
-        .text-brand-yellow { color: #fbbf24; }
-        .bg-brand-yellow { background-color: #fbbf24; color: #000; }
-        .bg-brand-green { background-color: #10b981; color: #fff; }
-        
-        .glow-text {
-            text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #08101a; }
-        ::-webkit-scrollbar-thumb { background: #1b263b; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #fbbf24; }
-
+        body { font-family: 'Roboto', sans-serif; background-color: #eef2fb; color: #111d35; overflow: hidden; }
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .game-card-hover:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            border-color: #ff8e00;
+        }
 
-        .blink { animation: blinker 1s linear infinite; }
-        @keyframes blinker { 50% { opacity: 0; } }
-
-        /* Background Pattern */
-        .bg-pattern {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(251, 191, 36, 0.05), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.05), transparent 25%);
-            z-index: -1;
+        /* Mobile Bottom Nav */
+        @media (max-width: 1024px) {
+            .mobile-nav-visible { padding-bottom: 70px; }
         }
     </style>
 </head>
-<body class="antialiased text-sm">
-    <div class="bg-pattern"></div>
+<body class="flex h-screen w-full antialiased text-sm">
 
-    <!-- MAIN NAVBAR (Glassmorphism Floating Nav) -->
-    <nav class="sticky top-0 z-50 px-2 py-3 mt-2">
-        <div class="container mx-auto glass-panel rounded-2xl px-4 py-3 flex flex-col md:flex-row justify-between items-center gap-4">
-            
-            <!-- Logo & Left Section -->
-            <div class="flex justify-between items-center w-full md:w-auto">
-                <div class="flex items-center gap-2 cursor-pointer" onclick="switchSection('accueil')">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg" class="w-8 h-8 drop-shadow-[0_0_10px_rgba(251,191,36,0.8)]" alt="Coutabet Logo">
-                    <span class="font-black text-2xl text-white tracking-tighter glow-text">COUTA<span class="text-brand-yellow">BET</span></span>
-                </div>
+    <!-- SIDEBAR -->
+    <aside class="w-56 bg-mx-sidebar text-white flex-col hidden lg:flex flex-shrink-0 h-full overflow-y-auto z-20 border-r border-gray-800/50">
+        <div class="h-16 flex items-center justify-center"></div>
 
-                <!-- Mobile Auth/Profile (Visible on small screens) -->
-                <div class="md:hidden flex items-center gap-2">
-                    <div id="auth-buttons-mobile" class="block">
-                        <button onclick="openLoginModal()" class="bg-brand-yellow hover:bg-yellow-400 text-black font-black text-xs px-3 py-1.5 rounded uppercase shadow-[0_0_10px_#fbbf24]">Connexion</button>
-                    </div>
-                    <button onclick="toggleProfileSidebar()" class="text-white text-xl p-1"><i class="fas fa-bars"></i></button>
-                </div>
+        <div class="flex-1 p-3 space-y-6 mt-4">
+            <!-- SPORT Section -->
+            <div>
+                <h3 class="text-[11px] font-bold text-white uppercase tracking-wider mb-2 flex items-center gap-2 px-3">
+                    <i class="fas fa-basketball-ball text-blue-500"></i> SPORT
+                    <i class="fas fa-chevron-up ml-auto text-[10px] text-gray-500"></i>
+                </h3>
+                <ul class="space-y-0.5">
+                    <li><button onclick="openSportsbookForProvider('nexus')" class="w-full text-left px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition flex items-center gap-3"><i class="fas fa-futbol text-blue-400 w-4"></i> Betconstruct</button></li>
+                    <li><button onclick="openSportsbookForProvider('digitain')" class="w-full text-left px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition flex items-center gap-3"><i class="fas fa-globe text-blue-400 w-4"></i> Digitain</button></li>
+                </ul>
             </div>
 
-            <!-- Central Navigation (Desktop) -->
-            <div class="hidden md:flex gap-1 overflow-x-auto no-scrollbar pb-1 md:pb-0 w-full md:w-auto justify-center">
-                <button onclick="switchSection('accueil')" class="glass-card hover:bg-brand-yellow hover:text-black text-white px-4 py-2 rounded-xl transition font-black text-xs uppercase"><i class="fas fa-home"></i> Accueil</button>
-                <button onclick="openSportsbookForProvider('nexus')" class="glass-card hover:bg-brand-yellow hover:text-black text-white px-4 py-2 rounded-xl transition font-black text-xs uppercase"><i class="fas fa-futbol text-brand-yellow"></i> Sports</button>
-                <button onclick="switchSection('live-casino'); openLiveCasino();" class="glass-card bg-red-600/20 hover:bg-red-600 text-white border border-red-500/50 px-4 py-2 rounded-xl transition font-black text-xs uppercase"><i class="fas fa-satellite-dish animate-pulse"></i> En Direct</button>
-                <button onclick="switchSection('casino'); initCasinoLobby();" class="glass-card hover:bg-brand-yellow hover:text-black text-white px-4 py-2 rounded-xl transition font-black text-xs uppercase"><i class="fas fa-slot-machine text-brand-yellow"></i> Casino</button>
-                <button onclick="switchSection('virtuals'); initVirtualsLobby();" class="glass-card hover:bg-brand-yellow hover:text-black text-white px-4 py-2 rounded-xl transition font-black text-xs uppercase"><i class="fas fa-horse-head text-purple-400"></i> Virtuels</button>
-                <button onclick="loadTVGames()" class="glass-card hover:bg-brand-yellow hover:text-black text-white px-4 py-2 rounded-xl transition font-black text-xs uppercase"><i class="fas fa-tv text-blue-400"></i> Jeux TV</button>
+            <!-- JEUX (CASINO) Section -->
+            <div>
+                <h3 class="text-[11px] font-bold text-white uppercase tracking-wider mb-2 flex items-center gap-2 px-3">
+                    <i class="fas fa-dice text-blue-500"></i> JEUX
+                    <i class="fas fa-chevron-up ml-auto text-[10px] text-gray-500"></i>
+                </h3>
+                <ul class="space-y-0.5">
+                    <li><button class="w-full text-left px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition flex items-center gap-3"><i class="fas fa-heart text-blue-400 w-4"></i> Favoris</button></li>
+                    <li><button class="w-full text-left px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition flex items-center gap-3"><i class="fas fa-tag text-blue-400 w-4"></i> Nouveau</button></li>
+                    <li><button class="w-full text-left px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition flex items-center gap-3"><i class="fas fa-fire text-blue-400 w-4"></i> Populaire</button></li>
+                    <li><button onclick="switchSection('casino'); initCasinoLobby();" class="w-full text-left px-3 py-2 text-xs text-white bg-mx-orange rounded-lg transition flex items-center gap-3 font-bold shadow-md"><i class="fas fa-slot-machine text-white w-4"></i> Jeux</button></li>
+                    <li><button onclick="switchSection('live-casino'); openLiveCasino();" class="w-full text-left px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition flex items-center gap-3"><i class="fas fa-spade text-blue-400 w-4"></i> Live Jeux</button></li>
+                </ul>
             </div>
 
-            <!-- Right Section (Auth / Profile Desktop) -->
-            <div class="hidden md:flex items-center gap-3">
-                <div id="auth-buttons-container" class="flex gap-2">
-                    <button onclick="openLoginModal()" class="bg-brand-yellow hover:bg-yellow-400 text-black font-black text-xs px-5 py-2 rounded-xl shadow-[0_0_15px_rgba(251,191,36,0.4)] uppercase transition transform hover:scale-105">Connexion</button>
-                </div>
-                
-                <div id="top-user-profile" class="hidden items-center gap-3">
-                    <div class="glass-card px-4 py-1.5 rounded-xl text-right">
-                        <span class="text-[9px] text-gray-400 font-bold uppercase block">Solde</span>
-                        <span class="text-white font-black text-sm"><span id="player-balance-val">0.00</span> <span class="text-brand-yellow">TND</span></span>
-                    </div>
-                    <div id="top-notification-bell" class="relative cursor-pointer glass-card w-10 h-10 flex items-center justify-center rounded-xl hover:text-brand-yellow transition" onclick="toggleNotificationsPanel()">
-                        <i class="fas fa-bell text-lg"></i>
-                        <span id="notif-badge" class="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full hidden">0</span>
-                    </div>
-                    <button onclick="toggleProfileSidebar()" class="glass-card w-10 h-10 flex items-center justify-center rounded-xl text-brand-yellow hover:bg-brand-yellow hover:text-black transition">
-                        <i class="fas fa-user text-lg"></i>
-                    </button>
-                </div>
+            <!-- PROMOTIONS Section -->
+            <div>
+                <h3 class="text-[11px] font-bold text-white uppercase tracking-wider mb-2 flex items-center gap-2 px-3">
+                    <i class="fas fa-gift text-blue-500"></i> PROMOTIONS
+                    <i class="fas fa-chevron-up ml-auto text-[10px] text-gray-500"></i>
+                </h3>
+                <ul class="space-y-0.5">
+                    <li><button onclick="openBonusModal()" class="w-full text-left px-3 py-2 text-xs text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition flex items-center gap-3"><i class="fas fa-box-open text-blue-400 w-4"></i> Bonus</button></li>
+                </ul>
             </div>
             
-            <!-- Mobile Central Navigation (Scrollable) -->
-            <div class="flex md:hidden gap-2 overflow-x-auto no-scrollbar w-full pt-2">
-                <button onclick="switchSection('accueil')" class="glass-card text-white px-3 py-1.5 rounded-lg text-[10px] font-black uppercase whitespace-nowrap shrink-0"><i class="fas fa-home"></i></button>
-                <button onclick="openSportsbookForProvider('nexus')" class="glass-card text-white px-3 py-1.5 rounded-lg text-[10px] font-black uppercase whitespace-nowrap shrink-0"><i class="fas fa-futbol text-brand-yellow"></i> Sports</button>
-                <button onclick="switchSection('casino'); initCasinoLobby();" class="glass-card text-white px-3 py-1.5 rounded-lg text-[10px] font-black uppercase whitespace-nowrap shrink-0"><i class="fas fa-slot-machine text-brand-yellow"></i> Casino</button>
-                <button onclick="switchSection('live-casino'); openLiveCasino();" class="glass-card border-red-500/50 text-white px-3 py-1.5 rounded-lg text-[10px] font-black uppercase whitespace-nowrap shrink-0"><i class="fas fa-satellite-dish text-red-500"></i> Live</button>
-                <button onclick="switchSection('virtuals'); initVirtualsLobby();" class="glass-card text-white px-3 py-1.5 rounded-lg text-[10px] font-black uppercase whitespace-nowrap shrink-0"><i class="fas fa-horse-head text-purple-400"></i> Virtuels</button>
-                <button onclick="loadTVGames()" class="glass-card text-white px-3 py-1.5 rounded-lg text-[10px] font-black uppercase whitespace-nowrap shrink-0"><i class="fas fa-tv text-blue-400"></i> TV</button>
+            <div class="px-3 mt-4">
+                <span onclick="openPolicyModal('termes')" class="text-[10px] text-gray-500 hover:text-gray-300 cursor-pointer">• Règlements Sportifs</span>
             </div>
-        </div>
-    </nav>
-
-    <!-- NOTIFICATIONS PANEL -->
-    <div id="notifications-panel" class="fixed top-24 right-4 w-72 glass-panel rounded-2xl shadow-2xl hidden flex-col z-[100] overflow-hidden border border-gray-600">
-        <div class="p-3 bg-[#0d1b2a] border-b border-gray-700 flex justify-between items-center">
-            <h3 class="text-white font-bold text-sm">Notifications 🔔</h3>
-            <button onclick="toggleNotificationsPanel()" class="text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
-        </div>
-        <div id="notifs-list" class="max-h-[300px] overflow-y-auto p-2 flex flex-col gap-2"></div>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <main class="container mx-auto px-2 py-6 flex-grow relative z-10">
-        <!-- PANE: ACCUEIL -->
-        <div id="pane-accueil" class="player-view-section block w-full space-y-6">
-            
-            <!-- Hero Banner -->
-            <div id="welcome-slider-container" class="relative w-full h-[250px] md:h-[350px] rounded-3xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)] border border-brand-yellow/30 group">
-                <div id="welcome-slider-track" class="flex w-full h-full transition-transform duration-500 ease-in-out">
-                    <!-- Slide 1 -->
-                    <div class="w-full h-full flex-shrink-0 relative">
-                        <img src="https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover" alt="Welcome">
-                        <div class="absolute inset-0 bg-gradient-to-r from-[#0d1b2a]/90 via-[#0d1b2a]/60 to-transparent p-6 md:p-12 flex flex-col justify-center">
-                            <h2 class="text-3xl md:text-6xl font-black text-white uppercase italic leading-none mb-4 glow-text">VOTRE PLATEFORME<br><span class="text-brand-yellow">PREMIUM</span></h2>
-                            <p class="text-sm md:text-base text-gray-300 font-bold w-full md:w-1/2 mb-6">L'expérience ultime de paris et casino.</p>
-                            <button onclick="openSportsbookForProvider('nexus')" class="bg-brand-yellow hover:bg-yellow-400 text-black font-black uppercase px-8 py-3 rounded-xl self-start shadow-[0_0_20px_#fbbf24] transition transform hover:scale-105">Parier Maintenant</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Quick Action Cards -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div onclick="openSportsbookForProvider('nexus')" class="glass-card p-4 rounded-2xl flex flex-col items-center justify-center cursor-pointer group">
-                    <div class="w-12 h-12 rounded-full bg-brand-yellow/20 flex items-center justify-center mb-3 group-hover:scale-110 transition">
-                        <i class="fas fa-futbol text-2xl text-brand-yellow"></i>
-                    </div>
-                    <span class="font-black text-white uppercase text-xs">Paris Sportifs</span>
-                </div>
-                <div onclick="switchSection('casino'); initCasinoLobby();" class="glass-card p-4 rounded-2xl flex flex-col items-center justify-center cursor-pointer group">
-                    <div class="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center mb-3 group-hover:scale-110 transition">
-                        <i class="fas fa-slot-machine text-2xl text-purple-400"></i>
-                    </div>
-                    <span class="font-black text-white uppercase text-xs">Casino Slots</span>
-                </div>
-                <div onclick="playCasinoGame('SPRIBE', 'aviator')" class="glass-card p-4 rounded-2xl flex flex-col items-center justify-center cursor-pointer group border-red-500/30">
-                    <div class="w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center mb-3 group-hover:scale-110 transition">
-                        <i class="fas fa-plane-departure text-2xl text-red-500"></i>
-                    </div>
-                    <span class="font-black text-white uppercase text-xs">Aviator <span class="bg-red-600 text-[9px] px-1 rounded ml-1 animate-pulse">HOT</span></span>
-                </div>
-                <div onclick="switchSection('virtuals'); initVirtualsLobby();" class="glass-card p-4 rounded-2xl flex flex-col items-center justify-center cursor-pointer group">
-                    <div class="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center mb-3 group-hover:scale-110 transition">
-                        <i class="fas fa-gamepad text-2xl text-blue-400"></i>
-                    </div>
-                    <span class="font-black text-white uppercase text-xs">Jeux Virtuels</span>
-                </div>
-            </div>
-
-            <!-- Random 01TECH Games / Featured -->
-            <div class="glass-panel p-5 rounded-2xl">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="font-black text-white uppercase flex items-center gap-2"><i class="fas fa-fire text-red-500"></i> TOP JEUX CASINO</h3>
-                    <button onclick="switchSection('casino'); initCasinoLobby();" class="bg-brand-yellow/20 text-brand-yellow px-4 py-1.5 rounded-lg text-xs font-black uppercase hover:bg-brand-yellow hover:text-black transition">Voir Tout</button>
-                </div>
-                <div id="random-casino-games-grid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3">
-                    <div class="col-span-full py-10 text-center text-brand-yellow text-xs font-bold animate-pulse">Chargement des jeux...</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- PANE: SPORT (IFRAME) -->
-        <div id="pane-sport" class="player-view-section hidden w-full h-[calc(100vh-100px)] glass-panel rounded-2xl overflow-hidden relative">
-            <div id="sport-loader" class="absolute inset-0 flex flex-col items-center justify-center bg-[#0d1b2a] z-[5] hidden">
-                <i class="fas fa-futbol text-4xl text-brand-yellow animate-bounce mb-3"></i>
-                <span class="text-brand-yellow font-black tracking-widest text-xs uppercase">Chargement du Sportsbook...</span>
-            </div>
-            <iframe id="sportsbook-iframe" class="w-full h-full border-0 block m-0 p-0" allowfullscreen></iframe>
-        </div>
-
-        <!-- PANE: CASINO -->
-        <div id="pane-casino" class="player-view-section hidden w-full space-y-4">
-            <div class="glass-panel p-4 rounded-2xl flex flex-col sm:flex-row justify-between sm:items-center gap-4">
-                <h2 class="text-white font-black text-xl flex items-center gap-2"><i class="fas fa-slot-machine text-brand-yellow"></i> Casino & Slots</h2>
-                <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-                    <div class="relative w-full sm:w-56">
-                        <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                        <input type="text" id="game-search-input" onkeyup="if(typeof filterGames === 'function') filterGames()" placeholder="Rechercher..." class="w-full bg-[#08101a] border border-gray-700 rounded-xl py-2 pl-10 pr-4 text-white text-sm font-bold outline-none focus:border-brand-yellow transition">
-                    </div>
-                    <div class="relative min-w-[160px]">
-                        <button onclick="toggleProviderDropdown()" class="w-full bg-[#08101a] border border-gray-700 px-4 py-2 text-sm text-white font-bold flex items-center justify-between rounded-xl hover:border-brand-yellow transition">
-                            <span id="current-provider-label">Fournisseurs</span>
-                            <i class="fas fa-chevron-down text-gray-500 text-xs"></i>
-                        </button>
-                        <div id="provider-dropdown" class="absolute top-full left-0 w-full mt-2 bg-[#0d1b2a] border border-brand-yellow/30 rounded-xl shadow-2xl hidden flex-col z-[100] max-h-64 overflow-y-auto">
-                            <div class="p-2 sticky top-0 bg-[#0d1b2a] border-b border-gray-700">
-                                <input type="text" id="provider-search-input" onkeyup="if(typeof filterProviders === 'function') filterProviders()" placeholder="Chercher..." class="w-full bg-[#08101a] border border-gray-600 rounded p-1.5 text-xs text-white outline-none">
-                            </div>
-                            <div id="provider-dropdown-list" class="flex flex-col"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="games-grid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 xl:grid-cols-6 gap-4 pb-6"></div>
-        </div>
-
-        <!-- PANE: LIVE CASINO -->
-        <div id="pane-live-casino" class="player-view-section hidden w-full space-y-4">
-            <div class="glass-panel p-4 rounded-2xl flex justify-between items-center">
-                <h2 class="text-white font-black text-xl flex items-center gap-2"><i class="fas fa-video text-red-500"></i> Live Casino</h2>
-            </div>
-            <div id="live-games-grid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 xl:grid-cols-6 gap-4 pb-6"></div>
-        </div>
-
-        <!-- PANE: VIRTUALS -->
-        <div id="pane-virtuals" class="player-view-section hidden w-full space-y-4">
-            <div class="glass-panel p-4 rounded-2xl flex justify-between items-center">
-                <h2 class="text-white font-black text-xl flex items-center gap-2"><i class="fas fa-horse-head text-purple-400"></i> Sports Virtuels</h2>
-            </div>
-            <div id="virtuals-games-grid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 xl:grid-cols-6 gap-4 pb-6"></div>
         </div>
         
-        <!-- Game Iframe Container (Used for specific games like Virtuals/Casino if needed) -->
-        <div id="casino-iframe-container" class="fixed inset-0 z-[900] bg-black hidden flex-col">
-            <div class="bg-[#08101a] p-2 flex justify-between items-center border-b border-gray-800">
-                <span class="text-brand-yellow font-black uppercase text-xs tracking-widest"><i class="fas fa-gamepad"></i> Jeu en cours</span>
-                <button onclick="closeCasinoGame()" class="bg-red-600 text-white w-8 h-8 rounded flex items-center justify-center font-black"><i class="fas fa-times"></i></button>
+        <div class="p-4 border-t border-gray-800 flex justify-between items-center text-xs text-gray-400">
+            <div>
+                Temps<br>
+                <span class="text-white font-bold" id="current-time">00:00</span>
             </div>
-            <iframe id="casino-iframe" class="w-full flex-grow border-0"></iframe>
+            <div class="flex items-center gap-2 bg-[#111d35] px-2 py-1 rounded cursor-pointer">
+                <img src="https://upload.wikimedia.org/wikipedia/en/c/c3/Flag_of_France.svg" class="w-4 h-3" alt="FR"> FR <i class="fas fa-chevron-down text-[10px]"></i>
+            </div>
         </div>
-    </main>
+    </aside>
 
-    <!-- FOOTER -->
-    <footer class="mt-auto glass-panel border-t-0 rounded-t-3xl py-6 text-center text-xs text-gray-500 z-10 relative">
-        <div class="container mx-auto px-4">
-            <p class="max-w-2xl mx-auto mb-2 leading-relaxed">
-                COUTABET est une plateforme B2B. <br>
-                <span class="text-brand-yellow font-bold">Le gain et retrait maximum est limité à 30 000 TND par mois.</span>
-            </p>
-            <div class="text-[10px] font-black tracking-widest text-gray-600 mt-4">© 2026 COUTABET. TOUS DROITS RÉSERVÉS.</div>
-        </div>
-    </footer>
+    <!-- MAIN CONTENT -->
+    <div class="flex-1 flex flex-col h-full overflow-hidden relative">
+        
+        <!-- HEADER -->
+        <header class="bg-mx-header h-16 flex items-center justify-between px-4 lg:px-6 flex-shrink-0 z-30 text-white absolute top-0 left-0 right-0 lg:-ml-56 lg:pl-56 shadow-md">
+            <div class="flex items-center gap-6 h-full">
+                <!-- Logo -->
+                <div class="flex items-center gap-2 cursor-pointer mr-4" onclick="switchSection('accueil')">
+                    <button class="text-white text-xl lg:hidden"><i class="fas fa-bars"></i></button>
+                    <span class="font-black text-2xl italic tracking-tighter text-white">COUTA<span class="text-mx-orange">BET</span></span>
+                </div>
 
-    <!-- MODALS (Login & Profile Sidebar) -->
+                <!-- Top Nav Links -->
+                <div class="hidden lg:flex items-center h-full gap-2">
+                    <button onclick="switchSection('casino'); initCasinoLobby();" class="h-8 px-4 text-white hover:bg-white/10 rounded-full font-bold text-[11px] uppercase tracking-wide transition border-b-2 border-white">JEUX</button>
+                    <button onclick="switchSection('live-casino'); openLiveCasino();" class="h-8 px-4 text-white hover:bg-white/10 rounded-full font-bold text-[11px] uppercase tracking-wide transition border-b-2 border-transparent">LIVE JEUX</button>
+                    <button onclick="openSportsbookForProvider('nexus')" class="h-8 px-4 text-white hover:bg-white/10 rounded-full font-bold text-[11px] uppercase tracking-wide transition flex items-center gap-1 border-b-2 border-transparent">SPORT <i class="fas fa-chevron-down text-[10px]"></i></button>
+                </div>
+            </div>
+
+            <!-- Header Right -->
+            <div class="flex items-center gap-4">
+                <button class="text-white/80 hover:text-white text-lg"><i class="fas fa-search"></i></button>
+                
+                <div id="auth-buttons-container" class="flex gap-2">
+                    <button onclick="openLoginModal()" class="hidden sm:block border border-white text-white hover:bg-white hover:text-mx-header font-bold text-xs px-5 py-1.5 rounded-full transition uppercase tracking-wide">INSCRIPTION</button>
+                    <button onclick="openLoginModal()" class="bg-mx-orange hover:bg-orange-500 text-white font-bold text-xs px-6 py-1.5 rounded-full transition uppercase shadow-md tracking-wide">SE CONNECTER</button>
+                </div>
+
+                <!-- Logged In Profile -->
+                <div id="top-user-profile" class="hidden items-center gap-3">
+                    <!-- Notification Bell -->
+                    <div id="top-notification-bell" class="relative cursor-pointer w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition" onclick="toggleNotificationsPanel()">
+                        <i class="fas fa-bell text-white text-sm"></i>
+                        <span id="notif-badge" class="absolute -top-1 -right-1 bg-red-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full hidden shadow-md">0</span>
+                    </div>
+
+                    <div class="bg-black/20 px-3 py-1 rounded-full flex items-center gap-3 cursor-pointer border border-white/10" onclick="toggleProfileSidebar()">
+                        <div class="text-right leading-tight">
+                            <span class="text-[9px] text-white/70 font-bold block uppercase" id="player-name-display">Joueur</span>
+                            <span class="text-white font-black text-sm"><span id="player-balance-val">0.00</span> <span class="text-mx-orange text-[10px]">TND</span></span>
+                        </div>
+                        <div class="w-8 h-8 rounded-full bg-mx-orange flex items-center justify-center text-white"><i class="fas fa-user text-sm"></i></div>
+                    </div>
+
+                    <!-- قائمة الإشعارات المنسدلة -->
+                    <div id="notifications-panel" class="absolute top-14 right-4 w-[280px] bg-mx-panel border border-gray-700 rounded-lg shadow-2xl hidden flex-col z-[100] overflow-hidden">
+                        <div class="p-3 border-b border-gray-700 bg-mx-sidebar flex justify-between items-center">
+                            <h3 class="text-white font-bold text-sm">Notifications 🔔</h3>
+                            <button onclick="toggleNotificationsPanel()" class="text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+                        </div>
+                        <div id="notifs-list" class="max-h-[300px] overflow-y-auto no-scrollbar p-2 flex flex-col gap-1"></div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN SCROLLABLE AREA -->
+        <main class="flex-1 overflow-y-auto bg-mx-bg p-4 lg:p-6 pt-20 lg:pt-20 relative mobile-nav-visible">
+            
+            <!-- PANE: ACCUEIL / HOME -->
+            <div id="pane-accueil" class="player-view-section block w-full space-y-6 max-w-7xl mx-auto">
+                
+                <!-- Hero Banner -->
+                <div class="w-full h-[250px] md:h-[320px] rounded-2xl overflow-hidden relative shadow-lg bg-[#0a1536] cursor-pointer" onclick="switchSection('casino'); initCasinoLobby();">
+                    <img src="https://images.unsplash.com/photo-1596838132731-3301c3fd4317?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover mix-blend-overlay opacity-40">
+                    <div class="absolute inset-0 flex items-center justify-between px-6 md:px-12">
+                        <div class="h-[120%] -ml-6 md:-ml-12 mt-12 z-10">
+                            <img src="https://cdn3d.iconscout.com/3d/premium/thumb/tiger-6902271-5683244.png" class="h-full object-contain drop-shadow-2xl">
+                        </div>
+                        
+                        <div class="text-center z-10 flex flex-col items-center">
+                            <div class="font-black text-xl md:text-2xl italic tracking-tighter text-white mb-2">COUTA<span class="text-mx-orange">BET</span></div>
+                            <h2 class="font-arabic text-2xl md:text-5xl text-white font-black leading-tight drop-shadow-lg" dir="rtl">
+                                ألعاب براغماتيك الأصلية فقط<br>
+                                راهن بثقة. اربح بثقة.<br>
+                                نتائج حقيقية.
+                            </h2>
+                        </div>
+                        
+                        <div class="hidden md:block h-full z-10 opacity-80">
+                           <img src="https://cdn3d.iconscout.com/3d/premium/thumb/casino-6902271-5683244.png" class="h-full object-contain">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Jackpots Section -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-[#111d35] rounded-xl p-4 flex items-center justify-between shadow-md border-l-[12px] border-[#3b82f6]">
+                        <div class="flex items-center gap-2 h-16">
+                            <img src="https://cdn3d.iconscout.com/3d/premium/thumb/tiger-6902271-5683244.png" class="h-full object-contain drop-shadow-md">
+                        </div>
+                        <div class="text-right text-white z-10">
+                            <div class="text-[11px] font-bold text-white uppercase tracking-wider">Mini Jackpot</div>
+                            <div class="text-2xl font-black text-[#3b82f6]"><span id="jackpot-mini">50.00</span> <span class="text-sm">TND</span></div>
+                        </div>
+                        <div class="absolute left-0 top-1/2 -translate-y-1/2 -rotate-90 text-[#3b82f6] font-black tracking-widest opacity-20 text-xl">MINI</div>
+                    </div>
+                    
+                    <div class="bg-[#111d35] rounded-xl p-4 flex items-center justify-between shadow-md border-l-[12px] border-mx-orange">
+                        <div class="flex items-center gap-2 h-16">
+                            <img src="https://cdn3d.iconscout.com/3d/premium/thumb/tiger-6902271-5683244.png" class="h-full object-contain drop-shadow-md">
+                        </div>
+                        <div class="text-right text-white z-10">
+                            <div class="text-[11px] font-bold text-white uppercase tracking-wider">Grand Jackpot</div>
+                            <div class="text-2xl font-black text-mx-orange"><span id="jackpot-grand">128.71</span> <span class="text-sm">TND</span></div>
+                        </div>
+                        <div class="absolute left-0 top-1/2 -translate-y-1/2 -rotate-90 text-mx-orange font-black tracking-widest opacity-20 text-xl">GRAND</div>
+                    </div>
+                    
+                    <div class="bg-[#111d35] rounded-xl p-4 flex items-center justify-between shadow-md border-l-[12px] border-[#ef4444]">
+                        <div class="flex items-center gap-2 h-16">
+                            <img src="https://cdn3d.iconscout.com/3d/premium/thumb/tiger-6902271-5683244.png" class="h-full object-contain drop-shadow-md">
+                        </div>
+                        <div class="text-right text-white z-10">
+                            <div class="text-[11px] font-bold text-white uppercase tracking-wider">Mineur Jackpot</div>
+                            <div class="text-2xl font-black text-[#ef4444]"><span id="jackpot-minor">122.48</span> <span class="text-sm">TND</span></div>
+                        </div>
+                        <div class="absolute left-0 top-1/2 -translate-y-1/2 -rotate-90 text-[#ef4444] font-black tracking-widest opacity-20 text-xl">MINEUR</div>
+                    </div>
+                </div>
+
+                <!-- 4 Pills Categories -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <button onclick="openSportsbookForProvider('nexus')" class="bg-gradient-to-r from-[#6b82ff] to-[#455df5] rounded-[2rem] p-4 text-white flex items-center justify-between shadow-md hover:shadow-lg transition relative overflow-hidden h-24">
+                        <div class="absolute -left-4 top-1/2 -translate-y-1/2 h-[120%] aspect-square bg-white rounded-full flex items-center justify-center p-2 shadow-inner">
+                            <img src="https://cdn3d.iconscout.com/3d/premium/thumb/football-4993510-4161109.png" class="w-full h-full object-contain">
+                        </div>
+                        <div class="text-right w-full z-10 pl-16 sm:pl-20">
+                            <div class="font-black text-sm sm:text-lg uppercase drop-shadow">SPORT</div>
+                            <div class="text-[9px] text-blue-100 font-medium">Des événements<br>incroyables</div>
+                        </div>
+                    </button>
+
+                    <button onclick="switchSection('casino'); initCasinoLobby();" class="bg-gradient-to-r from-[#b375ff] to-[#8645f5] rounded-[2rem] p-4 text-white flex items-center justify-between shadow-md hover:shadow-lg transition relative overflow-hidden h-24">
+                        <div class="absolute -left-4 top-1/2 -translate-y-1/2 h-[120%] aspect-square bg-white rounded-full flex items-center justify-center p-2 shadow-inner">
+                            <img src="https://cdn3d.iconscout.com/3d/premium/thumb/casino-roulette-4993516-4161115.png" class="w-full h-full object-contain">
+                        </div>
+                        <div class="text-right w-full z-10 pl-16 sm:pl-20">
+                            <div class="font-black text-sm sm:text-lg uppercase drop-shadow">JEUX</div>
+                            <div class="text-[9px] text-purple-100 font-medium">Plus de 10 000<br>jeux</div>
+                        </div>
+                    </button>
+
+                    <button onclick="switchSection('virtuals'); initVirtualsLobby();" class="bg-gradient-to-r from-[#7a6bff] to-[#5145f5] rounded-[2rem] p-4 text-white flex items-center justify-between shadow-md hover:shadow-lg transition relative overflow-hidden h-24">
+                        <div class="absolute -left-4 top-1/2 -translate-y-1/2 h-[120%] aspect-square bg-white rounded-full flex items-center justify-center p-2 shadow-inner">
+                            <img src="https://cdn3d.iconscout.com/3d/premium/thumb/slot-machine-4993522-4161121.png" class="w-full h-full object-contain">
+                        </div>
+                        <div class="text-right w-full z-10 pl-16 sm:pl-20">
+                            <div class="font-black text-sm sm:text-lg uppercase drop-shadow">CAGNOTTE</div>
+                            <div class="text-[9px] text-indigo-100 font-medium">Dernière grande<br>victoire</div>
+                        </div>
+                    </button>
+
+                    <button onclick="openBonusModal()" class="bg-gradient-to-r from-[#9b8aff] to-[#7155f5] rounded-[2rem] p-4 text-white flex items-center justify-between shadow-md hover:shadow-lg transition relative overflow-hidden h-24">
+                        <div class="absolute -left-4 top-1/2 -translate-y-1/2 h-[120%] aspect-square bg-white rounded-full flex items-center justify-center p-2 shadow-inner">
+                            <img src="https://cdn3d.iconscout.com/3d/premium/thumb/gift-box-4993511-4161110.png" class="w-full h-full object-contain">
+                        </div>
+                        <div class="text-right w-full z-10 pl-16 sm:pl-20">
+                            <div class="font-black text-sm sm:text-lg uppercase drop-shadow">PROMOTION</div>
+                            <div class="text-[9px] text-purple-100 font-medium">Venez chercher<br>un cadeau</div>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- DARK PANEL FOR GAMES (Accueil Dynamic Section) -->
+                <div class="bg-mx-sidebar rounded-2xl p-4 sm:p-5 shadow-xl">
+                    <div class="mb-2">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-white font-bold text-sm flex items-center gap-2"><span class="bg-mx-orange text-white text-[9px] px-1.5 py-0.5 rounded font-black">NEW</span> Nouveaux jeux</h3>
+                            <div class="flex items-center gap-3">
+                                <span onclick="switchSection('casino'); initCasinoLobby();" class="text-mx-orange text-[11px] font-bold cursor-pointer hover:underline">Voir tous les jeux</span>
+                                <div class="flex gap-1 text-mx-orange">
+                                    <i class="fas fa-chevron-left text-xs cursor-pointer hover:text-white transition"></i>
+                                    <i class="fas fa-chevron-right text-xs cursor-pointer hover:text-white transition"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="home-popular-games" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                            <div class="col-span-full py-6 text-center text-gray-400 text-xs font-bold animate-pulse">Chargement des jeux...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- PANE: SPORT (IFRAME) -->
+            <div id="pane-sport" class="player-view-section hidden w-full h-[calc(100vh-140px)] bg-white rounded-2xl overflow-hidden relative shadow-sm max-w-7xl mx-auto">
+                <div id="sport-loader" class="absolute inset-0 flex flex-col items-center justify-center bg-white z-[5] hidden">
+                    <i class="fas fa-circle-notch fa-spin text-4xl text-mx-header mb-3"></i>
+                    <span class="text-mx-header font-bold text-xs uppercase">Chargement du Sportsbook...</span>
+                </div>
+                <iframe id="sportsbook-iframe" class="w-full h-full border-0 block m-0 p-0" allowfullscreen></iframe>
+            </div>
+
+            <!-- PANE: CASINO -->
+            <div id="pane-casino" class="player-view-section hidden w-full space-y-4 max-w-7xl mx-auto">
+                <div class="bg-mx-sidebar rounded-2xl p-4 sm:p-5 shadow-xl">
+                    <div class="flex items-center gap-4 sm:gap-6 overflow-x-auto no-scrollbar pb-3 mb-4 border-b border-gray-700/50">
+                        <button onclick="switchSection('accueil')" class="flex items-center gap-2 text-mx-text-muted hover:text-white font-bold text-[11px] uppercase whitespace-nowrap"><i class="fas fa-dice text-lg"></i> Lobby</button>
+                        <button class="flex items-center gap-2 bg-mx-orange text-white px-4 py-1.5 rounded-lg font-bold text-[11px] uppercase whitespace-nowrap shadow-md"><i class="fas fa-slot-machine text-lg"></i> Slots</button>
+                        <button onclick="switchSection('live-casino'); openLiveCasino();" class="flex items-center gap-2 text-mx-text-muted hover:text-white font-bold text-[11px] uppercase whitespace-nowrap"><i class="fas fa-spade text-lg"></i> Live Casino</button>
+                        <button class="flex items-center gap-2 text-mx-text-muted hover:text-white font-bold text-[11px] uppercase whitespace-nowrap"><i class="fas fa-heart text-lg"></i> Favorite</button>
+                        <button class="flex items-center gap-2 text-mx-text-muted hover:text-white font-bold text-[11px] uppercase whitespace-nowrap"><i class="fas fa-tag text-lg"></i> New</button>
+                        <button class="flex items-center gap-2 text-mx-text-muted hover:text-white font-bold text-[11px] uppercase whitespace-nowrap"><i class="fas fa-fire text-lg"></i> Popular</button>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-6 pt-2">
+                        <div class="flex gap-3 w-full md:w-auto relative">
+                            <div class="relative w-full md:w-56 cursor-pointer" onclick="toggleProviderDropdown()">
+                                <div class="w-full bg-mx-panel border border-gray-600/50 text-gray-300 text-xs px-4 py-2.5 rounded-lg flex justify-between items-center hover:border-mx-orange transition">
+                                    <span id="current-provider-label">Providers</span>
+                                    <i class="fas fa-chevron-down text-[10px]"></i>
+                                </div>
+                            </div>
+                            <!-- Dropdown -->
+                            <div id="provider-dropdown" class="absolute top-full left-0 w-full mt-1 bg-mx-panel border border-gray-600 rounded-lg shadow-xl hidden flex-col z-[100] max-h-64 overflow-y-auto">
+                                <div class="p-2 sticky top-0 bg-mx-panel border-b border-gray-700">
+                                    <input type="text" id="provider-search-input" onkeyup="filterProviders()" placeholder="Chercher..." class="w-full bg-[#0a1222] border border-gray-700 rounded p-1.5 text-xs text-white outline-none">
+                                </div>
+                                <div id="provider-dropdown-list" class="flex flex-col py-1"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="relative w-full md:w-72">
+                            <i class="fas fa-search absolute left-3 top-2.5 text-gray-500 text-xs"></i>
+                            <input type="text" id="game-search-input" onkeyup="filterGames()" placeholder="Find the game" class="w-full bg-mx-panel border border-gray-600/50 text-white text-xs px-9 py-2.5 rounded-lg outline-none focus:border-mx-orange transition">
+                        </div>
+                    </div>
+
+                    <div id="games-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 pb-4">
+                        <!-- البطاقات تحقن هنا -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- PANE: LIVE CASINO -->
+            <div id="pane-live-casino" class="player-view-section hidden w-full space-y-4 max-w-7xl mx-auto">
+                <div class="bg-mx-sidebar rounded-2xl p-5 shadow-xl">
+                    <div class="flex justify-between items-center mb-4 border-b border-gray-700/50 pb-3">
+                        <h2 class="text-white font-black text-sm flex items-center gap-2"><i class="fas fa-video text-red-500"></i> Live Casino</h2>
+                    </div>
+                    <div id="live-games-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 pb-4"></div>
+                </div>
+            </div>
+
+            <!-- PANE: VIRTUALS -->
+            <div id="pane-virtuals" class="player-view-section hidden w-full space-y-4 max-w-7xl mx-auto">
+                <div class="bg-mx-sidebar rounded-2xl p-5 shadow-xl">
+                    <div class="flex justify-between items-center mb-4 border-b border-gray-700/50 pb-3">
+                        <h2 class="text-white font-black text-sm flex items-center gap-2"><i class="fas fa-horse-head text-indigo-500"></i> Sports Virtuels</h2>
+                    </div>
+                    <div id="virtuals-games-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 pb-4"></div>
+                </div>
+            </div>
+            
+            <!-- FOOTER -->
+            <footer class="mt-8 bg-mx-sidebar rounded-t-2xl pt-8 pb-20 lg:pb-8 px-8 text-xs text-gray-400 max-w-7xl mx-auto shadow-lg text-center md:text-left">
+                <div class="flex flex-col md:flex-row justify-between items-center md:items-start gap-6">
+                    <div>
+                        <div class="font-black text-2xl italic tracking-tighter text-white mb-2">COUTA<span class="text-mx-orange">BET</span></div>
+                        <div class="text-[10px]">Coutabet © 2026 All Rights Reserved</div>
+                        <div class="mt-2 text-[10px] text-gray-300 font-bold">Les joueurs peuvent gagner jusqu'à 30 000 TND dans Coutabet.</div>
+                        <div class="mt-4 text-[8px] leading-relaxed max-w-lg">
+                            L'administration du site « Coutabet » s'engage à fournir un service de pari sur un événement sportif. L'utilisateur du site « Coutabet » s'engage à payer ce service en créditant son compte de jeu. Ce service permet de parier sur l'issue d'un événement sportif.<br>
+                            Tous droits réservés et protégés par la loi © 2026 Coutabet
+                        </div>
+                    </div>
+                    <div class="flex gap-12 text-left">
+                        <div>
+                            <h4 class="font-bold text-white mb-3 uppercase text-[11px]">JEUX</h4>
+                            <ul class="space-y-2 text-[10px]">
+                                <li><a href="#" onclick="switchSection('casino'); initCasinoLobby();" class="hover:text-mx-orange transition">Jeux</a></li>
+                                <li><a href="#" onclick="switchSection('live-casino'); openLiveCasino();" class="hover:text-mx-orange transition">Live Jeux</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white mb-3 uppercase text-[11px]">SPORT</h4>
+                            <ul class="space-y-2 text-[10px]">
+                                <li><a href="#" onclick="openSportsbookForProvider('nexus')" class="hover:text-mx-orange transition">Betconstruct</a></li>
+                                <li><a href="#" onclick="openSportsbookForProvider('digitain')" class="hover:text-mx-orange transition">Digitain</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white mb-3 uppercase text-[11px]">PRINCIPAL</h4>
+                            <ul class="space-y-2 text-[10px]">
+                                <li><a href="#" onclick="switchSection('accueil')" class="hover:text-mx-orange transition">Accueil</a></li>
+                                <li><a href="#" onclick="openBonusModal()" class="hover:text-mx-orange transition">Promotions</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- MOBILE BOTTOM NAVIGATION -->
+    <div class="lg:hidden fixed bottom-0 left-0 w-full bg-mx-sidebar border-t border-gray-800 flex justify-between px-2 py-2 z-50 text-gray-400 text-[10px] font-bold shadow-[0_-5px_15px_rgba(0,0,0,0.5)]">
+        <button onclick="switchSection('accueil')" class="flex-1 flex flex-col items-center gap-1 hover:text-white transition">
+            <i class="fas fa-home text-lg"></i> Accueil
+        </button>
+        <button onclick="openSportsbookForProvider('nexus')" class="flex-1 flex flex-col items-center gap-1 hover:text-white transition">
+            <i class="fas fa-futbol text-lg"></i> Sport
+        </button>
+        <button onclick="switchSection('casino'); initCasinoLobby();" class="flex-1 flex flex-col items-center gap-1 hover:text-mx-orange text-white transition relative">
+            <div class="bg-mx-header w-12 h-12 rounded-full flex items-center justify-center absolute -top-8 border-4 border-mx-bg text-white shadow-lg transform hover:scale-110 transition">
+                <i class="fas fa-slot-machine text-xl"></i>
+            </div>
+            <span class="mt-4">Casino</span>
+        </button>
+        <button onclick="switchSection('live-casino'); openLiveCasino();" class="flex-1 flex flex-col items-center gap-1 hover:text-white transition">
+            <i class="fas fa-headset text-lg"></i> Live
+        </button>
+        <button onclick="toggleProfileSidebar()" class="flex-1 flex flex-col items-center gap-1 hover:text-white transition">
+            <i class="fas fa-bars text-lg"></i> Menu
+        </button>
+    </div>
+
+    <!-- MODALS & OVERLAYS -->
     
-    <!-- Toast Container -->
-    <div id="toast-container" class="fixed bottom-4 right-4 z-[9999] flex flex-col gap-2"></div>
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="fixed bottom-20 lg:bottom-4 right-4 z-[9999] flex flex-col gap-2 pointer-events-none"></div>
 
     <!-- Login Modal -->
-    <div id="player-login-modal" class="fixed inset-0 z-[700] bg-black/80 hidden items-center justify-center p-4 backdrop-blur-md">
-        <div class="w-full max-w-sm glass-panel border border-brand-yellow/30 rounded-3xl p-8 relative shadow-2xl">
-            <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10"><i class="fas fa-times text-lg"></i></button>
+    <div id="player-login-modal" class="fixed inset-0 z-[700] bg-black/60 hidden items-center justify-center p-4 backdrop-blur-sm">
+        <div class="w-full max-w-sm bg-white rounded-2xl p-8 relative shadow-2xl">
+            <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition w-8 h-8 flex items-center justify-center rounded-full bg-gray-100"><i class="fas fa-times text-lg"></i></button>
             <div class="text-center mb-8">
-                <div class="w-20 h-20 bg-brand-yellow rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(251,191,36,0.6)] mx-auto mb-4">
-                    <i class="fas fa-user-lock text-[#0d1b2a] text-4xl"></i>
+                <div class="w-16 h-16 bg-mx-orange rounded-full flex items-center justify-center shadow-lg mx-auto mb-4 text-white text-3xl">
+                    <i class="fas fa-user-lock"></i>
                 </div>
-                <h2 class="text-white text-2xl font-black tracking-widest uppercase">Connexion</h2>
+                <h2 class="text-[#111d35] text-2xl font-black tracking-widest uppercase">Connexion</h2>
             </div>
             <div class="space-y-5">
                 <div>
-                    <label class="block text-brand-yellow text-[10px] font-black mb-2 uppercase tracking-wider pl-1">Identifiant</label>
+                    <label class="block text-gray-500 text-[10px] font-bold mb-2 uppercase tracking-wider pl-1">Identifiant</label>
                     <div class="relative">
                         <i class="fas fa-user absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                        <input type="text" id="p-auth-username" placeholder="Nom d'utilisateur" class="w-full bg-[#08101a]/80 border border-gray-600 rounded-xl py-3.5 pl-11 pr-4 text-white text-sm font-bold outline-none focus:border-brand-yellow transition">
+                        <input type="text" id="p-auth-username" placeholder="Nom d'utilisateur" class="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 pl-11 pr-4 text-gray-700 text-sm font-bold outline-none focus:border-mx-header transition">
                     </div>
                 </div>
                 <div>
-                    <label class="block text-brand-yellow text-[10px] font-black mb-2 uppercase tracking-wider pl-1">Mot de passe</label>
+                    <label class="block text-gray-500 text-[10px] font-bold mb-2 uppercase tracking-wider pl-1">Mot de passe</label>
                     <div class="relative">
                         <i class="fas fa-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                        <input type="password" id="p-auth-password" placeholder="Votre mot de passe" class="w-full bg-[#08101a]/80 border border-gray-600 rounded-xl py-3.5 pl-11 pr-4 text-white text-sm font-bold outline-none focus:border-brand-yellow transition">
+                        <input type="password" id="p-auth-password" placeholder="Votre mot de passe" class="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 pl-11 pr-4 text-gray-700 text-sm font-bold outline-none focus:border-mx-header transition">
                     </div>
                 </div>
-                <button onclick="handlePlayerAuth()" class="w-full bg-brand-yellow hover:bg-yellow-400 text-black font-black py-4 mt-6 rounded-xl transition uppercase tracking-widest text-sm shadow-[0_0_15px_rgba(251,191,36,0.4)] flex justify-center items-center gap-2">
+                <button onclick="handlePlayerAuth()" class="w-full bg-mx-orange hover:bg-orange-500 text-white font-black py-4 mt-6 rounded-xl transition uppercase tracking-widest text-sm shadow-md flex justify-center items-center gap-2">
                     Entrer <i class="fas fa-sign-in-alt text-lg"></i>
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Profile Sidebar -->
-    <div id="profile-overlay" onclick="toggleProfileSidebar()" class="fixed inset-0 bg-black/60 z-[600] hidden backdrop-blur-sm transition-opacity"></div>
-    <div id="profile-sidebar" class="fixed right-0 top-0 h-full w-80 glass-panel border-l border-brand-yellow/20 z-[700] shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
-        <div class="p-6 border-b border-white/10 flex justify-between items-center bg-[#0d1b2a]/80">
+    <!-- Profile Sidebar Overlay (Mobile) -->
+    <div id="profile-overlay" onclick="toggleProfileSidebar()" class="fixed inset-0 bg-black/60 z-[600] hidden transition-opacity"></div>
+    <div id="profile-sidebar" class="fixed right-0 top-0 h-full w-72 bg-mx-sidebar border-l border-gray-800 z-[700] shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+        <div class="p-6 border-b border-gray-800 flex justify-between items-center bg-[#0a1222]">
             <div class="flex items-center gap-3">
-                <div class="w-12 h-12 rounded-full bg-brand-yellow text-[#0d1b2a] flex items-center justify-center text-xl shadow-[0_0_15px_rgba(251,191,36,0.5)]">
+                <div class="w-12 h-12 rounded-full bg-mx-orange text-white flex items-center justify-center text-xl shadow-lg">
                     <i class="fas fa-user-astronaut"></i>
                 </div>
                 <div>
-                    <h3 class="text-white font-bold text-base uppercase" id="sidebar-username">Joueur</h3>
-                    <p class="text-brand-yellow font-black text-sm"><span id="sidebar-balance">0.00</span> TND</p>
+                    <h3 class="text-white font-bold text-sm uppercase" id="sidebar-username">Joueur</h3>
+                    <p class="text-mx-orange font-black text-xs"><span id="sidebar-balance">0.00</span> TND</p>
                 </div>
             </div>
-            <button onclick="toggleProfileSidebar()" class="text-gray-400 hover:text-white transition w-8 h-8 rounded-full flex items-center justify-center bg-white/5"><i class="fas fa-times"></i></button>
+            <button onclick="toggleProfileSidebar()" class="text-gray-400 hover:text-white w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center transition"><i class="fas fa-times"></i></button>
         </div>
+        
+        <div class="p-4 border-b border-gray-800">
+            <button onclick="toggleProfileSidebar(); showNotification('Caisse en développement', 'info');" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-3 rounded-xl flex justify-center items-center gap-2 transition shadow-md">
+                <i class="fas fa-wallet"></i> FAIRE UN DÉPÔT
+            </button>
+        </div>
+
         <div class="flex-1 overflow-y-auto p-4 space-y-2">
-            <div class="text-[10px] text-brand-yellow font-bold uppercase tracking-wider mb-3 ml-2 mt-2">Menu Principal</div>
-            <button onclick="openHistoryModal()" class="w-full flex items-center gap-3 glass-card hover:border-brand-yellow text-white p-4 rounded-xl transition font-bold text-sm">
-                <i class="fas fa-history text-blue-400 w-5"></i> Historique des paris
-            </button>
-            <button onclick="openTransactionsModal()" class="w-full flex items-center gap-3 glass-card hover:border-brand-yellow text-white p-4 rounded-xl transition font-bold text-sm">
-                <i class="fas fa-exchange-alt text-brand-green w-5"></i> Transactions
-            </button>
-            <button onclick="openBonusModal()" class="w-full flex items-center gap-3 glass-card hover:border-brand-yellow text-white p-4 rounded-xl transition font-bold text-sm">
-                <i class="fas fa-gift text-red-500 w-5"></i> Bonus & Offres
-            </button>
+            <div class="text-[10px] text-gray-500 font-bold uppercase tracking-wider mb-2 ml-2">Mon Compte</div>
+            <button onclick="openHistoryModal()" class="w-full text-left px-4 py-3 text-sm text-gray-300 font-bold hover:bg-white/5 hover:text-white rounded-xl transition flex items-center gap-3"><i class="fas fa-history w-5 text-gray-400"></i> Historique</button>
+            <button onclick="openTransactionsModal()" class="w-full text-left px-4 py-3 text-sm text-gray-300 font-bold hover:bg-white/5 hover:text-white rounded-xl transition flex items-center gap-3"><i class="fas fa-exchange-alt w-5 text-gray-400"></i> Transactions</button>
+            <button onclick="openBonusModal()" class="w-full text-left px-4 py-3 text-sm text-gray-300 font-bold hover:bg-white/5 hover:text-white rounded-xl transition flex items-center gap-3"><i class="fas fa-gift w-5 text-gray-400"></i> Bonus <span class="ml-auto bg-mx-orange text-[9px] px-1.5 py-0.5 rounded text-white">NEW</span></button>
         </div>
-        <div class="p-5 border-t border-white/10 bg-[#0d1b2a]/80">
-            <button onclick="toggleProfileSidebar(); logoutPlayer();" class="w-full bg-red-600/20 hover:bg-red-600 text-red-500 hover:text-white border border-red-500/50 font-black py-3.5 rounded-xl transition uppercase tracking-widest text-xs flex justify-center items-center gap-2"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
+        
+        <div class="p-4 bg-[#0a1222] border-t border-gray-800">
+            <button onclick="toggleProfileSidebar(); logoutPlayer();" class="w-full bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white border border-red-500/20 font-bold py-3 rounded-xl transition text-xs uppercase tracking-wider">Déconnexion</button>
         </div>
     </div>
 
     <!-- History Modal -->
     <div id="history-modal" class="fixed inset-0 z-[800] bg-black/80 backdrop-blur-sm hidden flex-col items-center justify-center p-4">
-        <div class="glass-panel border-brand-yellow/30 rounded-3xl w-full max-w-4xl flex flex-col max-h-[85vh] shadow-2xl overflow-hidden" id="history-modal-content">
-            <div class="flex justify-between items-center p-5 border-b border-white/10 bg-[#0d1b2a]/80">
-                <h3 class="text-white font-black uppercase tracking-wider text-lg flex items-center gap-2"><i class="fas fa-history text-brand-yellow"></i> Historique</h3>
-                <button onclick="closeHistoryModal()" class="text-gray-400 hover:text-white transition text-xl"><i class="fas fa-times"></i></button>
+        <div class="bg-mx-panel border border-gray-700 rounded-2xl w-full max-w-4xl flex flex-col max-h-[85vh] shadow-2xl overflow-hidden transform transition-transform duration-300" id="history-modal-content">
+            <div class="flex justify-between items-center p-5 border-b border-gray-700 bg-mx-sidebar">
+                <h3 class="text-white font-black uppercase tracking-wider text-sm flex items-center gap-2"><i class="fas fa-history text-mx-orange"></i> Historique des paris</h3>
+                <button onclick="closeHistoryModal()" class="text-gray-400 hover:text-white transition w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-800"><i class="fas fa-times"></i></button>
             </div>
             <div class="p-4 overflow-y-auto flex-1">
                 <table class="w-full text-left whitespace-nowrap">
                     <thead>
-                        <tr class="text-[10px] uppercase tracking-wider text-brand-yellow border-b border-white/10">
-                            <th class="p-3">Date</th><th class="p-3">Jeu</th><th class="p-3">Mise</th><th class="p-3">Gain</th>
+                        <tr class="text-[10px] uppercase tracking-wider text-gray-500 border-b border-gray-700">
+                            <th class="p-3">Date</th><th class="p-3">Jeu</th><th class="p-3 text-center">Mise</th><th class="p-3 text-right">Gain</th>
                         </tr>
                     </thead>
-                    <tbody id="history-table-body" class="text-xs text-gray-300 divide-y divide-white/5"></tbody>
+                    <tbody id="history-table-body" class="text-xs text-gray-300 divide-y divide-gray-800"></tbody>
                 </table>
-                <div id="history-loader" class="py-12 text-center hidden"><i class="fas fa-spinner fa-spin text-brand-yellow text-3xl"></i></div>
-                <div id="history-empty" class="py-12 text-center hidden">Aucun pari trouvé.</div>
+                <div id="history-loader" class="py-12 text-center hidden"><i class="fas fa-circle-notch fa-spin text-mx-orange text-3xl"></i></div>
+                <div id="history-empty" class="py-12 text-center hidden text-gray-500 text-xs font-bold uppercase">Aucun pari trouvé.</div>
             </div>
         </div>
     </div>
 
     <!-- Transactions Modal -->
     <div id="transactions-modal" class="fixed inset-0 z-[800] bg-black/80 backdrop-blur-sm hidden flex-col items-center justify-center p-4">
-        <div class="glass-panel border-brand-yellow/30 rounded-3xl w-full max-w-3xl flex flex-col max-h-[85vh] shadow-2xl overflow-hidden" id="transactions-modal-content">
-            <div class="flex justify-between items-center p-5 border-b border-white/10 bg-[#0d1b2a]/80">
-                <h3 class="text-white font-black uppercase tracking-wider text-lg flex items-center gap-2"><i class="fas fa-exchange-alt text-brand-yellow"></i> Transactions</h3>
-                <button onclick="closeTransactionsModal()" class="text-gray-400 hover:text-white transition text-xl"><i class="fas fa-times"></i></button>
+        <div class="bg-mx-panel border border-gray-700 rounded-2xl w-full max-w-3xl flex flex-col max-h-[85vh] shadow-2xl overflow-hidden transform transition-transform duration-300" id="transactions-modal-content">
+            <div class="flex justify-between items-center p-5 border-b border-gray-700 bg-mx-sidebar">
+                <h3 class="text-white font-black uppercase tracking-wider text-sm flex items-center gap-2"><i class="fas fa-exchange-alt text-mx-orange"></i> Transactions</h3>
+                <button onclick="closeTransactionsModal()" class="text-gray-400 hover:text-white transition w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-800"><i class="fas fa-times"></i></button>
             </div>
             <div class="p-4 overflow-y-auto flex-1">
                 <table class="w-full text-left whitespace-nowrap">
                     <thead>
-                        <tr class="text-[10px] uppercase tracking-wider text-brand-yellow border-b border-white/10">
-                            <th class="p-3">Date</th><th class="p-3">Type</th><th class="p-3">Montant</th><th class="p-3">Statut</th>
+                        <tr class="text-[10px] uppercase tracking-wider text-gray-500 border-b border-gray-700">
+                            <th class="p-3">Date</th><th class="p-3">Type</th><th class="p-3 text-center">Montant</th><th class="p-3 text-right">Statut</th>
                         </tr>
                     </thead>
-                    <tbody id="transactions-table-body" class="text-xs text-gray-300 divide-y divide-white/5"></tbody>
+                    <tbody id="transactions-table-body" class="text-xs text-gray-300 divide-y divide-gray-800"></tbody>
                 </table>
-                <div id="transactions-loader" class="py-12 text-center hidden"><i class="fas fa-spinner fa-spin text-brand-yellow text-3xl"></i></div>
-                <div id="transactions-empty" class="py-12 text-center hidden">Aucune transaction.</div>
+                <div id="transactions-loader" class="py-12 text-center hidden"><i class="fas fa-circle-notch fa-spin text-mx-orange text-3xl"></i></div>
+                <div id="transactions-empty" class="py-12 text-center hidden text-gray-500 text-xs font-bold uppercase">Aucune transaction trouvée.</div>
             </div>
         </div>
     </div>
 
-
-    <!-- ================= JAVASCRIPT ================= -->
+    <!-- ================= JAVASCRIPT LOGIC ================= -->
     <script>
-        // ---------------- Original Server URL & Data ----------------
         const BACKEND_URL = "https://coutabet-backend-server.onrender.com";
         let playerSession = null;
         
         function escapeHTML(str) {
             if (!str) return '';
-            return str.toString().replace(/[&<>'"]/g,
-                tag => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'}[tag] || tag)
-            );
+            return str.toString().replace(/[&<>'"]/g, tag => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'}[tag] || tag));
         }
 
         function showNotification(message, type = "success") {
             const container = document.getElementById('toast-container');
-            if (!container) {alert(message); return;}
-
+            if (!container) { alert(message); return; }
             const toast = document.createElement('div');
-            toast.className = `px-4 py-3 rounded-xl font-bold text-sm shadow-xl transform transition-all translate-x-full flex items-center gap-2 ${type === 'error' ? 'bg-red-600 text-white border border-red-500' : 'bg-brand-green text-white border border-emerald-400'}`;
-            toast.innerHTML = type === 'error' ? `<i class="fas fa-exclamation-circle"></i> ${message}` : `<i class="fas fa-check-circle text-brand-yellow"></i> ${message}`;
-
+            toast.className = `px-4 py-3 rounded-lg font-bold text-xs shadow-xl transform transition-all translate-x-full flex items-center gap-2 pointer-events-auto ${type === 'error' ? 'bg-red-500 text-white' : 'bg-mx-panel text-white border border-gray-700'}`;
+            toast.innerHTML = type === 'error' ? `<i class="fas fa-exclamation-circle"></i> ${message}` : `<i class="fas fa-check-circle text-green-400"></i> ${message}`;
             container.appendChild(toast);
             setTimeout(() => toast.classList.remove('translate-x-full'), 10);
-            setTimeout(() => {
-                toast.classList.add('translate-x-full');
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
+            setTimeout(() => { toast.classList.add('translate-x-full'); setTimeout(() => toast.remove(), 300); }, 3000);
+        }
+
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('current-time').innerText = timeString;
         }
 
         window.onload = () => {
+            updateClock();
+            setInterval(updateClock, 60000);
+            
             const savedSession = localStorage.getItem('alpha_player_session');
             if (savedSession) {
                 playerSession = JSON.parse(savedSession);
                 setupLoggedInUI();
             };
+            
             const savedSection = localStorage.getItem('active_section') || 'accueil';
             switchSection(savedSection);
-            loadRandomCasinoGames();
+            
+            loadHomePopularGames();
+            startLiveJackpots();
         };
 
-        // ---------------- Navigation / Sections ----------------
+        // --- Sections Navigation ---
         function switchSection(sectionId, fromPopState = false) {
             localStorage.setItem('active_section', sectionId);
             document.querySelectorAll('.player-view-section').forEach(el => {
@@ -441,43 +598,24 @@
             const panel = document.getElementById(`pane-${sectionId}`);
             if (panel) { panel.classList.remove('hidden'); panel.classList.add('block'); }
             
-            const mainTag = document.querySelector('main');
-            const footerTag = document.querySelector('footer');
-            if (sectionId === 'sport') {
-                if (mainTag) mainTag.style.display = 'none';
-                if (footerTag) footerTag.style.display = 'none';
-                document.body.style.overflow = 'hidden';
-            } else {
-                if (mainTag) mainTag.style.display = 'flex';
-                if (footerTag) footerTag.style.display = 'block';
-                document.body.style.overflow = '';
-            }
             if (!fromPopState) history.pushState({section: sectionId}, "", `#${sectionId}`);
             window.scrollTo(0, 0);
         }
 
-        // ---------------- Modals (Login & Sidebar) ----------------
-        function openLoginModal() {
-            const modal = document.getElementById('player-login-modal');
-            if (modal) {modal.classList.remove('hidden'); modal.classList.add('flex');}
-        }
-        function closeLoginModal() {
-            const modal = document.getElementById('player-login-modal');
-            if (modal) {modal.classList.add('hidden'); modal.classList.remove('flex');}
-        }
+        // --- Auth & Profile ---
+        function openLoginModal() { document.getElementById('player-login-modal').classList.remove('hidden'); document.getElementById('player-login-modal').classList.add('flex'); }
+        function closeLoginModal() { document.getElementById('player-login-modal').classList.add('hidden'); document.getElementById('player-login-modal').classList.remove('flex'); }
+        
         function toggleProfileSidebar() {
             const sidebar = document.getElementById('profile-sidebar');
             const overlay = document.getElementById('profile-overlay');
             if (sidebar.classList.contains('translate-x-full')) {
-                sidebar.classList.remove('translate-x-full');
-                overlay.classList.remove('hidden');
+                sidebar.classList.remove('translate-x-full'); overlay.classList.remove('hidden');
             } else {
-                sidebar.classList.add('translate-x-full');
-                overlay.classList.add('hidden');
+                sidebar.classList.add('translate-x-full'); overlay.classList.add('hidden');
             }
         }
 
-        // ---------------- Authentication ----------------
         async function handlePlayerAuth() {
             const username = document.getElementById('p-auth-username').value.trim();
             const password = document.getElementById('p-auth-password').value;
@@ -501,25 +639,20 @@
         function setupLoggedInUI() {
             closeLoginModal();
             const authBtns = document.getElementById('auth-buttons-container');
-            const authBtnsMob = document.getElementById('auth-buttons-mobile');
             if (authBtns) authBtns.classList.add('hidden');
-            if (authBtnsMob) authBtnsMob.classList.add('hidden');
-
+            
             const userProfile = document.getElementById('top-user-profile');
             if (userProfile) {userProfile.classList.remove('hidden'); userProfile.classList.add('flex');}
-            
-            const sidebarName = document.getElementById('sidebar-username');
-            if (sidebarName) sidebarName.innerText = playerSession.username;
+
+            document.getElementById('player-name-display').innerText = playerSession.username;
+            document.getElementById('sidebar-username').innerText = playerSession.username;
 
             refreshBalance();
             setInterval(refreshBalance, 5000);
         }
 
-        function logoutPlayer() {
-            playerSession = null;
-            localStorage.clear();
-            location.reload();
-        }
+        function logoutPlayer() { playerSession = null; localStorage.clear(); location.reload(); }
+        function getAuthHeaders() { return {'Authorization': `Bearer ${localStorage.getItem('token')}`, 'Content-Type': 'application/json'}; }
 
         async function refreshBalance() {
             if (!playerSession) return;
@@ -533,16 +666,27 @@
                     playerSession.balance = data.user_balance;
                     localStorage.setItem('alpha_player_session', JSON.stringify(playerSession));
                     const formattedBalance = parseFloat(data.user_balance).toFixed(2);
-                    const balDisplay = document.getElementById('player-balance-val');
-                    if (balDisplay) balDisplay.innerText = formattedBalance;
-                    const sidebarBalDisplay = document.getElementById('sidebar-balance');
-                    if (sidebarBalDisplay) sidebarBalDisplay.innerText = formattedBalance;
+                    document.getElementById('player-balance-val').innerText = formattedBalance;
+                    document.getElementById('sidebar-balance').innerText = formattedBalance;
                 }
-            } catch (e) { console.error("Erreur balance:", e); }
+            } catch (e) { console.error("Erreur balance", e); }
         }
-        function getAuthHeaders() {return {'Authorization': `Bearer ${localStorage.getItem('token')}`, 'Content-Type': 'application/json'};}
 
-        // ---------------- Sportsbook (Iframe) ----------------
+        // --- Jackpots WebSocket ---
+        function startLiveJackpots() {
+            const wsUrl = BACKEND_URL.replace("http", "ws").replace("https", "wss") + "/ws/jackpot";
+            const socket = new WebSocket(wsUrl);
+            socket.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+                const format = (num) => parseFloat(num).toLocaleString('fr-FR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                if(document.getElementById('jackpot-mini')) document.getElementById('jackpot-mini').innerText = format(data.mini);
+                if(document.getElementById('jackpot-minor')) document.getElementById('jackpot-minor').innerText = format(data.minor);
+                if(document.getElementById('jackpot-grand')) document.getElementById('jackpot-grand').innerText = format(data.grand);
+            };
+            socket.onclose = function() { setTimeout(startLiveJackpots, 5000); };
+        }
+
+        // --- Sportsbook ---
         async function openSportsbookForProvider(providerCode) {
             if (!playerSession) return openLoginModal();
             localStorage.setItem('active_section', 'sport');
@@ -575,226 +719,32 @@
             }
         }
 
-        // ---------------- Casino / Games Data Loading ----------------
-        window.currentProviderGames = [];
-        window.nexusProviders = [
-            {code: 'PRAGMATIC', name: 'Pragmatic Slot'}, {code: 'HACKSAW', name: 'Hacksaw'},
-            {code: 'SPRIBE', name: 'Spribe'}, {code: 'PLAYNGO', name: "Play'n Go"}
-        ];
-        let currentDisplayLimit = 50;
-        let currentActiveProviderCode = "PRAGMATIC";
-
-        async function initCasinoLobby() {
-            filterProviders();
-            if (window.nexusProviders.length > 0) loadProviderGames(window.nexusProviders[0].code, window.nexusProviders[0].name);
-        }
-
-        function toggleProviderDropdown() {
-            const dropdown = document.getElementById('provider-dropdown');
-            if (dropdown) { dropdown.classList.toggle('hidden'); dropdown.classList.toggle('flex'); }
-        }
-
-        function filterProviders() {
-            const input = document.getElementById('provider-search-input');
-            const list = document.getElementById('provider-dropdown-list');
-            if (!list || !window.nexusProviders) return;
-            const term = input ? input.value.toLowerCase() : "";
-            const filtered = window.nexusProviders.filter(p => String(p.name || p.code || "").toLowerCase().includes(term));
-            list.innerHTML = filtered.map(p =>
-                `<button onclick="loadProviderGames('${p.code}', '${p.name}'); toggleProviderDropdown();" class="text-left px-4 py-2 text-xs font-bold text-gray-300 hover:text-brand-yellow hover:bg-white/5 transition">${p.name}</button>`
-            ).join('');
-        }
-
-        async function loadProviderGames(providerCode, providerName = null) {
-            currentActiveProviderCode = providerCode;
-            const grid = document.getElementById('games-grid');
-            const label = document.getElementById('current-provider-label');
-            if (providerName && label) label.innerText = providerName;
-            if (grid) grid.innerHTML = '<div class="col-span-full text-brand-yellow text-center py-10 animate-pulse text-sm font-bold">Chargement des jeux... 🎰</div>';
-
-            try {
-                const res = await fetch(`${BACKEND_URL}/api/get-providers`, {
-                    method: 'POST', headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({provider_code: providerCode})
-                });
-                const data = await res.json();
-                let gamesList = data.games || data.data || [];
-                window.currentProviderGames = gamesList.reverse();
-                renderCasinoGrid();
-            } catch (e) {
-                if (grid) grid.innerHTML = `<div class="col-span-full text-red-500 text-center py-10 font-bold">Erreur de connexion</div>`;
-            }
-        }
-
-        function renderCasinoGrid() {
-            const container = document.getElementById('games-grid');
-            if (!container) return;
-            if (window.currentProviderGames.length === 0) {
-                container.innerHTML = '<div class="col-span-full text-gray-500 text-center py-10">Aucun jeu trouvé.</div>'; return;
-            }
-            container.innerHTML = window.currentProviderGames.slice(0, 50).map(g => {
-                const title = escapeHTML(String(g.game_name || g.name || "Game"));
-                const img = g.banner || g.image || g.thumb || `https://placehold.co/400x400/180A2B/fbbf24?text=${encodeURIComponent(title.substring(0,10))}`;
-                const code = g.game_code || g.id;
-                
-                // --- Glassmorphism Card Style applied here ---
-                return `
-                    <div onclick="playCasinoGame('${currentActiveProviderCode}', '${code}')" class="glass-card rounded-2xl overflow-hidden cursor-pointer group flex flex-col">
-                        <div class="relative w-full aspect-square overflow-hidden bg-[#08101a]">
-                            <img src="${img}" alt="${title}" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                            <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
-                                <span class="bg-brand-yellow text-black text-xs font-black px-4 py-2 rounded-lg shadow-[0_0_15px_#fbbf24] uppercase">Jouer</span>
-                            </div>
-                        </div>
-                        <div class="p-3 text-[10px] text-white font-bold truncate text-center">${title}</div>
-                    </div>`;
-            }).join('');
-        }
-
-        function filterGames() {
-            const input = document.getElementById('game-search-input');
-            if (!input || !window.currentProviderGames) return;
-            const term = input.value.toLowerCase();
-            const filtered = window.currentProviderGames.filter(g => String(g.game_name || g.name || "").toLowerCase().includes(term));
-            const container = document.getElementById('games-grid');
-            if (filtered.length === 0) { container.innerHTML = '<div class="col-span-full text-gray-500 text-center py-10">Aucun jeu trouvé.</div>'; return; }
+        // --- Card Generator ---
+        function generateGameCard(game, providerCode) {
+            const title = escapeHTML(String(game.game_name || game.name || "Game"));
+            const img = game.banner || game.image || game.thumb || `https://placehold.co/400x400/111d35/ff8e00?text=${encodeURIComponent(title.substring(0, 10))}`;
+            const code = game.game_code || game.uuid || game.id;
             
-            container.innerHTML = filtered.slice(0,50).map(g => {
-                const title = String(g.game_name || g.name || "Game");
-                const img = g.banner || g.image || g.thumb;
-                const code = g.game_code || g.id;
-                return `
-                    <div onclick="playCasinoGame('${currentActiveProviderCode}', '${code}')" class="glass-card rounded-2xl overflow-hidden cursor-pointer group flex flex-col">
-                        <div class="relative w-full aspect-square overflow-hidden bg-[#08101a]">
-                            <img src="${img}" alt="${title}" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                            <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
-                                <span class="bg-brand-yellow text-black text-xs font-black px-4 py-2 rounded-lg shadow-[0_0_15px_#fbbf24] uppercase">Jouer</span>
-                            </div>
-                        </div>
-                        <div class="p-3 text-[10px] text-white font-bold truncate text-center">${title}</div>
-                    </div>`;
-            }).join('');
+            return `
+            <div onclick="playCasinoGame('${providerCode}', '${code}')" class="bg-mx-panel rounded-xl overflow-hidden cursor-pointer group shadow border border-gray-700/50 hover:border-mx-orange transition relative">
+                <div class="relative aspect-square w-full">
+                    <img src="${img}" loading="lazy" class="w-full h-full object-cover">
+                    <!-- Overlay Play button on hover -->
+                    <div class="absolute inset-0 bg-[#091325]/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
+                        <div class="w-10 h-10 rounded-full bg-mx-orange text-white flex items-center justify-center transform scale-75 group-hover:scale-100 transition shadow-lg"><i class="fas fa-play ml-1"></i></div>
+                    </div>
+                </div>
+                <div class="p-2 flex justify-between items-center">
+                    <div class="truncate">
+                        <div class="text-[10px] text-white font-bold truncate">${title}</div>
+                        <div class="text-[8px] text-gray-500">${providerCode}</div>
+                    </div>
+                    <i class="far fa-star text-gray-500 hover:text-mx-orange cursor-pointer"></i>
+                </div>
+            </div>`;
         }
 
-        // ---------------- Live Casino & Virtuals & TV ----------------
-        async function openLiveCasino() {
-            const grid = document.getElementById('live-games-grid');
-            if (grid) grid.innerHTML = '<div class="col-span-full text-red-500 text-center py-10 animate-pulse font-bold text-sm">Chargement Live...</div>';
-            try {
-                const res = await fetch(`${BACKEND_URL}/api/get-providers`, {
-                    method: 'POST', headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({provider_code: 'PP_LIVE_PRO'})
-                });
-                const data = await res.json();
-                if (grid) grid.innerHTML = (data.games || []).map(g => {
-                    const safeName = escapeHTML(g.game_name || g.name || "Live Game");
-                    return `
-                        <div onclick="playCasinoGame('PP_LIVE_PRO', '${g.game_code || g.id}')" class="glass-card rounded-2xl overflow-hidden cursor-pointer group relative">
-                            <div class="absolute top-2 right-2 bg-red-600 text-white text-[9px] font-black px-2 py-1 z-10 animate-pulse rounded shadow-lg border border-red-400">LIVE</div>
-                            <div class="relative w-full aspect-square overflow-hidden bg-[#08101a]">
-                                <img src="${g.banner || g.image}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                            </div>
-                            <div class="p-3 text-[10px] text-white font-bold truncate text-center">${safeName}</div>
-                        </div>`
-                }).join('');
-            } catch (e) { if(grid) grid.innerHTML = '<div class="col-span-full text-red-500 text-center py-10">Erreur</div>'; }
-        }
-
-        async function initVirtualsLobby() {
-            const grid = document.getElementById('virtuals-games-grid');
-            if (grid) grid.innerHTML = '<div class="col-span-full text-purple-400 text-center py-10 animate-pulse font-bold text-sm">Chargement Virtuels...</div>';
-            try {
-                const res = await fetch(`${BACKEND_URL}/api/get-eurovirtuals-games`);
-                const data = await res.json();
-                let games = data.games || data.data || data || [];
-                if (grid) grid.innerHTML = games.map(g => {
-                    const uuid = g.uuid || g.game_uuid || g.id || g.game_code;
-                    const safeName = escapeHTML(g.game_name || g.name || "Virtual Game");
-                    return `
-                        <div onclick="launchSpecificVirtualGame('${uuid}')" class="glass-card rounded-2xl overflow-hidden cursor-pointer group flex flex-col">
-                            <div class="relative w-full aspect-square overflow-hidden bg-[#08101a]">
-                                <img src="${g.banner || g.image}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                                <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
-                                    <span class="bg-purple-500 text-white text-xs font-black px-4 py-2 rounded-lg shadow-[0_0_15px_rgba(168,85,247,0.5)] uppercase">Jouer</span>
-                                </div>
-                            </div>
-                            <div class="p-3 text-[10px] text-white font-bold truncate text-center">${safeName}</div>
-                        </div>`
-                }).join('');
-            } catch (e) { if(grid) grid.innerHTML = '<div class="col-span-full text-red-500 text-center py-10">Erreur</div>'; }
-        }
-
-        async function launchSpecificVirtualGame(uuid) {
-            if (!playerSession) return openLoginModal();
-            const container = document.getElementById('casino-iframe-container');
-            const iframe = document.getElementById('casino-iframe');
-            if (container) {container.classList.remove('hidden'); container.classList.add('flex');}
-            if (iframe) iframe.src = '';
-            try {
-                const res = await fetch(`${BACKEND_URL}/api/provider/launch-eurovirtuals`, {
-                    method: 'POST', headers: getAuthHeaders(),
-                    body: JSON.stringify({user_code: playerSession.username, game_uuid: uuid})
-                });
-                const data = await res.json();
-                if (data.launch_url && iframe) iframe.src = data.launch_url;
-                else { showNotification("Jeu non disponible", "error"); closeCasinoGame(); }
-            } catch (e) { showNotification("Erreur réseau", "error"); closeCasinoGame(); }
-        }
-
-        async function loadTVGames() {
-            switchSection('casino');
-            const grid = document.getElementById('games-grid');
-            const label = document.getElementById('current-provider-label');
-            if (label) label.innerText = "Jeux TV";
-            if (grid) grid.innerHTML = '<div class="col-span-full text-blue-400 text-center py-10 animate-pulse text-lg font-bold">Chargement Jeux TV... 📺</div>';
-            try {
-                const res = await fetch(`${BACKEND_URL}/api/get-providers`, {
-                    method: 'POST', headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({provider_code: "TVBET"})
-                });
-                const data = await res.json();
-                window.currentProviderGames = data.games || data.data || [];
-                currentActiveProviderCode = "TVBET";
-                renderCasinoGrid();
-            } catch (e) { if(grid) grid.innerHTML = '<div class="col-span-full text-red-500 text-center py-10">Fournisseur non disponible</div>'; }
-        }
-
-        // ---------------- Random 01TECH Games Loading ----------------
-        async function loadRandomCasinoGames() {
-            const grid = document.getElementById('random-casino-games-grid');
-            if (!grid) return;
-            try {
-                const response = await fetch(`${BACKEND_URL}/api/get-providers`, {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ provider_code: '01TECH' })
-                });
-                const data = await response.json();
-                let allGames = data.games || [];
-                if (allGames.length === 0) { grid.innerHTML = '<div class="col-span-full text-center text-gray-500 py-6 text-xs font-bold">Aucun jeu.</div>'; return; }
-                
-                for (let i = allGames.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [allGames[i], allGames[j]] = [allGames[j], allGames[i]];
-                }
-                const randomGames = allGames.slice(0, 8);
-                
-                grid.innerHTML = randomGames.map(g => {
-                    const title = String(g.game_name || "Game");
-                    const img = g.banner;
-                    return `
-                    <div onclick="playCasinoGame('01TECH', '${g.game_code}')" class="glass-card rounded-xl overflow-hidden cursor-pointer group relative">
-                        <div class="aspect-square w-full">
-                            <img src="${img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
-                        </div>
-                        <div class="absolute inset-0 bg-black/60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button class="bg-brand-yellow text-black px-4 py-1.5 font-black text-[10px] rounded shadow-lg uppercase">Jouer</button>
-                        </div>
-                    </div>`;
-                }).join('');
-            } catch (error) { grid.innerHTML = '<div class="col-span-full text-center text-red-500 py-6 text-xs font-bold">Erreur</div>'; }
-        }
-
-        // ---------------- General Game Launcher ----------------
+        // --- Game Launchers (Window Open Style) ---
         async function playCasinoGame(providerCode, gameCode) {
             if (!playerSession && providerCode === '01TECH') {
                 const playerId = localStorage.getItem('player_id');
@@ -802,78 +752,186 @@
             }
             if (!playerSession && providerCode !== '01TECH') return openLoginModal();
 
-            if (providerCode === '01TECH') {
-                document.body.style.cursor = 'wait';
-                try {
-                    const response = await fetch(`${BACKEND_URL}/api/launch-01tech-game`, {
-                        method: 'POST', headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ game_id: gameCode, account_id: localStorage.getItem('player_id') || playerSession.username })
-                    });
-                    const data = await response.json();
-                    if (data.game_url) window.open(data.game_url, '_blank'); 
-                    else showNotification("Erreur lancement", "error");
-                } catch (error) { showNotification("Erreur réseau", "error"); }
-                finally { document.body.style.cursor = 'default'; }
-            } else {
-                // Other Providers logic (Mocked for now or uses standard iframe depending on your backend)
-                const container = document.getElementById('casino-iframe-container');
-                const iframe = document.getElementById('casino-iframe');
-                if(container) {container.classList.remove('hidden'); container.classList.add('flex');}
-                // Fetch actual URL from your provider API here...
-                if(iframe) iframe.src = "https://example.com/mock-game-launch"; // Replace with real launch
-            }
-        }
-        function closeCasinoGame() {
-            const container = document.getElementById('casino-iframe-container');
-            if (container) { container.classList.add('hidden'); container.classList.remove('flex'); }
-            const iframe = document.getElementById('casino-iframe');
-            if (iframe) iframe.src = '';
-            refreshBalance();
+            document.body.style.cursor = 'wait';
+            try {
+                let endpointUrl = `${BACKEND_URL}/api/provider/launch-casino`;
+                let requestBody = { game_code: gameCode, provider_code: providerCode, user_code: playerSession ? playerSession.username : 'demo' };
+                
+                if (providerCode === '01TECH') {
+                    endpointUrl = `${BACKEND_URL}/api/launch-01tech-game`;
+                    requestBody = { game_id: gameCode, account_id: localStorage.getItem('player_id') || (playerSession ? playerSession.username : 'demo') };
+                } else if (providerCode === 'SMPL') {
+                    endpointUrl = `${BACKEND_URL}/api/smpl/launch`;
+                    requestBody = { game_uuid: gameCode, user_code: playerSession.username };
+                }
+
+                const res = await fetch(endpointUrl, {
+                    method: 'POST', headers: getAuthHeaders(),
+                    body: JSON.stringify(requestBody)
+                });
+                const data = await res.json();
+                
+                if (data.launch_url || data.game_url) {
+                    window.open(data.launch_url || data.game_url, '_blank');
+                } else {
+                    showNotification(data.error || "Jeu non disponible", "error");
+                }
+            } catch (error) { showNotification("Erreur de connexion", "error"); }
+            finally { document.body.style.cursor = 'default'; }
         }
 
-        // ---------------- History & Transactions Modals ----------------
+        async function launchSpecificVirtualGame(uuid) {
+            if (!playerSession) return openLoginModal();
+            document.body.style.cursor = 'wait';
+            try {
+                const res = await fetch(`${BACKEND_URL}/api/provider/launch-eurovirtuals`, {
+                    method: 'POST', headers: getAuthHeaders(),
+                    body: JSON.stringify({user_code: playerSession.username, game_uuid: uuid})
+                });
+                const data = await res.json();
+                if (data.launch_url) window.open(data.launch_url, '_blank');
+                else showNotification("Jeu non disponible", "error");
+            } catch (e) { showNotification("Erreur réseau", "error"); }
+            finally { document.body.style.cursor = 'default'; }
+        }
+
+        // --- Casino & Providers Data ---
+        window.currentProviderGames = [];
+        window.nexusProviders = [
+            {code: 'PRAGMATIC', name: 'Pragmatic Play'}, {code: 'HACKSAW', name: 'Hacksaw'},
+            {code: 'SPRIBE', name: 'Spribe'}, {code: 'PLAYNGO', name: "Play'n Go"}
+        ];
+        let currentActiveProviderCode = "PRAGMATIC";
+
+        function toggleProviderDropdown() {
+            const dropdown = document.getElementById('provider-dropdown');
+            if(dropdown) { dropdown.classList.toggle('hidden'); dropdown.classList.toggle('flex'); }
+        }
+
+        function filterProviders() {
+            const term = document.getElementById('provider-search-input').value.toLowerCase();
+            const list = document.getElementById('provider-dropdown-list');
+            const filtered = window.nexusProviders.filter(p => String(p.name || p.code).toLowerCase().includes(term));
+            list.innerHTML = filtered.map(p => `<button onclick="loadProviderGames('${p.code}', '${p.name}'); toggleProviderDropdown();" class="text-left px-4 py-2 text-xs font-bold text-gray-300 hover:text-white hover:bg-white/5 transition">${p.name}</button>`).join('');
+        }
+
+        async function initCasinoLobby() {
+            filterProviders();
+            if (window.nexusProviders.length > 0) loadProviderGames(window.nexusProviders[0].code, window.nexusProviders[0].name);
+        }
+
+        async function loadProviderGames(providerCode, providerName = null) {
+            currentActiveProviderCode = providerCode;
+            if(providerName) document.getElementById('current-provider-label').innerText = providerName;
+            const grid = document.getElementById('games-grid');
+            grid.innerHTML = '<div class="col-span-full text-mx-text-muted text-center py-10 font-bold text-xs animate-pulse">Chargement des jeux...</div>';
+            try {
+                const res = await fetch(`${BACKEND_URL}/api/get-providers`, {
+                    method: 'POST', headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({provider_code: providerCode})
+                });
+                const data = await res.json();
+                window.currentProviderGames = data.games || data.data || [];
+                grid.innerHTML = window.currentProviderGames.slice(0, 30).map(g => generateGameCard(g, providerCode)).join('');
+            } catch (e) { grid.innerHTML = `<div class="col-span-full text-red-500 text-center py-10 text-xs">Erreur réseau</div>`; }
+        }
+
+        function filterGames() {
+            const term = document.getElementById('game-search-input').value.toLowerCase();
+            const filtered = window.currentProviderGames.filter(g => String(g.game_name || g.name || "").toLowerCase().includes(term));
+            const grid = document.getElementById('games-grid');
+            if (filtered.length === 0) { grid.innerHTML = '<div class="col-span-full text-mx-text-muted text-center py-10 text-xs">Aucun jeu trouvé.</div>'; return; }
+            grid.innerHTML = filtered.slice(0, 30).map(g => generateGameCard(g, currentActiveProviderCode)).join('');
+        }
+
+        async function loadHomePopularGames() {
+            const grid = document.getElementById('home-popular-games');
+            if (!grid) return;
+            try {
+                const res = await fetch(`${BACKEND_URL}/api/get-providers`, {
+                    method: 'POST', headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({provider_code: '01TECH'})
+                });
+                const data = await res.json();
+                let games = data.games || [];
+                
+                // Shuffle for variety
+                for (let i = games.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [games[i], games[j]] = [games[j], games[i]];
+                }
+                
+                if(games.length > 0) grid.innerHTML = games.slice(0, 6).map(g => generateGameCard(g, '01TECH')).join('');
+                else grid.innerHTML = '<div class="col-span-full text-mx-text-muted text-center py-6 text-xs">Aucun jeu.</div>';
+            } catch (e) { grid.innerHTML = '<div class="col-span-full text-red-500 text-center py-6 text-xs">Erreur</div>'; }
+        }
+
+        async function initVirtualsLobby() {
+            const grid = document.getElementById('virtuals-games-grid');
+            grid.innerHTML = '<div class="col-span-full text-mx-text-muted text-center py-10 font-bold text-xs animate-pulse">Chargement Virtuels...</div>';
+            const workingGamesList = ["606800f4-e4e3-5410-b33c-e01355af9980"]; // Add your working UUIDs here
+            try {
+                const res = await fetch(`${BACKEND_URL}/api/get-eurovirtuals-games`);
+                const data = await res.json();
+                let allGames = data.games || data.data || [];
+                let workingGames = allGames.filter(g => workingGamesList.includes(g.uuid || g.game_uuid || g.id || g.game_code));
+                if (workingGames.length === 0) { grid.innerHTML = '<div class="col-span-full text-mx-text-muted text-center py-10 text-xs">Aucun virtuel disponible.</div>'; return; }
+                
+                grid.innerHTML = workingGames.map(g => {
+                    const title = escapeHTML(String(g.game_name || g.name || "Virtual Game"));
+                    const uuid = g.uuid || g.game_uuid || g.id || g.game_code;
+                    return `
+                    <div onclick="launchSpecificVirtualGame('${uuid}')" class="bg-mx-panel rounded-xl overflow-hidden cursor-pointer group shadow border border-gray-700/50 hover:border-mx-orange transition relative">
+                        <div class="relative aspect-square w-full">
+                            <img src="${g.banner || g.image}" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-[#091325]/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300">
+                                <div class="w-10 h-10 rounded-full bg-mx-orange text-white flex items-center justify-center transform scale-75 group-hover:scale-100 transition shadow-lg"><i class="fas fa-play ml-1"></i></div>
+                            </div>
+                        </div>
+                        <div class="p-2"><div class="text-[10px] text-white font-bold truncate text-center">${title}</div></div>
+                    </div>`;
+                }).join('');
+            } catch (e) { grid.innerHTML = '<div class="col-span-full text-red-500 text-center py-10 text-xs">Erreur réseau</div>'; }
+        }
+
+        async function openLiveCasino() {
+            const grid = document.getElementById('live-games-grid');
+            grid.innerHTML = '<div class="col-span-full text-mx-text-muted text-center py-10 font-bold text-xs animate-pulse">Chargement Live...</div>';
+            try {
+                const res = await fetch(`${BACKEND_URL}/api/get-providers`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({provider_code: 'PP_LIVE_PRO'}) });
+                const data = await res.json();
+                grid.innerHTML = (data.games || []).slice(0, 18).map(g => {
+                    const safeName = escapeHTML(g.game_name || g.name || "Live Game");
+                    return `
+                    <div onclick="playCasinoGame('PP_LIVE_PRO', '${g.game_code || g.id}')" class="bg-mx-panel rounded-xl overflow-hidden cursor-pointer group shadow border border-gray-700/50 hover:border-red-500 transition relative">
+                        <div class="absolute top-2 left-2 bg-red-600 text-white text-[8px] font-black px-1.5 py-0.5 rounded shadow z-10 animate-pulse">LIVE</div>
+                        <div class="relative aspect-square w-full">
+                            <img src="${g.banner || g.image}" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-2"><div class="text-[10px] text-white font-bold truncate text-center">${safeName}</div></div>
+                    </div>`;
+                }).join('');
+            } catch (e) { grid.innerHTML = '<div class="col-span-full text-red-500 text-center py-10 text-xs">Erreur</div>'; }
+        }
+
+        // --- Modals (History & Transactions) ---
         function openHistoryModal() {
             if(!document.getElementById('profile-sidebar').classList.contains('translate-x-full')) toggleProfileSidebar();
-            document.getElementById('history-modal').classList.remove('hidden');
-            document.getElementById('history-modal').classList.add('flex');
-            document.getElementById('history-loader').classList.remove('hidden');
-            document.getElementById('history-empty').classList.add('hidden');
-            // Mock load
-            setTimeout(()=>{
-                document.getElementById('history-loader').classList.add('hidden');
-                document.getElementById('history-empty').classList.remove('hidden');
-            }, 800);
+            document.getElementById('history-modal').classList.remove('hidden'); document.getElementById('history-modal').classList.add('flex');
+            document.getElementById('history-loader').classList.remove('hidden'); document.getElementById('history-empty').classList.add('hidden');
+            setTimeout(() => { document.getElementById('history-loader').classList.add('hidden'); document.getElementById('history-empty').classList.remove('hidden'); }, 800);
         }
-        function closeHistoryModal() {
-            document.getElementById('history-modal').classList.add('hidden');
-            document.getElementById('history-modal').classList.remove('flex');
-        }
-        
+        function closeHistoryModal() { document.getElementById('history-modal').classList.add('hidden'); document.getElementById('history-modal').classList.remove('flex'); }
+
         function openTransactionsModal() {
             if(!document.getElementById('profile-sidebar').classList.contains('translate-x-full')) toggleProfileSidebar();
-            document.getElementById('transactions-modal').classList.remove('hidden');
-            document.getElementById('transactions-modal').classList.add('flex');
-            document.getElementById('transactions-loader').classList.remove('hidden');
-            document.getElementById('transactions-empty').classList.add('hidden');
-            // Mock load
-            setTimeout(()=>{
-                document.getElementById('transactions-loader').classList.add('hidden');
-                document.getElementById('transactions-empty').classList.remove('hidden');
-            }, 800);
+            document.getElementById('transactions-modal').classList.remove('hidden'); document.getElementById('transactions-modal').classList.add('flex');
+            document.getElementById('transactions-loader').classList.remove('hidden'); document.getElementById('transactions-empty').classList.add('hidden');
+            setTimeout(() => { document.getElementById('transactions-loader').classList.add('hidden'); document.getElementById('transactions-empty').classList.remove('hidden'); }, 800);
         }
-        function closeTransactionsModal() {
-            document.getElementById('transactions-modal').classList.add('hidden');
-            document.getElementById('transactions-modal').classList.remove('flex');
-        }
-
-        function openBonusModal() {
-            showNotification("Aucun bonus disponible pour le moment.", "error");
-        }
+        function closeTransactionsModal() { document.getElementById('transactions-modal').classList.add('hidden'); document.getElementById('transactions-modal').classList.remove('flex'); }
         
-        function toggleNotificationsPanel() {
-            const panel = document.getElementById('notifications-panel');
-            panel.classList.toggle('hidden'); panel.classList.toggle('flex');
-        }
+        function openBonusModal() { showNotification("Aucun bonus disponible pour le moment.", "error"); }
     </script>
 </body>
 </html>
