@@ -163,10 +163,41 @@
             .sidebar-left, .header-nav, .search-bar { display: none; }
             .center-content { padding: 15px; padding-bottom: 70px; }
             .bottom-nav { display: flex; }
-            .slide { padding-left: 20px; }
-            .banner-tiger-3d { opacity: 0.3; left: -50px; } /* تخفيف النمر في الموبايل لتوضيح النص */
-            .jackpots-container { grid-template-columns: 1fr; gap: 10px; }
-            .jackpot-tiger-3d { height: 110%; }
+            
+            /* --- تعديل البانر في الهاتف --- */
+            .main-banner-wrapper { height: 210px; margin-bottom: 25px; } /* تصغير البانر قليلاً */
+            .slide { padding-left: 110px; } /* مساحة مخصصة للصورة كي لا تغطي النص */
+            .slide-title { font-size: 22px; line-height: 1.1; }
+            .slide-desc { font-size: 12px; }
+            
+            /* إصلاح صورة البانر (شخصية Gates) */
+            .banner-tiger-3d { 
+                opacity: 1 !important; /* إلغاء الشفافية */
+                left: -15px !important; 
+                height: 105% !important; /* حجم متناسق مع الهاتف */
+                bottom: -5px !important;
+                z-index: 20 !important;
+            }
+
+            /* --- إصلاح الجاكبوت في الهاتف --- */
+            .jackpots-container { grid-template-columns: 1fr; gap: 12px; margin-bottom: 25px; }
+            .jackpot-card { height: 75px; } /* تصغير ارتفاع الكارت */
+            
+            /* تصغير صور الجاكبوت لتناسب الهاتف */
+            .jackpot-tiger-3d { 
+                height: 115% !important; 
+                left: 10px !important; 
+                bottom: 0 !important;
+            }
+            /* تعديل الجراند جاكبوت بشكل خاص لأنه يملك صورة أكبر */
+            .jp-grand .jackpot-tiger-3d {
+                height: 125% !important; 
+                left: 5px !important;
+            }
+            
+            /* تصغير حجم خطوط الجاكبوت قليلاً */
+            .jp-amount { font-size: 18px; }
+            .jp-title { font-size: 11px; }
         }
     </style>
 </head>
@@ -232,7 +263,6 @@
                 <!-- البانر المدمج مع الـ 3D والشهاب المتحرك -->
                 <div class="main-banner-wrapper">
                     <!-- شخصية Gates الثابتة والبارزة -->
-                    <img src="images/gatesbenner.png" alt="Gates Character" class="banner-tiger-3d">
                     
                     <div class="slider-container">
                         <div class="slider-track" id="sliderTrack">
@@ -268,6 +298,7 @@
                                     <div class="slide-desc">L'expérience ultime pour les joueurs VIP.</div>
                                 </div>
                             </div>
+                            <img src="images/gatesbenner.png" alt="Gates Character" class="banner-tiger-3d">
                         </div>
                     </div>
                 </div>
