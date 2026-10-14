@@ -275,10 +275,19 @@
 </head>
 <body>
 
+    <!-- طبقة تظليل خلفية القائمة الجانبية اليسرى للهاتف (ضرورية لعمل الدالة) -->
+    <div id="left-sidebar-overlay" onclick="toggleLeftSidebar()" class="fixed inset-0 bg-black/60 z-[140] hidden backdrop-blur-sm transition-opacity"></div>
+
     <!-- Header -->
     <header class="top-header">
-        <div class="logo-area" onclick="switchSection('accueil')">
-            <i class="fas fa-crown text-[var(--accent-orange)]"></i> ALPHA<span>WIN</span>
+        <div class="flex items-center gap-3">
+            <!-- زر الهمبرغر (☰) لفتح القائمة في الهاتف -->
+            <button onclick="toggleLeftSidebar()" class="mobile-menu-btn text-white hover:text-[var(--accent-orange)] transition text-xl">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="logo-area" onclick="switchSection('accueil')">
+                <i class="fas fa-crown text-[var(--accent-orange)]"></i> ALPHA<span>WIN</span>
+            </div>
         </div>
         
         <div class="header-nav">
