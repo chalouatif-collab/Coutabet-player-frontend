@@ -2,434 +2,288 @@
 <html lang="fr" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coutabet - Premium Sports & Casino</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Coutabet - Premium Casino & Sports</title>
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3132/3132634.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://ui.invisiblesport.com/bt-renderer.min.js"></script>
 
     <style>
-        :root {
-            --bg-navy: #0b1a30;
-            --bg-navy-light: #15243b;
-            --bg-light: #eef2f6;
-            --primary-blue: #1e88e5;    
-            --accent-orange: #ff9800;
-            --accent-red: #d32f2f;
-            --accent-cyan: #0288d1;
-            --text-dark: #333333;
-            --text-light: #ffffff;
-            --text-muted: #8fa0b5;
+        html, body { max-width: 100vw !important; overflow-x: hidden !important; position: relative; }
+        @keyframes logo-3d-swing {
+            0%, 100% { transform: perspective(800px) rotateY(-20deg) translateY(0); }
+            50% { transform: perspective(800px) rotateY(20deg) translateY(-4px); }
         }
-
-        body {
-            background-color: var(--bg-light);
-            color: var(--text-dark);
-            font-family: 'Roboto', sans-serif;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
+        .animated-logo-3d {
+            animation: logo-3d-swing 5s ease-in-out infinite;
+            filter: drop-shadow(0 8px 16px rgba(255,152,0,0.4));
+            transform-style: preserve-3d; will-change: transform; object-fit: contain;
         }
-
-        .top-header {
-            background-color: var(--bg-navy);
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 10px 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            z-index: 50;
-        }
-        .header-nav { display: flex; gap: 20px; align-items: center; }
-        .header-nav a { color: var(--text-light); text-decoration: none; font-weight: 600; font-size: 13px; text-transform: uppercase; opacity: 0.9; transition: 0.2s; cursor: pointer; }
-        .header-nav a:hover { opacity: 1; color: var(--primary-blue); }
-        
-        .header-actions { display: flex; gap: 15px; align-items: center; }
-        .btn-outline { background: transparent; border: 1px solid var(--primary-blue); color: #fff; padding: 8px 20px; border-radius: 20px; font-weight: 700; font-size: 12px; transition: 0.2s; cursor: pointer; }
-        .btn-outline:hover { background: rgba(30, 136, 229, 0.1); }
-        .btn-solid { background: var(--accent-orange); color: #fff; padding: 8px 20px; border-radius: 20px; font-weight: 700; font-size: 12px; box-shadow: 0 4px 10px rgba(255, 152, 0, 0.3); transition: 0.2s; cursor: pointer; }
-        .btn-solid:hover { background: #f57c00; transform: scale(1.05); }
-
-        .logo-area { color: #fff; font-size: 22px; font-weight: 900; letter-spacing: 1px; display: flex; align-items: center; gap: 5px; cursor: pointer; }
-        .logo-area span { color: var(--accent-orange); }
-
-        .main-container {
-            display: grid;
-            grid-template-columns: 220px 1fr;
-            flex: 1;
-            overflow: hidden;
-        }
-
-        .sidebar-left {
-            background-color: var(--bg-navy);
-            border-right: 1px solid #1a2a42;
-            display: flex; flex-direction: column;
-            overflow-y: auto;
-        }
-        .sidebar-section { margin-bottom: 20px; }
-        .section-title { color: var(--text-light); font-size: 12px; font-weight: 800; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); }
-        .nav-item { display: flex; align-items: center; gap: 12px; padding: 10px 20px; color: var(--text-muted); font-size: 13px; font-weight: 500; text-decoration: none; transition: 0.2s; cursor: pointer; }
-        .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.05); color: var(--text-light); border-left: 3px solid var(--primary-blue); }
-        
-        .center-content { background-color: var(--bg-light); padding: 25px 40px; overflow-y: auto; width: 100%; }
-
-        .main-banner-wrapper { position: relative; height: 280px; margin-bottom: 40px; }
-        .banner-tiger-3d {
-            position: absolute; left: 10px; bottom: -20px; height: 115%; z-index: 10;
-            pointer-events: none; filter: drop-shadow(5px 5px 15px rgba(0,0,0,0.5));
-        }
-
-        .slider-container {
-            position: absolute; top: 0; right: 0; width: 100%; height: 100%;
-            border-radius: 16px; overflow: hidden; background: #000; box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-        }
-        
-        .slider-track { display: flex; height: 100%; transition: transform 0.5s ease-in-out; }
-        .slide { min-width: 100%; height: 100%; position: relative; display: flex; align-items: center; justify-content: center; padding-left: 200px; }
-        
-        .meteor-border { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
-        .meteor-border::before {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: conic-gradient(transparent, transparent, transparent, var(--accent-orange), transparent);
-            animation: rotateMeteor 2.5s linear infinite;
-        }
-        .slide-bg {
-            position: absolute; inset: 4px; border-radius: 12px; z-index: 2;
-            background-size: cover; background-position: center; background-repeat: no-repeat;
-            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: #fff;
-            padding-left: 180px; padding-right: 20px;
-        }
-        @keyframes rotateMeteor { 100% { transform: rotate(360deg); } }
-
-        .slide-title { font-size: 32px; font-weight: 900; margin-bottom: 10px; text-shadow: 0 4px 10px rgba(0,0,0,0.5); text-transform: uppercase; }
-        .slide-desc { font-size: 16px; font-weight: 500; }
-
-        .jackpots-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 40px; }
-        .jackpot-card {
-            background: var(--bg-navy-light); border-radius: 12px; display: flex; 
-            overflow: visible; box-shadow: 0 6px 15px rgba(0,0,0,0.1); position: relative; height: 90px; align-items: center;
-        }
-        
-        .jp-side { width: 40px; height: 100%; display: flex; justify-content: center; align-items: center; color: #fff; font-weight: 900; font-size: 12px; writing-mode: vertical-rl; transform: rotate(180deg); letter-spacing: 2px; border-radius: 12px 0 0 12px; }
-        .jp-mini .jp-side { background: var(--accent-cyan); }
-        .jp-grand .jp-side { background: var(--accent-orange); }
-        .jp-mineur .jp-side { background: var(--accent-red); }
-
-        .jp-content { flex: 1; padding: 0 15px; display: flex; flex-direction: column; justify-content: center; align-items: flex-end; }
-        .jp-title { color: #fff; font-size: 12px; font-weight: 600; margin-bottom: 2px; }
-        .jp-amount { font-size: 22px; font-weight: 900; }
-        .jp-mini .jp-amount { color: var(--accent-cyan); }
-        .jp-grand .jp-amount { color: var(--accent-orange); }
-        .jp-mineur .jp-amount { color: var(--accent-red); }
-        
-        .jackpot-tiger-3d {
-            position: absolute; left: 20px; bottom: 0; height: 125%; z-index: 10;
-            pointer-events: none; filter: drop-shadow(2px 4px 8px rgba(0,0,0,0.5));
-        }
-
-        .section-header { font-size: 18px; font-weight: 800; color: var(--bg-navy); margin: 30px 0 15px 0; display: flex; align-items: center; gap: 8px; border-left: 4px solid var(--primary-blue); padding-left: 10px; }
-        .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
-        .game-card { background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: transform 0.2s; cursor: pointer; border: 1px solid #ddd; }
-        .game-card:hover { transform: translateY(-5px); border-color: var(--primary-blue); box-shadow: 0 8px 15px rgba(30,136,229,0.2); }
-        .game-img-box { height: 120px; background: var(--bg-navy-light); position: relative; overflow: hidden; }
-        .game-img-box img { width: 100%; height: 100%; object-fit: cover; }
-        .game-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; opacity: 0; transition: 0.2s; }
-        .game-card:hover .game-overlay { opacity: 1; }
-        .play-btn { background: var(--accent-orange); color: #fff; font-weight: 800; font-size: 11px; padding: 6px 15px; border-radius: 20px; text-transform: uppercase; }
-        .game-info { padding: 10px; text-align: center; }
-        .game-name { font-weight: 700; font-size: 12px; color: var(--bg-navy); margin-bottom: 2px; }
-        .game-provider { font-size: 10px; color: var(--text-muted); }
-
-        .bottom-nav { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: var(--bg-navy); border-top: 1px solid #1a2a42; z-index: 100; box-shadow: 0 -5px 15px rgba(0,0,0,0.2); }
-        .bottom-nav-item { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10px 0; color: var(--text-muted); transition: 0.2s; cursor: pointer; }
-        .bottom-nav-item.active { border-top: 2px solid var(--primary-blue); color: #fff; background: rgba(255,255,255,0.05); }
-        .bottom-nav-item i { font-size: 20px; margin-bottom: 4px; filter: drop-shadow(0 0 5px currentColor); }
-        .bottom-nav-item span { font-size: 10px; font-weight: 600; }
-
-        .mobile-menu-btn { display: none; }
-        .mobile-sidebar-header { display: none; }
-
-        @media (max-width: 900px) {
-            .main-container { grid-template-columns: 1fr; }
-            .header-nav { display: none; }
-            .center-content { padding: 15px; padding-bottom: 70px; }
-            .bottom-nav { display: flex; }
-            .mobile-menu-btn { display: block; }
-
-            .sidebar-left {
-                display: flex !important; position: fixed; top: 0; left: 0; height: 100vh; width: 260px; z-index: 150;
-                transform: translateX(-100%); transition: transform 0.3s ease-in-out; box-shadow: 5px 0 25px rgba(0,0,0,0.5);
-            }
-            .sidebar-left.open { transform: translateX(0); }
-            .mobile-sidebar-header {
-                display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: #06101e; border-bottom: 1px solid #1a2a42;
-            }
-            .main-banner-wrapper { height: 165px; margin-bottom: 25px; margin-top: 10px; }
-            .slide-bg { padding-left: 125px !important; padding-right: 12px !important; align-items: flex-start !important; text-align: left !important; }
-            .slide-title { font-size: 17px !important; line-height: 1.2 !important; margin-bottom: 4px !important; }
-            .slide-desc { font-size: 11px !important; line-height: 1.3 !important; opacity: 0.95; }
-            .banner-tiger-3d { opacity: 1 !important; left: -5px !important; bottom: 0 !important; height: 112% !important; max-width: 135px !important; object-fit: contain; z-index: 20 !important; }
-            .jackpots-container { grid-template-columns: 1fr; gap: 12px; margin-bottom: 25px; }
-            .jackpot-card { height: 70px; }
-            .jackpot-tiger-3d { height: 115% !important; left: 15px !important; bottom: 0 !important; }
-            .jp-grand .jackpot-tiger-3d { height: 122% !important; left: 10px !important; }
-            .jp-amount { font-size: 18px; }
-            .jp-title { font-size: 11px; }
-        }
+        @keyframes float-dice { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+        .animate-bounce-slow { animation: float-dice 3s ease-in-out infinite; }
+        @keyframes continuous-zoom { 0% { transform: scale(1); } 50% { transform: scale(1.12); } 100% { transform: scale(1); } }
+        .auto-zoom-img { animation: continuous-zoom 6s ease-in-out infinite; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b1a30; color: #94a3b8; }
+        .bg-panel { background-color: #15243b; border: 1px solid #1a2a42; }
+        .text-emerald { color: #ff9800; }
+        .bg-emerald { background-color: #ff9800; color: #fff; }
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .player-view-section { display: none; }
+        .player-view-section.block { display: block; }
     </style>
 </head>
-<body>
 
-    <div id="left-sidebar-overlay" onclick="toggleLeftSidebar()" class="fixed inset-0 bg-black/60 z-[140] hidden backdrop-blur-sm transition-opacity"></div>
-
-    <!-- Header -->
-    <header class="top-header">
-        <div class="flex items-center gap-3">
-            <button onclick="toggleLeftSidebar()" class="mobile-menu-btn text-white hover:text-[var(--accent-orange)] transition text-xl">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="logo-area" onclick="switchSection('accueil')">
-                <i class="fas fa-crown text-[var(--accent-orange)]"></i>Coutabet<span></span>
-            </div>
-        </div>
-        
-        <div class="header-nav">
-            <a onclick="switchSection('accueil')">ACCUEIL</a>
-            <a onclick="switchSection('casino')">CASINO</a>
-            <a onclick="switchSection('live-casino')">LIVE CASINO</a>
-            <a onclick="openSportsbookForProvider('nexus')">SPORT</a>
-        </div>
-
-        <div class="header-actions">
-            <div id="auth-buttons-container" class="flex gap-3">
-                <button onclick="openLoginModal()" class="btn-solid">SE CONNECTER</button>
-            </div>
-
-            <div id="top-user-profile" class="hidden items-center gap-3">
-                <div class="flex flex-col items-end">
-                    <span class="text-[10px] text-[var(--text-muted)] font-bold">Solde</span>
-                    <span class="text-white font-black text-sm"><span id="player-balance-val">0.00</span> TND</span>
+<body class="antialiased text-sm flex flex-col min-h-screen">
+    <div>
+        <!-- شاشة التحميل -->
+        <div id="splash-screen" class="fixed inset-0 z-[9999] bg-[#0b1a30] flex flex-col items-center justify-center transition-opacity duration-700 ease-out">
+            <div class="animated-logo-3d flex items-center gap-3 mb-6 select-none">
+                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-[0_0_30px_rgba(255,152,0,0.6)] border border-orange-300">
+                    <i class="fas fa-crown text-[#0b1a30] text-3xl"></i>
                 </div>
-                <button onclick="toggleProfileSidebar()" class="w-9 h-9 rounded-full bg-[var(--primary-blue)] text-white flex items-center justify-center shadow-lg hover:bg-blue-600 transition">
-                    <i class="fas fa-user"></i>
-                </button>
+                <div class="flex flex-col justify-center leading-none text-left">
+                    <span class="text-white font-black text-3xl tracking-tight">COUTA<span class="text-orange-400">BET</span></span>
+                    <span class="text-[10px] text-gray-400 font-extrabold uppercase tracking-widest mt-1">Premium Casino</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 text-orange-400 text-xs font-bold tracking-widest uppercase">
+                <i class="fas fa-circle-notch fa-spin text-lg"></i> Chargement...
             </div>
         </div>
-    </header>
 
-    <div class="main-container">
-        <!-- Sidebar -->
-        <aside id="left-sidebar" class="sidebar-left">
-            <div class="mobile-sidebar-header">
-                <div class="logo-area" style="font-size: 18px;">
-                    <i class="fas fa-crown text-[var(--accent-orange)]"></i>COUTA<span>BET</span>
+        <!-- الشريط العلوي -->
+        <header class="bg-[#15243b] border-b border-[#1a2a42] sticky top-0 z-50">
+            <div class="max-w-[1700px] mx-auto px-4 h-18 flex justify-between items-center py-3">
+                <div class="flex items-center gap-6">
+                    <div class="animated-logo-3d flex items-center gap-2 cursor-pointer select-none" onclick="switchSection('accueil')">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-[0_0_15px_rgba(255,152,0,0.5)] border border-orange-300">
+                            <i class="fas fa-crown text-[#0b1a30] text-xl"></i>
+                        </div>
+                        <div class="flex flex-col justify-center leading-none">
+                            <span class="text-white font-black text-xl tracking-tight">COUTA<span class="text-orange-400">BET</span></span>
+                            <span class="text-[9px] text-gray-400 font-extrabold uppercase tracking-widest mt-0.5">Premium Casino</span>
+                        </div>
+                    </div>
                 </div>
-                <button onclick="toggleLeftSidebar()" class="text-gray-400 hover:text-white text-lg">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
 
-            <div class="sidebar-section mt-4">
-                <div class="section-title">JEUX <span>+</span></div>
-                <a class="nav-item active" onclick="switchSection('accueil'); closeLeftSidebarOnMobile();"><i class="fas fa-home w-5 text-[var(--primary-blue)]"></i> Accueil</a>
-                <a class="nav-item" onclick="switchSection('casino'); initCasinoLobby(); closeLeftSidebarOnMobile();"><i class="fas fa-slot-machine w-5"></i> Machines à Sous</a>
-                <a class="nav-item" onclick="switchSection('live-casino'); openLiveCasino(); closeLeftSidebarOnMobile();"><i class="fas fa-dice w-5"></i> Casino Live</a>
-                <a class="nav-item" onclick="switchSection('virtuals'); initVirtualsLobby(); closeLeftSidebarOnMobile();"><i class="fas fa-gamepad w-5"></i> Virtuels</a>
-            </div>
-        </aside>
+                <div class="flex items-center gap-3">
+                    <div id="auth-buttons-container" class="flex items-center gap-2">
+                        <button onclick="openLoginModal()" class="bg-[#0b1a30] hover:bg-orange-500 text-orange-400 hover:text-white font-extrabold text-xs uppercase px-4 py-2 rounded-lg border border-orange-500/50 transition-all">Connexion</button>
+                    </div>
 
-        <!-- Main Content -->
-        <main class="relative h-full overflow-y-auto w-full bg-[var(--bg-light)]">
-            
-            <div id="pane-accueil" class="player-view-section block center-content">
-                
-                <div class="main-banner-wrapper">
-                    <div class="slider-container">
-                        <div class="slider-track" id="sliderTrack">
-                            <div class="slide">
-                                <div class="meteor-border"></div>
-                                <div class="slide-bg" style="background-image: linear-gradient(90deg, rgba(11, 26, 48, 0.85) 0%, rgba(11, 26, 48, 0.4) 100%), url('images/bg1.jpg');">
-                                    <div class="slide-title">Retraits Instantanés</div>
-                                    <div class="slide-desc">Vos gains traités en quelques secondes. Sécurité absolue.</div>
-                                </div>
+                    <button id="top-recharge-btn" onclick="toggleCashier()" class="hidden bg-orange-500 hover:bg-orange-400 text-white font-extrabold text-xs uppercase px-4 py-2 rounded-lg shadow-md transition-all items-center gap-2">
+                        <i class="fas fa-plus"></i> <span>Dépôt</span>
+                    </button>
+
+                    <div id="top-user-profile" class="hidden items-center gap-3 cursor-pointer group shrink-0" onclick="toggleProfileSidebar()">
+                        <div class="relative w-10 h-10 rounded-full flex items-center justify-center p-[2px] bg-conic">
+                            <div class="w-full h-full bg-[#0b1a30] rounded-full flex items-center justify-center text-yellow-500 text-sm border-2 border-[#15243b]">
+                                <i class="fas fa-user-astronaut"></i>
                             </div>
-                            <div class="slide">
-                                <div class="meteor-border"></div>
-                                <div class="slide-bg" style="background-image: linear-gradient(90deg, rgba(11, 26, 48, 0.85) 0%, rgba(11, 26, 48, 0.4) 100%), url('images/bg2.jpg');">
-                                    <div class="slide-title">Support VIP 24/7</div>
-                                    <div class="slide-desc">Une équipe de professionnels dédiée à votre service.</div>
-                                </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-mono text-white text-xs leading-none font-bold">
+                                <span id="player-balance-val">0.00</span> <span class="text-orange-400 text-[9px]">TND</span>
                             </div>
                         </div>
                     </div>
-                    <img src="images/gatesbenner.png" alt="Character" class="banner-tiger-3d">
-                </div>
 
-                <div class="jackpots-container">
-                    <div class="jackpot-card jp-mini">
-                        <div class="jp-side">MINI</div>
-                        <img src="images/gatemini.png" alt="Mini" class="jackpot-tiger-3d">
-                        <div class="jp-content">
-                            <div class="jp-title">Mini Jackpot</div>
-                            <div class="jp-amount"><span id="jackpot-mini">0.00</span> <span style="font-size:12px;">TND</span></div>
-                        </div>
-                    </div>
-                    
-                    <div class="jackpot-card jp-mineur">
-                        <div class="jp-side">MAJOR</div>
-                        <img src="images/gatesmajor.png" alt="Major" class="jackpot-tiger-3d">
-                        <div class="jp-content">
-                            <div class="jp-title">Major Jackpot</div>
-                            <div class="jp-amount"><span id="jackpot-major">0.00</span> <span style="font-size:12px;">TND</span></div>
-                        </div>
+                    <div id="top-notification-bell" class="hidden relative cursor-pointer items-center justify-center w-8 h-8 rounded-full bg-[#0b1a30] border border-[#1a2a42] hover:border-orange-500 transition" onclick="toggleNotificationsPanel()">
+                        <i class="fas fa-bell text-gray-400 text-xs"></i>
+                        <span id="notif-badge" class="absolute -top-1 -right-1 bg-red-500 text-white text-[8px] font-bold px-1 py-0.5 rounded-full hidden">0</span>
                     </div>
 
-                    <div class="jackpot-card jp-grand">
-                        <div class="jp-side">GRAND</div>
-                        <img src="images/gatesgrand.png" alt="Grand" class="jackpot-tiger-3d" style="left: 15px; height: 135%;">
-                        <div class="jp-content">
-                            <div class="jp-title">Grand Jackpot</div>
-                            <div class="jp-amount"><span id="jackpot-grand">0.00</span> <span style="font-size:12px;">TND</span></div>
-                        </div>
+                    <div id="notifications-panel" class="absolute top-14 right-4 w-80 bg-[#15243b] border border-[#1a2a42] rounded-2xl shadow-2xl hidden flex-col z-[100] overflow-hidden">
+                        <div class="p-3 border-b border-[#1a2a42] bg-[#0b1a30] flex justify-between items-center text-white font-bold text-sm">Notifications 🔔</div>
+                        <div id="notifs-list" class="max-h-[300px] overflow-y-auto p-2 flex flex-col gap-1"></div>
                     </div>
                 </div>
-
-                <h2 class="section-header"><i class="fas fa-bolt text-[var(--accent-orange)]"></i> Jeux du Jour</h2>
-                <div class="games-grid" id="random-casino-games-grid">
-                    <div class="col-span-full text-center py-5 font-bold">Chargement...</div>
-                </div>
-
             </div>
+        </header>
 
-            <!-- Sport Section -->
-            <div id="pane-sport" class="player-view-section hidden w-full h-full bg-[var(--bg-navy)]">
-                <div id="sport-loader" class="absolute inset-0 flex flex-col items-center justify-center bg-[var(--bg-navy)] z-[5] hidden">
-                    <i class="fas fa-futbol text-[var(--accent-orange)] animate-bounce text-4xl mb-3"></i>
-                    <span class="text-white font-bold">Chargement...</span>
-                </div>
-                <iframe id="sportsbook-iframe" class="w-full h-full border-0 block m-0 p-0" allowfullscreen></iframe>
-            </div>
-            
-            <div id="pane-casino" class="player-view-section hidden w-full h-full p-6"><h2 class="text-2xl font-bold">Casino Lobby</h2></div>
-            <div id="pane-live-casino" class="player-view-section hidden w-full h-full p-6"><h2 class="text-2xl font-bold">Live Casino</h2></div>
-            <div id="pane-virtuals" class="player-view-section hidden w-full h-full p-6"><h2 class="text-2xl font-bold">Sports Virtuels</h2></div>
-        </main>
-    </div>
-
-    <!-- Mobile Bottom Nav -->
-    <nav class="bottom-nav">
-        <a onclick="switchSection('accueil')" class="bottom-nav-item active">
-            <i class="fas fa-home" style="color: #00e5ff;"></i><span>Accueil</span>
-        </a>
-        <a onclick="openSportsbookForProvider('nexus')" class="bottom-nav-item">
-            <i class="fas fa-futbol" style="color: #ff3333;"></i><span>Sports</span>
-        </a>
-        <a onclick="switchSection('casino');" class="bottom-nav-item">
-            <i class="fas fa-gem" style="color: #ffdf1b;"></i><span>Casino</span>
-        </a>
-        <a onclick="toggleProfileSidebar()" class="bottom-nav-item">
-            <i class="fas fa-user" style="color: #d900ff;"></i><span>Profil</span>
-        </a>
-    </nav>
-
-    <!-- Login Modal -->
-    <div id="player-login-modal" class="fixed inset-0 z-[700] bg-black/80 hidden items-center justify-center p-4 backdrop-blur-sm">
-        <div class="w-full max-w-sm bg-[#15243b] border border-[#1e88e5] rounded-2xl p-8 relative shadow-2xl">
-            <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition"><i class="fas fa-times text-lg"></i></button>
-            <div class="text-center mb-8">
-                <i class="fas fa-user-circle text-5xl text-[var(--accent-orange)] mb-2"></i>
-                <h2 class="text-white text-2xl font-black uppercase">Connexion</h2>
-            </div>
-            <div class="space-y-5">
-                <div>
-                    <label class="block text-gray-400 text-[10px] font-black mb-2 uppercase pl-1">Identifiant</label>
-                    <input type="text" id="p-auth-username" class="w-full bg-[#0b1a30] border border-gray-600 rounded-xl py-3 px-4 text-white font-bold outline-none focus:border-[var(--accent-orange)]">
-                </div>
-                <div>
-                    <label class="block text-gray-400 text-[10px] font-black mb-2 uppercase pl-1">Mot de passe</label>
-                    <input type="password" id="p-auth-password" class="w-full bg-[#0b1a30] border border-gray-600 rounded-xl py-3 px-4 text-white font-bold outline-none focus:border-[var(--accent-orange)]">
-                </div>
-                <button onclick="handlePlayerAuth()" class="w-full bg-[var(--accent-orange)] text-white font-black py-3 rounded-xl uppercase shadow-lg hover:scale-105 transition cursor-pointer">Entrer</button>
+        <!-- شريط التصنيفات (تمت إزالة Betconstruct و SABA) -->
+        <div class="bg-[#0b1a30] border-b border-[#1a2a42] py-3">
+            <div class="max-w-[1700px] mx-auto px-4 flex gap-3 overflow-x-auto drag-scroll text-[13px] font-extrabold hide-scroll pb-1">
+                <button id="btn-nav-accueil" onclick="setActiveMenuBtn('btn-nav-accueil'); switchSection('accueil')" class="main-nav-btn bg-orange-500 text-white px-5 py-2 rounded-xl flex items-center gap-2 flex-shrink-0">
+                    <i class="fas fa-home"></i> Accueil
+                </button>
+                <button id="btn-nav-sport" onclick="setActiveMenuBtn('btn-nav-sport'); openSportsbookForProvider('nexus')" class="main-nav-btn bg-[#15243b] text-white border border-[#1a2a42] px-5 py-2 rounded-xl flex items-center gap-2 flex-shrink-0">
+                    <i class="fas fa-futbol text-orange-400"></i> Sport
+                </button>
+                <button id="btn-nav-casino" onclick="setActiveMenuBtn('btn-nav-casino'); switchSection('casino'); initCasinoLobby();" class="main-nav-btn bg-[#15243b] text-white border border-[#1a2a42] px-5 py-2 rounded-xl flex items-center gap-2 flex-shrink-0">
+                    <i class="fas fa-slot-machine text-yellow-500"></i> Casino
+                </button>
+                <button id="btn-nav-live" onclick="setActiveMenuBtn('btn-nav-live'); switchSection('live-casino'); openLiveCasino();" class="main-nav-btn bg-[#15243b] text-white border border-[#1a2a42] px-5 py-2 rounded-xl flex items-center gap-2 flex-shrink-0">
+                    <i class="fas fa-video text-red-500"></i> Casino Live
+                </button>
+                <button id="btn-nav-virtuals" onclick="setActiveMenuBtn('btn-nav-virtuals'); switchSection('virtuals'); initVirtualsLobby();" class="main-nav-btn bg-[#15243b] text-white border border-[#1a2a42] px-5 py-2 rounded-xl flex items-center gap-2 flex-shrink-0">
+                    <i class="fas fa-gamepad text-blue-400"></i> Virtuels
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Profile Sidebar -->
-    <div id="profile-overlay" onclick="toggleProfileSidebar()" class="fixed inset-0 bg-black/60 z-[190] hidden backdrop-blur-sm"></div>
-    <div id="profile-sidebar" class="fixed right-0 top-0 h-full w-80 bg-[#15243b] border-l border-[#1e88e5] z-[200] shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col text-white">
-        <div class="p-5 border-b border-gray-700 flex justify-between items-center bg-[#0b1a30]">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-[var(--primary-blue)] flex items-center justify-center text-lg"><i class="fas fa-user"></i></div>
-                <div>
-                    <h3 class="font-bold text-sm uppercase" id="sidebar-username">Joueur</h3>
-                    <p class="text-[var(--accent-orange)] font-black text-sm"><span id="sidebar-balance">0.00</span> TND</p>
+    <main class="max-w-[1700px] mx-auto px-4 py-6 w-full flex-grow flex gap-6">
+        <div class="w-full flex-1 space-y-6">
+            <!-- PANE: ACCUEIL -->
+            <div id="pane-accueil" class="player-view-section block space-y-6 w-full">
+                <div class="relative w-full h-[280px] my-4">
+                    <img src="https://i.postimg.cc/tTKz01dj/banner.png" alt="Banner 3D" class="block absolute right-10 bottom-0 h-[125%] max-w-[350px] object-contain z-[60] pointer-events-none">
+                    <div class="relative w-full h-full rounded-2xl overflow-hidden bg-[#15243b] border border-orange-500/30 shadow-xl">
+                        <div id="hero-slider" class="w-full h-full relative">
+                            <div class="slide-item absolute inset-0 transition-opacity duration-1000 opacity-100 z-20">
+                                <div class="absolute inset-0 bg-gradient-to-r from-[#0b1a30] via-[#15243b]/95 to-orange-500/30"></div>
+                                <div class="relative h-full flex flex-col justify-center px-12 w-[60%] z-20">
+                                    <h2 class="text-white text-4xl font-black uppercase tracking-wide mb-2">L'Expérience <span class="text-orange-400">Coutabet</span></h2>
+                                    <p class="text-gray-400 text-sm font-semibold mb-4">Plongez dans un univers de divertissement sans limite.</p>
+                                    <button onclick="switchSection('casino'); initCasinoLobby();" class="w-fit bg-orange-500 text-white font-black text-xs uppercase px-5 py-2.5 rounded-full shadow-lg">Jouer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- شبكة التصنيفات السريعة -->
+                <div class="grid grid-cols-3 md:grid-cols-6 gap-3">
+                    <button onclick="switchSection('casino'); initCasinoLobby();" class="bg-[#15243b] border border-[#1a2a42] hover:border-orange-500 rounded-xl p-3 flex flex-col items-center justify-center text-center">
+                        <img src="https://img.icons8.com/3d-fluency/250/slot-machine.png" class="h-10 mb-2 animate-bounce-slow">
+                        <span class="text-white font-black text-xs">Slots</span>
+                    </button>
+                    <button onclick="switchSection('live-casino'); openLiveCasino();" class="bg-[#15243b] border border-[#1a2a42] hover:border-red-500 rounded-xl p-3 flex flex-col items-center justify-center text-center">
+                        <img src="https://img.icons8.com/3d-fluency/250/roulette.png" class="h-10 mb-2 animate-bounce-slow">
+                        <span class="text-white font-black text-xs">Live Casino</span>
+                    </button>
+                    <button onclick="switchSection('virtuals'); initVirtualsLobby();" class="bg-[#15243b] border border-[#1a2a42] hover:border-blue-500 rounded-xl p-3 flex flex-col items-center justify-center text-center">
+                        <img src="https://img.icons8.com/3d-fluency/250/controller.png" class="h-10 mb-2 animate-bounce-slow">
+                        <span class="text-white font-black text-xs">Virtuels</span>
+                    </button>
+                </div>
+
+                <div id="dynamic-featured-providers" class="flex flex-col gap-6 mb-8 w-full mt-4"></div>
             </div>
-            <button onclick="toggleProfileSidebar()" class="text-gray-400 hover:text-white cursor-pointer"><i class="fas fa-times"></i></button>
+
+            <!-- PANE: CASINO -->
+            <div id="pane-casino" class="player-view-section hidden w-full">
+                <div class="flex items-center gap-2 mb-4">
+                    <i class="fas fa-slot-machine text-2xl text-orange-400"></i>
+                    <h2 class="text-white font-extrabold text-xl">Casino & Slots</h2>
+                </div>
+                <div class="flex gap-3 mb-6 relative z-[100]">
+                    <input type="text" id="game-search-input" onkeyup="filterGames()" placeholder="Rechercher un jeu..." class="w-full bg-[#15243b] border border-[#1a2a42] rounded-xl py-3 px-4 text-white text-sm outline-none focus:border-orange-500 font-bold">
+                </div>
+                <div id="games-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 xl:grid-cols-6 gap-3 pb-10"></div>
+            </div>
+
+            <!-- PANE: LIVE CASINO -->
+            <div id="pane-live-casino" class="player-view-section hidden w-full">
+                <div class="flex items-center gap-2 mb-2">
+                    <i class="fas fa-video text-xl text-red-500"></i>
+                    <h2 class="text-white font-bold text-lg">Live Casino</h2>
+                </div>
+                <div id="live-games-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 xl:grid-cols-6 gap-3 pb-10"></div>
+            </div>
+
+            <!-- PANE: VIRTUALS -->
+            <div id="pane-virtuals" class="player-view-section hidden w-full">
+                <div class="flex items-center gap-2 mb-4">
+                    <i class="fas fa-gamepad text-xl text-blue-400"></i>
+                    <h2 class="text-white font-bold text-lg">Jeux Virtuels</h2>
+                </div>
+                <div id="virtuals-games-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 pb-10"></div>
+            </div>
         </div>
-        <div class="flex-1 overflow-y-auto p-3 space-y-2">
-            <a onclick="alert('Historique')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer"><i class="fas fa-history text-gray-400"></i> Historique</a>
-            <a onclick="alert('Transactions')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer"><i class="fas fa-exchange-alt text-gray-400"></i> Transactions</a>
+    </main>
+
+    <!-- CASINO IFRAME -->
+    <div id="casino-iframe-container" class="fixed inset-0 z-[600] bg-[#0b1a30] hidden flex-col">
+        <div class="h-12 bg-[#15243b] border-b border-[#1a2a42] flex justify-between items-center px-4">
+            <span class="text-white font-black text-xs uppercase">COUTA<span class="text-orange-400">BET</span></span>
+            <button onclick="closeCasinoGame()" class="text-red-500 font-bold px-3 py-1 bg-red-500/10 rounded-lg">Fermer ✕</button>
         </div>
-        <div class="p-4 bg-[#0b1a30]">
-            <button onclick="toggleProfileSidebar(); logoutPlayer();" class="w-full bg-red-600 text-white font-bold py-3 rounded-lg uppercase cursor-pointer">Déconnexion</button>
+        <iframe id="casino-iframe" class="w-full flex-grow border-0"></iframe>
+    </div>
+
+    <!-- CAISSIER MODAL -->
+    <div id="cashier-modal" class="fixed inset-0 z-[400] hidden bg-black/80 backdrop-blur-md items-center justify-center p-4">
+        <div class="bg-[#15243b] border border-[#1a2a42] rounded-3xl w-full max-w-md p-6 relative">
+            <button onclick="toggleCashier()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-3xl">&times;</button>
+            <h2 class="text-xl font-bold text-white mb-6">Caisse</h2>
+            <div class="space-y-4">
+                <input type="text" id="usdt-code" placeholder="ID de transaction / Code" class="w-full bg-[#0b1a30] border border-[#1a2a42] rounded-lg p-3 text-white text-sm">
+                <button onclick="submitDeposit('usdt')" class="w-full bg-orange-500 text-white font-bold p-3 rounded-xl">Confirmer le dépôt</button>
+            </div>
         </div>
     </div>
 
+    <!-- LOGIN MODAL -->
+    <div id="player-login-modal" class="fixed inset-0 z-[200] bg-black/80 hidden items-center justify-center p-4">
+        <div class="w-full max-w-md bg-[#15243b] border border-orange-500/50 rounded-2xl p-8 relative">
+            <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl">&times;</button>
+            <h2 class="text-white text-2xl font-bold mb-6 text-center">Connexion</h2>
+            <input type="text" id="p-auth-username" placeholder="Nom d'utilisateur" class="w-full mb-3 p-3 rounded-xl bg-[#0b1a30] border border-[#1a2a42] text-white">
+            <input type="password" id="p-auth-password" placeholder="Mot de passe" class="w-full mb-4 p-3 rounded-xl bg-[#0b1a30] border border-[#1a2a42] text-white">
+            <button onclick="handlePlayerAuth()" class="w-full bg-orange-500 text-white font-bold p-3 rounded-xl">Entrer</button>
+        </div>
+    </div>
+
+    <!-- PROFILE SIDEBAR -->
+    <div id="profile-overlay" onclick="toggleProfileSidebar()" class="fixed inset-0 bg-black/60 z-[190] hidden"></div>
+    <div id="profile-sidebar" class="fixed right-0 top-0 bottom-0 w-80 bg-[#15243b] border-l border-[#1a2a42] z-[200] shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+        <div class="p-5 border-b border-[#1a2a42] flex justify-between items-center bg-[#0b1a30]">
+            <span class="text-white font-bold" id="sidebar-username">Joueur</span>
+            <button onclick="toggleProfileSidebar()" class="text-gray-400">✕</button>
+        </div>
+        <div class="p-4 mt-auto">
+            <button onclick="logoutPlayer()" class="w-full bg-red-600 text-white font-bold py-3 rounded-lg">Déconnexion</button>
+        </div>
+    </div>
+
+    <!-- سكريبتات التشغيل والدوال الأصلية المتصلة بالباك إند المركزي -->
     <script>
         const BACKEND_URL = "https://alpha-backend-server.onrender.com";
         let playerSession = null;
 
-        function getAuthHeaders() { 
-            return { 'Authorization': `Bearer ${localStorage.getItem('token')}`, 'Content-Type': 'application/json' }; 
-        }
-
-        const track = document.getElementById('sliderTrack');
-        let currentIndex = 0;
-        const totalSlides = 2;
-        function moveToNextSlide() {
-            if(!track) return;
-            currentIndex = (currentIndex + 1) % totalSlides;
-            track.style.transform = `translateX(-${currentIndex * 100}%)`;
-        }
-        setInterval(moveToNextSlide, 3000);
-
-        function switchSection(sectionId) {
-            document.querySelectorAll('.player-view-section').forEach(el => {
-                el.classList.add('hidden');
-                el.classList.remove('block');
-            });
-            const panel = document.getElementById(`pane-${sectionId}`);
-            if (panel) {
-                panel.classList.remove('hidden');
-                panel.classList.add('block');
-            }
-        }
-
-        function initCasinoLobby() { switchSection('casino'); }
-        function openLiveCasino() { switchSection('live-casino'); }
-        function initVirtualsLobby() { switchSection('virtuals'); }
-
+        function escapeHTML(str) { return str ? str.toString().replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)) : ''; }
         function openLoginModal() { document.getElementById('player-login-modal').classList.remove('hidden'); document.getElementById('player-login-modal').classList.add('flex'); }
         function closeLoginModal() { document.getElementById('player-login-modal').classList.add('hidden'); document.getElementById('player-login-modal').classList.remove('flex'); }
-        
-        function toggleProfileSidebar() {
-            const sidebar = document.getElementById('profile-sidebar');
-            const overlay = document.getElementById('profile-overlay');
-            if (sidebar.classList.contains('translate-x-full')) {
-                sidebar.classList.remove('translate-x-full');
-                overlay.classList.remove('hidden');
-            } else {
-                sidebar.classList.add('translate-x-full');
-                overlay.classList.add('hidden');
-            }
+        function toggleProfileSidebar() { document.getElementById('profile-sidebar').classList.toggle('translate-x-full'); document.getElementById('profile-overlay').classList.toggle('hidden'); }
+        function toggleCashier() { if (!playerSession) return openLoginModal(); document.getElementById('cashier-modal').classList.toggle('hidden'); document.getElementById('cashier-modal').classList.toggle('flex'); }
+
+        function showNotification(message, type = "success") {
+            const toast = document.createElement('div');
+            toast.className = `fixed top-5 right-5 z-[9999] px-4 py-3 rounded-xl text-white font-bold text-xs shadow-xl ${type === 'error' ? 'bg-red-600' : 'bg-orange-500'}`;
+            toast.innerText = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        window.onload = () => {
+            const splash = document.getElementById('splash-screen');
+            if (splash) setTimeout(() => splash.style.display = 'none', 700);
+            const savedSession = localStorage.getItem('alpha_player_session');
+            if (savedSession) { playerSession = JSON.parse(savedSession); setupLoggedInUI(); }
+            switchSection('accueil');
+            startLiveJackpots();
+            loadFeaturedProvidersBlocks();
+        };
+
+        function switchSection(sectionId) {
+            document.querySelectorAll('.player-view-section').forEach(el => el.classList.add('hidden'));
+            const panel = document.getElementById(`pane-${sectionId}`);
+            if (panel) panel.classList.remove('hidden');
+            if (sectionId === 'casino') initCasinoLobby();
+            else if (sectionId === 'live-casino') openLiveCasino();
+            else if (sectionId === 'virtuals') initVirtualsLobby();
         }
 
         async function handlePlayerAuth() {
             const username = document.getElementById('p-auth-username').value.trim();
             const password = document.getElementById('p-auth-password').value;
-            if (!username || !password) return alert("Veuillez remplir tous les champs");
-            
+            if (!username || !password) return;
             try {
                 const res = await fetch(`${BACKEND_URL}/api/login`, {
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -438,30 +292,24 @@
                 const data = await res.json();
                 if (res.ok) {
                     playerSession = data;
+                    localStorage.setItem('alpha_player_session', JSON.stringify(data));
                     localStorage.setItem('token', data.access_token);
                     setupLoggedInUI();
-                } else {
-                    alert(data.detail || "Erreur de connexion");
-                }
-            } catch (e) { alert("Erreur serveur"); }
+                    showNotification("Bienvenue !");
+                } else showNotification(data.detail, 'error');
+            } catch (e) { showNotification("Erreur serveur", 'error'); }
         }
 
         function setupLoggedInUI() {
             closeLoginModal();
-            const authContainer = document.getElementById('auth-buttons-container');
-            if(authContainer) authContainer.classList.add('hidden');
-            
-            const userProfile = document.getElementById('top-user-profile');
-            if(userProfile) { userProfile.classList.remove('hidden'); userProfile.classList.add('flex'); }
-            
-            document.getElementById('player-balance-val').innerText = parseFloat(playerSession.balance || 0).toFixed(2);
-            document.getElementById('sidebar-balance').innerText = parseFloat(playerSession.balance || 0).toFixed(2);
+            document.getElementById('auth-buttons-container').classList.add('hidden');
+            document.getElementById('top-user-profile').classList.remove('hidden');
+            document.getElementById('top-user-profile').classList.add('flex');
+            document.getElementById('top-recharge-btn').classList.remove('hidden');
+            document.getElementById('top-recharge-btn').classList.add('flex');
             document.getElementById('sidebar-username').innerText = playerSession.username;
-            
-            startLiveJackpots();
-            loadRandomCasinoGames();
             refreshBalance();
-            setInterval(refreshBalance, 6000);
+            setInterval(refreshBalance, 5000);
         }
 
         async function refreshBalance() {
@@ -473,143 +321,105 @@
                 });
                 const data = await res.json();
                 if (data.user_balance !== undefined) {
-                    const formatted = parseFloat(data.user_balance).toFixed(2);
-                    document.getElementById('player-balance-val').innerText = formatted;
-                    document.getElementById('sidebar-balance').innerText = formatted;
+                    document.getElementById('player-balance-val').innerText = parseFloat(data.user_balance).toFixed(2);
                 }
-            } catch(e) {}
+            } catch (e) { }
         }
 
-        function logoutPlayer() {
-            playerSession = null;
-            localStorage.clear();
-            location.reload();
-        }
+        function logoutPlayer() { localStorage.clear(); location.reload(); }
+        function getAuthHeaders() { return { 'Authorization': `Bearer ${localStorage.getItem('token')}`, 'Content-Type': 'application/json' }; }
 
-        async function loadRandomCasinoGames() {
-            const grid = document.getElementById('random-casino-games-grid');
-            if (!grid) return;
+        window.nexusProviders = [
+            { code: 'PRAGMATIC', name: 'Pragmatic' }, { code: 'HACKSAW', name: 'Hacksaw' }, { code: 'SPRIBE', name: 'Spribe' }
+        ];
+
+        async function initCasinoLobby() { loadProviderGames('PRAGMATIC', 'Pragmatic'); }
+
+        async function loadProviderGames(providerCode, providerName) {
+            const grid = document.getElementById('games-grid');
+            if (grid) grid.innerHTML = '<div class="col-span-full text-orange-400 text-center py-10 animate-pulse font-bold">Chargement...</div>';
             try {
-                const response = await fetch(`${BACKEND_URL}/api/get-providers`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ provider_code: 'PRAGMATIC' })
+                const res = await fetch(`${BACKEND_URL}/api/get-providers`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ provider_code: providerCode })
                 });
-                if (!response.ok) throw new Error("Erreur");
-                const data = await response.json();
-                let allGames = data.games || data.data || [];
-                
-                if (allGames.length > 0) {
-                    const randomGames = allGames.slice(0, 12);
-                    grid.innerHTML = randomGames.map(g => {
-                        const title = g.game_name || g.name || "Casino Game";
-                        const img = g.banner || g.image || `https://placehold.co/400x400/15243b/1e88e5?text=${encodeURIComponent(title.substring(0, 10))}`;
-                        const code = g.game_code || g.id;
-                        return `
-                        <div class="game-card" onclick="playCasinoGame('PRAGMATIC', '${code}')">
-                            <div class="game-img-box">
-                                <img src="${img}" alt="${title}">
-                                <div class="game-overlay"><span class="play-btn">JOUER</span></div>
-                            </div>
-                            <div class="game-info"><div class="game-name">${title}</div><div class="game-provider">Pragmatic</div></div>
-                        </div>`;
-                    }).join('');
-                }
-            } catch (error) {
-                grid.innerHTML = '<div class="col-span-full text-center text-red-500 py-6 text-xs font-bold">Erreur de chargement des jeux.</div>';
+                const data = await res.json();
+                let gamesList = data.games || data.data || data || [];
+                window.currentProviderGames = gamesList;
+                renderCasinoGrid(gamesList, providerCode);
+            } catch (e) {
+                if (grid) grid.innerHTML = '<div class="col-span-full text-red-500 text-center py-10">Erreur de connexion</div>';
             }
+        }
+
+        function renderCasinoGrid(games, providerCode) {
+            const container = document.getElementById('games-grid');
+            if (!container) return;
+            container.innerHTML = games.map(g => {
+                const title = escapeHTML(g.game_name || g.name || "Game");
+                const img = g.banner || g.image || `https://placehold.co/400x400/15243b/ff9800?text=${encodeURIComponent(title.substring(0, 10))}`;
+                const code = g.game_code || g.id;
+                return `
+                <div onclick="playCasinoGame('${providerCode}', '${code}')" class="bg-[#0b1a30] border border-[#1a2a42] rounded-xl overflow-hidden cursor-pointer hover:border-orange-500 transition-all flex flex-col group shadow-lg">
+                    <div class="relative w-full aspect-square overflow-hidden bg-[#15243b]">
+                        <img src="${img}" class="w-full h-full object-cover auto-zoom-img">
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                            <span class="bg-orange-500 text-white text-[10px] font-bold px-4 py-2 rounded-full">JOUER</span>
+                        </div>
+                    </div>
+                    <div class="p-2 text-[10px] text-white font-bold truncate text-center">${title}</div>
+                </div>`;
+            }).join('');
         }
 
         async function playCasinoGame(providerCode, gameCode) {
             if (!playerSession) return openLoginModal();
-            document.body.style.cursor = 'wait';
             try {
                 const res = await fetch(`${BACKEND_URL}/api/provider/launch-casino`, {
-                    method: 'POST',
-                    headers: getAuthHeaders(),
+                    method: 'POST', headers: getAuthHeaders(),
                     body: JSON.stringify({ game_code: gameCode, provider_code: providerCode, user_code: playerSession.username })
                 });
                 const data = await res.json();
                 if (data.launch_url) {
-                    window.open(data.launch_url, '_blank');
-                } else {
-                    alert(data.error || "Jeu non disponible");
-                }
-            } catch (error) {
-                alert("Erreur de connexion");
-            } finally {
-                document.body.style.cursor = 'default';
-            }
+                    const container = document.getElementById('casino-iframe-container');
+                    const iframe = document.getElementById('casino-iframe');
+                    container.classList.remove('hidden'); container.classList.add('flex');
+                    iframe.src = data.launch_url;
+                } else { showNotification("Jeu non disponible", "error"); }
+            } catch (e) { showNotification("Erreur", "error"); }
+        }
+
+        function closeCasinoGame() {
+            document.getElementById('casino-iframe-container').classList.add('hidden');
+            document.getElementById('casino-iframe-container').classList.remove('flex');
+            document.getElementById('casino-iframe').src = '';
+            refreshBalance();
         }
 
         async function openSportsbookForProvider(providerCode) {
             if (!playerSession) return openLoginModal();
-            switchSection('sport');
-            const iframe = document.getElementById('sportsbook-iframe');
-            const loader = document.getElementById('sport-loader');
-            loader.classList.remove('hidden');
-            
             try {
-                const response = await fetch(`${BACKEND_URL}/api/provider/launch-sportsbook`, {
-                    method: 'POST',
-                    headers: getAuthHeaders(),
-                    body: JSON.stringify({
-                        provider_code: providerCode === 'nexus' ? 'SPORTSBOOK' : providerCode,
-                        user_code: playerSession.username,
-                        game_code: "SPORTSBOOK"
-                    })
+                const res = await fetch(`${BACKEND_URL}/api/provider/launch-sportsbook`, {
+                    method: 'POST', headers: getAuthHeaders(),
+                    body: JSON.stringify({ provider_code: 'SPORTSBOOK', user_code: playerSession.username, game_code: 'SPORTSBOOK' })
                 });
-                const data = await response.json();
-                if (data.launch_url) {
-                    iframe.src = data.launch_url;
-                } else {
-                    alert(data.error || "Sportsbook non disponible");
-                }
-            } catch (error) {
-                alert("Erreur de connexion");
-            } finally {
-                setTimeout(() => { loader.classList.add('hidden'); }, 1000);
-            }
+                const data = await res.json();
+                if (data.launch_url) window.open(data.launch_url, '_blank');
+                else showNotification("Sport non disponible", "error");
+            } catch (e) { showNotification("Erreur", "error"); }
         }
 
         function startLiveJackpots() {
             const wsUrl = BACKEND_URL.replace("http", "ws").replace("https", "wss") + "/ws/jackpot";
             const socket = new WebSocket(wsUrl);
-
-            socket.onmessage = function (event) {
+            socket.onmessage = (event) => {
                 const data = JSON.parse(event.data);
-                const elMini = document.getElementById('jackpot-mini');
-                const elMajor = document.getElementById('jackpot-major');
-                const elGrand = document.getElementById('jackpot-grand');
-
-                if (elMini) elMini.innerText = parseFloat(data.mini).toLocaleString('fr-FR', {minimumFractionDigits: 2});
-                if (elMajor) elMajor.innerText = parseFloat(data.major).toLocaleString('fr-FR', {minimumFractionDigits: 2});
-                if (elGrand) elGrand.innerText = parseFloat(data.grand).toLocaleString('fr-FR', {minimumFractionDigits: 2});
+                // يمكن تحديث الجاكبوت إذا وجد في الواجهة
             };
-            socket.onclose = () => setTimeout(startLiveJackpots, 5000);
         }
 
-        function toggleLeftSidebar() {
-            const sidebar = document.getElementById('left-sidebar');
-            const overlay = document.getElementById('left-sidebar-overlay');
-            if (!sidebar || !overlay) return;
-
-            if (sidebar.classList.contains('open')) {
-                sidebar.classList.remove('open');
-                overlay.classList.add('hidden');
-            } else {
-                sidebar.classList.add('open');
-                overlay.classList.remove('hidden');
-            }
-        }
-
-        function closeLeftSidebarOnMobile() {
-            if (window.innerWidth <= 900) {
-                const sidebar = document.getElementById('left-sidebar');
-                const overlay = document.getElementById('left-sidebar-overlay');
-                if (sidebar) sidebar.classList.remove('open');
-                if (overlay) overlay.classList.add('hidden');
-            }
+        async function loadFeaturedProvidersBlocks() {
+            // محرك عرض أقسام المزودين في الرئيسية
         }
     </script>
 </body>
