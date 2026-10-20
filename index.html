@@ -2,7 +2,7 @@
 <html lang="fr" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coutabet - Premium Sports & Casino</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -32,21 +32,6 @@
             flex-direction: column;
             overflow: hidden;
         }
-
-        /* Animations */
-        @keyframes logo-3d-swing {
-            0%, 100% { transform: perspective(800px) rotateY(-20deg) translateY(0); }
-            50% { transform: perspective(800px) rotateY(20deg) translateY(-4px); }
-        }
-        .animated-logo-3d { animation: logo-3d-swing 5s ease-in-out infinite; filter: drop-shadow(0 8px 16px rgba(255,152,0,0.4)); transform-style: preserve-3d; will-change: transform; object-fit: contain; }
-        @keyframes float-dice { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
-        .animate-bounce-slow { animation: float-dice 3s ease-in-out infinite; }
-        @keyframes continuous-zoom { 0% { transform: scale(1); } 50% { transform: scale(1.12); } 100% { transform: scale(1); } }
-        .auto-zoom-img { animation: continuous-zoom 6s ease-in-out infinite; }
-        .hide-scroll::-webkit-scrollbar { display: none; }
-        
-        .player-view-section { display: none; }
-        .player-view-section.block { display: block; }
 
         .top-header {
             background-color: var(--bg-navy);
@@ -154,6 +139,15 @@
         .mobile-menu-btn { display: none; }
         .mobile-sidebar-header { display: none; }
 
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .player-view-section { display: none; }
+        .player-view-section.block { display: block; }
+        
+        @keyframes float-dice { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+        .animate-bounce-slow { animation: float-dice 3s ease-in-out infinite; }
+        @keyframes continuous-zoom { 0% { transform: scale(1); } 50% { transform: scale(1.12); } 100% { transform: scale(1); } }
+        .auto-zoom-img { animation: continuous-zoom 6s ease-in-out infinite; }
+
         @media (max-width: 900px) {
             .main-container { grid-template-columns: 1fr; }
             .header-nav { display: none; }
@@ -246,7 +240,6 @@
         <!-- Main Content -->
         <main class="relative h-full overflow-y-auto w-full bg-[var(--bg-light)]">
             
-            <!-- PANE: ACCUEIL -->
             <div id="pane-accueil" class="player-view-section block center-content">
                 
                 <div class="main-banner-wrapper">
@@ -268,7 +261,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- صورة البانر (يمكنك تغييرها لاحقاً) -->
                     <img src="images/gatesbenner.png" alt="Character" class="banner-tiger-3d" onerror="this.style.display='none'">
                 </div>
 
@@ -308,7 +300,7 @@
 
             </div>
 
-            <!-- PANE: SPORT -->
+            <!-- Sport Section -->
             <div id="pane-sport" class="player-view-section hidden w-full h-full bg-[var(--bg-navy)]">
                 <div id="sport-loader" class="absolute inset-0 flex flex-col items-center justify-center bg-[var(--bg-navy)] z-[5] hidden">
                     <i class="fas fa-futbol text-[var(--accent-orange)] animate-bounce text-4xl mb-3"></i>
@@ -317,14 +309,14 @@
                 <iframe id="sportsbook-iframe" class="w-full h-full border-0 block m-0 p-0" allowfullscreen></iframe>
             </div>
             
-            <!-- PANE: CASINO (محدثة بإضافة البحث وقائمة المزودين) -->
+            <!-- PANE: CASINO -->
             <div id="pane-casino" class="player-view-section hidden w-full p-6">
                 <div class="flex items-center gap-2 mb-4">
                     <i class="fas fa-slot-machine text-2xl text-[var(--accent-orange)]"></i>
                     <h2 class="text-2xl font-bold text-[var(--bg-navy)]">Casino & Slots</h2>
                 </div>
 
-                <!-- شريط البحث وقائمة المزودين -->
+                <!-- شريط البحث والمزودين مدمج ومحدث -->
                 <div class="flex flex-col md:flex-row gap-3 mb-6 relative z-[100]">
                     <div class="relative flex-1">
                         <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
@@ -341,7 +333,6 @@
                             <i class="fas fa-chevron-down text-xs text-gray-500"></i>
                         </button>
 
-                        <!-- القائمة المنسدلة (Dropdown) -->
                         <div id="provider-dropdown"
                             class="absolute right-0 top-full mt-2 w-full md:w-72 bg-white border border-gray-200 rounded-xl shadow-2xl hidden flex-col overflow-hidden z-[100]">
                             <div class="p-3 border-b border-gray-200 bg-gray-50">
@@ -353,13 +344,11 @@
                                 </div>
                             </div>
                             <div id="provider-dropdown-list" class="max-h-[300px] overflow-y-auto hide-scroll p-2 flex flex-col gap-1 bg-white">
-                                <!-- سيتم وضع المزودين هنا برمجياً -->
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- شبكة الألعاب -->
                 <div id="games-grid" class="games-grid pb-10"></div>
             </div>
 
@@ -372,19 +361,18 @@
                 <div id="live-games-grid" class="games-grid pb-10"></div>
             </div>
 
-            <!-- PANE: VIRTUALS (EuroVirtuals) -->
+            <!-- PANE: VIRTUALS -->
             <div id="pane-virtuals" class="player-view-section hidden w-full p-6">
                 <div class="flex items-center gap-2 mb-6">
                     <i class="fas fa-gamepad text-2xl text-blue-500"></i>
                     <h2 class="text-2xl font-bold text-[var(--bg-navy)]">Sports Virtuels</h2>
                 </div>
-                <div id="euro-virtuals-providers" class="flex flex-wrap gap-2 mb-4"></div>
                 <div id="virtuals-games-grid" class="games-grid pb-10"></div>
             </div>
         </main>
     </div>
 
-    <!-- 🎰 Iframe Container (لفتح اللعبة داخل الموقع بدلاً من نافذة جديدة) -->
+    <!-- CASINO IFRAME CONTAINER -->
     <div id="casino-iframe-container" class="fixed inset-0 z-[600] bg-[var(--bg-navy)] hidden flex-col transition-all">
         <div class="h-12 bg-[#15243b] border-b border-[#1a2a42] flex justify-between items-center px-4 shrink-0 z-50 shadow-md">
             <div class="flex items-center gap-2">
@@ -458,7 +446,7 @@
         </div>
     </div>
 
-    <!-- ================= JAVASCRIPT (محرك الألعاب القوي) ================= -->
+    <!-- ================= JAVASCRIPT (محرك الألعاب المستخرج من ألفا بات) ================= -->
     <script>
         const BACKEND_URL = "https://alpha-backend-server.onrender.com";
         let playerSession = null;
@@ -472,6 +460,20 @@
             return str.toString().replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
         }
 
+        // إشعارات احترافية
+        function showNotification(message, type = "success") {
+            const toast = document.createElement('div');
+            toast.className = `fixed top-5 right-5 z-[9999] px-4 py-3 rounded-xl text-white font-bold text-xs shadow-xl transition-transform transform translate-x-full flex items-center gap-2 ${type === 'error' ? 'bg-red-600' : 'bg-emerald-500'}`;
+            toast.innerHTML = type === 'error' ? `<i class="fas fa-exclamation-circle"></i> ${message}` : `<i class="fas fa-check-circle"></i> ${message}`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.classList.remove('translate-x-full'), 10);
+            setTimeout(() => {
+                toast.classList.add('translate-x-full');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // السلايدر
         const track = document.getElementById('sliderTrack');
         let currentIndex = 0;
         const totalSlides = 2;
@@ -509,7 +511,7 @@
         async function handlePlayerAuth() {
             const username = document.getElementById('p-auth-username').value.trim();
             const password = document.getElementById('p-auth-password').value;
-            if (!username || !password) return alert("Veuillez remplir tous les champs");
+            if (!username || !password) return showNotification("Veuillez remplir tous les champs", "error");
             
             try {
                 const res = await fetch(`${BACKEND_URL}/api/login`, {
@@ -522,10 +524,11 @@
                     localStorage.setItem('alpha_player_session', JSON.stringify(data));
                     localStorage.setItem('token', data.access_token);
                     setupLoggedInUI();
+                    showNotification("Bienvenue !");
                 } else {
-                    alert(data.detail || "Erreur de connexion");
+                    showNotification(data.detail || "Erreur de connexion", "error");
                 }
-            } catch (e) { alert("Erreur serveur"); }
+            } catch (e) { showNotification("Erreur serveur", "error"); }
         }
 
         function setupLoggedInUI() {
@@ -537,7 +540,7 @@
             if(userProfile) { userProfile.classList.remove('hidden'); userProfile.classList.add('flex'); }
             
             document.getElementById('player-balance-val').innerText = parseFloat(playerSession.balance || 0).toFixed(2);
-            document.getElementById('sidebar-balance').innerText = parseFloat(playerSession.balance || 0).toFixed(2);
+            document.getElementById('sidebar-balance').innerText = parseFloat(playerSession.balance || 0).toFixed(2) + ' TND';
             document.getElementById('sidebar-username').innerText = playerSession.username;
             
             startLiveJackpots();
@@ -556,7 +559,7 @@
                 if (data.user_balance !== undefined) {
                     const formatted = parseFloat(data.user_balance).toFixed(2);
                     document.getElementById('player-balance-val').innerText = formatted;
-                    document.getElementById('sidebar-balance').innerText = formatted;
+                    document.getElementById('sidebar-balance').innerText = formatted + ' TND';
                 }
             } catch(e) {}
         }
@@ -574,10 +577,10 @@
             loadRandomCasinoGames();
         };
 
-        // ================= 3. الكازينو والسلوتس (جلب حقيقي للمزودين) =================
+        // ================= 1. الكازينو والسلوتس =================
         window.currentProviderGames = [];
         window.nexusProviders = [
-            { code: 'PRAGMATIC', name: 'Pragmatic Slot' },
+            { code: 'PRAGMATIC', name: 'Pragmatic Play' },
             { code: 'HACKSAW', name: 'Hacksaw' },
             { code: 'SPRIBE', name: 'Spribe' },
             { code: 'PLAYNGO', name: "Play'n Go" },
@@ -673,7 +676,7 @@
 
             list.innerHTML = filtered.map(p => `
                 <button onclick="loadProviderGames('${p.code}', '${p.name}'); toggleProviderDropdown();" 
-                    class="w-full flex items-center justify-between bg-gray-50 border border-gray-200 hover:border-[var(--accent-orange)] hover:bg-white text-[var(--bg-navy)] px-3 py-2.5 rounded-xl transition-all duration-300 shadow-sm mb-1.5 group">
+                    class="w-full flex items-center justify-between bg-white border border-gray-200 hover:border-[var(--accent-orange)] hover:bg-gray-50 text-[var(--bg-navy)] px-3 py-2.5 rounded-xl transition-all duration-300 shadow-sm mb-1.5 group">
                     <span class="font-extrabold text-xs tracking-wide">${p.name}</span>
                     <i class="fas fa-play text-[8px] text-gray-400 group-hover:text-[var(--accent-orange)] transition-colors"></i>
                 </button>
@@ -711,7 +714,7 @@
             }).join('');
         }
 
-        // ================= الألعاب العشوائية في الرئيسية =================
+        // ================= 2. الألعاب العشوائية في الرئيسية =================
         async function loadRandomCasinoGames() {
             const grid = document.getElementById('random-casino-games-grid');
             if (!grid) return;
@@ -732,7 +735,7 @@
                         return `
                         <div class="game-card" onclick="playCasinoGame('PRAGMATIC', '${code}')">
                             <div class="game-img-box">
-                                <img src="${img}" alt="${title}">
+                                <img src="${img}" alt="${title}" class="auto-zoom-img">
                                 <div class="game-overlay"><span class="play-btn">JOUER</span></div>
                             </div>
                             <div class="game-info"><div class="game-name">${title}</div><div class="game-provider">Pragmatic</div></div>
@@ -744,7 +747,7 @@
             }
         }
 
-        // ================= كازينو لايف =================
+        // ================= 3. كازينو لايف =================
         async function openLiveCasino() {
             const grid = document.getElementById('live-games-grid');
             if (grid) grid.innerHTML = '<div class="col-span-full text-red-500 text-center py-10 font-bold">Chargement Live...</div>';
@@ -756,17 +759,23 @@
                 const data = await res.json();
                 if (grid) grid.innerHTML = (data.games || []).map(g => {
                     const safeName = escapeHTML(g.game_name || g.name || "Live Game");
+                    const img = g.banner || g.image || 'https://placehold.co/400x400/15243b/FFF';
                     return `
-                    <div onclick="playCasinoGame('PP_LIVE_PRO', '${g.game_code || g.id}')" class="bg-white border border-gray-200 rounded-xl overflow-hidden cursor-pointer hover:border-red-500 transition-all relative shadow-sm">
+                    <div onclick="playCasinoGame('PP_LIVE_PRO', '${g.game_code || g.id}')" class="bg-white border border-gray-200 rounded-xl overflow-hidden cursor-pointer hover:border-red-500 transition-all relative shadow-sm group">
                         <div class="absolute top-0 right-0 bg-red-600 text-white text-[8px] font-black px-2 py-0.5 z-10 animate-pulse rounded-bl">LIVE</div>
-                        <img src="${g.banner || g.image || 'https://placehold.co/400x400/15243b/FFF'}" class="w-full aspect-square object-cover">
+                        <div class="relative w-full aspect-square overflow-hidden bg-gray-100">
+                            <img src="${img}" class="w-full h-full object-cover auto-zoom-img">
+                            <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300 z-10">
+                                <span class="bg-red-500 text-white text-[10px] font-bold px-4 py-2 rounded-full shadow-lg uppercase">JOUER</span>
+                            </div>
+                        </div>
                         <div class="p-2 text-[10px] text-[var(--bg-navy)] font-bold truncate text-center">${safeName}</div>
                     </div>
                 `}).join('');
             } catch (e) { }
         }
 
-        // ================= الألعاب الافتراضية =================
+        // ================= 4. الألعاب الافتراضية =================
         async function initVirtualsLobby() {
             const grid = document.getElementById('virtuals-games-grid');
             if (grid) grid.innerHTML = '<div class="col-span-full text-blue-500 text-center py-10 animate-pulse font-bold">Chargement Virtuels...</div>';
@@ -790,7 +799,7 @@
                         <div onclick="launchEuroVirtuals('${uuid}')" class="bg-white border border-gray-200 rounded-xl overflow-hidden cursor-pointer hover:border-blue-500 transition-all shadow-sm group relative">
                             <div class="absolute top-0 right-0 bg-[var(--bg-navy)] text-blue-400 text-[8px] font-black px-2 py-1 rounded-bl-lg z-20">${provider}</div>
                             <div class="relative w-full aspect-square overflow-hidden bg-gray-100">
-                                <img src="${img}" class="w-full h-full object-cover">
+                                <img src="${img}" class="w-full h-full object-cover auto-zoom-img">
                                 <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300 z-10">
                                     <span class="bg-blue-500 text-white text-[10px] font-bold px-4 py-2 rounded-full">JOUER</span>
                                 </div>
@@ -804,7 +813,7 @@
             } catch (e) {}
         }
 
-        // ================= الإطلاق الحقيقي عبر الـ Iframe =================
+        // ================= 5. الإطلاق الحقيقي عبر الـ Iframe =================
         async function playCasinoGame(providerCode, gameCode) {
             if (!playerSession) return openLoginModal();
             document.body.style.cursor = 'wait';
@@ -832,8 +841,8 @@
                         if (bottomBar) bottomBar.style.display = 'none';
                         iframe.src = data.launch_url;
                     }
-                } else { alert(data.error || "Jeu non disponible"); }
-            } catch (error) { alert("Erreur de connexion"); } finally { document.body.style.cursor = 'default'; }
+                } else { showNotification(data.error || "Jeu non disponible", "error"); }
+            } catch (error) { showNotification("Erreur de connexion", "error"); } finally { document.body.style.cursor = 'default'; }
         }
 
         async function launchEuroVirtuals(gameId) {
@@ -854,8 +863,8 @@
                         if (bottomBar) bottomBar.style.display = 'none';
                         iframe.src = data.launch_url;
                     }
-                } else { alert("Jeu non disponible: " + (data.error || 'Erreur')); }
-            } catch (error) { alert("Erreur"); } finally { document.body.style.cursor = 'default'; }
+                } else { showNotification("Jeu non disponible", "error"); }
+            } catch (error) { showNotification("Erreur", "error"); } finally { document.body.style.cursor = 'default'; }
         }
 
         function closeCasinoGame() {
@@ -876,9 +885,17 @@
                     body: JSON.stringify({ provider_code: 'SPORTSBOOK', user_code: playerSession.username, game_code: 'SPORTSBOOK' })
                 });
                 const data = await response.json();
-                if (data.launch_url) window.open(data.launch_url, '_blank');
-                else alert(data.error || "Sportsbook non disponible");
-            } catch (error) { alert("Erreur"); } finally { document.body.style.cursor = 'default'; }
+                if (data.launch_url) {
+                    // فتح في الـ Iframe المخصص للرياضة
+                    switchSection('sport');
+                    const iframe = document.getElementById('sportsbook-iframe');
+                    const loader = document.getElementById('sport-loader');
+                    loader.classList.remove('hidden');
+                    iframe.src = data.launch_url;
+                    setTimeout(() => { loader.classList.add('hidden'); }, 1000);
+                }
+                else showNotification("Sport non disponible", "error");
+            } catch (error) { showNotification("Erreur", "error"); } finally { document.body.style.cursor = 'default'; }
         }
 
         function startLiveJackpots() {
