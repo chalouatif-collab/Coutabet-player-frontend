@@ -382,247 +382,248 @@
         </div>
     </div>
 
-    <!-- ================= JAVASCRIPT (Backend Connected) ================= -->
     <script>
-        // 🌟 الرابط المركزي الموحد للباك إند
-        const BACKEND_URL = "https://alpha-backend-server.onrender.com";
-        let playerSession = null;
+    const BACKEND_URL = "https://alpha-backend-server.onrender.com";
+    let playerSession = null;
 
-        function getAuthHeaders() { 
-            return { 'Authorization': `Bearer ${localStorage.getItem('token')}`, 'Content-Type': 'application/json' }; 
+    function getAuthHeaders() { 
+        return { 'Authorization': `Bearer ${localStorage.getItem('token')}`, 'Content-Type': 'application/json' }; 
+    }
+
+    // تحريك البانر الرئيسي
+    const track = document.getElementById('sliderTrack');
+    let currentIndex = 0;
+    const totalSlides = 2;
+    function moveToNextSlide() {
+        if(!track) return;
+        currentIndex = (currentIndex + 1) % totalSlides;
+        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+    }
+    setInterval(moveToNextSlide, 3000);
+
+    // التنقل بين الأقسام (تم إضافة حماية لعدم توقف السكربت لو القسم غير موجود)
+    function switchSection(sectionId) {
+        document.querySelectorAll('.player-view-section').forEach(el => {
+            el.classList.add('hidden');
+            el.classList.remove('block');
+        });
+        const panel = document.getElementById(`pane-${sectionId}`);
+        if (panel) {
+            panel.classList.remove('hidden');
+            panel.classList.add('block');
         }
+    }
 
-        // تحريك البانر الرئيسي
-        const track = document.getElementById('sliderTrack');
-        let currentIndex = 0;
-        const totalSlides = 2;
-        function moveToNextSlide() {
-            if(!track) return;
-            currentIndex = (currentIndex + 1) % totalSlides;
-            track.style.transform = `translateX(-${currentIndex * 100}%)`;
+    // دوال وهمية مؤقتة لمنع ظهور أخطاء الـ Console عند الضغط على الأزرار غير المبرمجة بعد
+    function initCasinoLobby() { switchSection('casino'); }
+    function openLiveCasino() { switchSection('live-casino'); }
+    function initVirtualsLobby() { switchSection('virtuals'); }
+
+    // النوافذ المنبثقة
+    function openLoginModal() { document.getElementById('player-login-modal').classList.remove('hidden'); document.getElementById('player-login-modal').classList.add('flex'); }
+    function closeLoginModal() { document.getElementById('player-login-modal').classList.add('hidden'); document.getElementById('player-login-modal').classList.remove('flex'); }
+    
+    function toggleProfileSidebar() {
+        const sidebar = document.getElementById('profile-sidebar');
+        const overlay = document.getElementById('profile-overlay');
+        if (sidebar.classList.contains('translate-x-full')) {
+            sidebar.classList.remove('translate-x-full');
+            overlay.classList.remove('hidden');
+        } else {
+            sidebar.classList.add('translate-x-full');
+            overlay.classList.add('hidden');
         }
-        setInterval(moveToNextSlide, 3000);
+    }
 
-        // التنقل بين الأقسام
-        function switchSection(sectionId) {
-            document.querySelectorAll('.player-view-section').forEach(el => {
-                el.classList.add('hidden');
-                el.classList.remove('block');
-            });
-            const panel = document.getElementById(`pane-${sectionId}`);
-            if (panel) {
-                panel.classList.remove('hidden');
-                panel.classList.add('block');
-            }
-        }
-
-        // الن النوافذ المنبثقة
-        function openLoginModal() { document.getElementById('player-login-modal').classList.remove('hidden'); document.getElementById('player-login-modal').classList.add('flex'); }
-        function closeLoginModal() { document.getElementById('player-login-modal').classList.add('hidden'); document.getElementById('player-login-modal').classList.remove('flex'); }
+    // تسجيل الدخول الحقيقي
+    async function handlePlayerAuth() {
+        const username = document.getElementById('p-auth-username').value.trim();
+        const password = document.getElementById('p-auth-password').value;
+        if (!username || !password) return alert("Veuillez remplir tous les champs");
         
-        function toggleProfileSidebar() {
-            const sidebar = document.getElementById('profile-sidebar');
-            const overlay = document.getElementById('profile-overlay');
-            if (sidebar.classList.contains('translate-x-full')) {
-                sidebar.classList.remove('translate-x-full');
-                overlay.classList.remove('hidden');
+        try {
+            const res = await fetch(`${BACKEND_URL}/api/login`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                playerSession = data;
+                localStorage.setItem('token', data.access_token);
+                setupLoggedInUI();
             } else {
-                sidebar.classList.add('translate-x-full');
-                overlay.classList.add('hidden');
+                alert(data.detail || "Erreur de connexion");
             }
-        }
+        } catch (e) { alert("Erreur serveur"); }
+    }
 
-        // 🌟 تفعيل تسجيل الدخول الحقيقي مع الباك إند
-        async function handlePlayerAuth() {
-            const username = document.getElementById('p-auth-username').value.trim();
-            const password = document.getElementById('p-auth-password').value;
-            if (!username || !password) return alert("Veuillez remplir tous les champs");
-            
-            try {
-                const res = await fetch(`${BACKEND_URL}/api/login`, {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
-                });
-                const data = await res.json();
-                if (res.ok) {
-                    playerSession = data;
-                    localStorage.setItem('token', data.access_token);
-                    setupLoggedInUI();
-                } else {
-                    alert(data.detail || "Erreur de connexion");
-                }
-            } catch (e) { alert("Erreur serveur"); }
-        }
+    function setupLoggedInUI() {
+        closeLoginModal();
+        const authContainer = document.getElementById('auth-buttons-container');
+        if(authContainer) authContainer.classList.add('hidden');
+        
+        const userProfile = document.getElementById('top-user-profile');
+        if(userProfile) { userProfile.classList.remove('hidden'); userProfile.classList.add('flex'); }
+        
+        document.getElementById('player-balance-val').innerText = parseFloat(playerSession.balance || 0).toFixed(2);
+        document.getElementById('sidebar-balance').innerText = parseFloat(playerSession.balance || 0).toFixed(2);
+        document.getElementById('sidebar-username').innerText = playerSession.username;
+        
+        startLiveJackpots();
+        loadRandomCasinoGames();
+        refreshBalance();
+        setInterval(refreshBalance, 6000);
+    }
 
-        function setupLoggedInUI() {
-            closeLoginModal();
-            document.getElementById('auth-buttons-container').classList.add('hidden');
-            document.getElementById('auth-buttons-container').classList.remove('flex');
-            
-            const userProfile = document.getElementById('top-user-profile');
-            if(userProfile) { userProfile.classList.remove('hidden'); userProfile.classList.add('flex'); }
-            
-            document.getElementById('player-balance-val').innerText = parseFloat(playerSession.balance || 0).toFixed(2);
-            document.getElementById('sidebar-balance').innerText = parseFloat(playerSession.balance || 0).toFixed(2);
-            document.getElementById('sidebar-username').innerText = playerSession.username;
-            
-            startLiveJackpots();
-            loadRandomCasinoGames();
-            refreshBalance();
-            setInterval(refreshBalance, 6000);
-        }
-
-        async function refreshBalance() {
-            if (!playerSession) return;
-            try {
-                const res = await fetch(`${BACKEND_URL}/gold_api`, {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ method: 'user_balance', user_code: playerSession.username })
-                });
-                const data = await res.json();
-                if (data.user_balance !== undefined) {
-                    const formatted = parseFloat(data.user_balance).toFixed(2);
-                    document.getElementById('player-balance-val').innerText = formatted;
-                    document.getElementById('sidebar-balance').innerText = formatted;
-                }
-            } catch(e) {}
-        }
-
-        function logoutPlayer() {
-            playerSession = null;
-            localStorage.clear();
-            location.reload();
-        }
-
-        // جلب الألعاب عبر الـ API
-        async function loadRandomCasinoGames() {
-            const grid = document.getElementById('random-casino-games-grid');
-            if (!grid) return;
-            try {
-                const response = await fetch(`${BACKEND_URL}/api/get-providers`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ provider_code: 'PRAGMATIC' })
-                });
-                if (!response.ok) throw new Error("Erreur");
-                const data = await response.json();
-                let allGames = data.games || data.data || [];
-                
-                if (allGames.length > 0) {
-                    const randomGames = allGames.slice(0, 12);
-                    grid.innerHTML = randomGames.map(g => {
-                        const title = g.game_name || g.name || "Casino Game";
-                        const img = g.banner || g.image || `https://placehold.co/400x400/15243b/1e88e5?text=${encodeURIComponent(title.substring(0, 10))}`;
-                        const code = g.game_code || g.id;
-                        return `
-                        <div class="game-card" onclick="playCasinoGame('PRAGMATIC', '${code}')">
-                            <div class="game-img-box">
-                                <img src="${img}" alt="${title}">
-                                <div class="game-overlay"><span class="play-btn">JOUER</span></div>
-                            </div>
-                            <div class="game-info"><div class="game-name">${title}</div><div class="game-provider">Pragmatic</div></div>
-                        </div>`;
-                    }).join('');
-                }
-            } catch (error) {
-                grid.innerHTML = '<div class="col-span-full text-center text-red-500 py-6 text-xs font-bold">Erreur de chargement des jeux.</div>';
+    async function refreshBalance() {
+        if (!playerSession) return;
+        try {
+            const res = await fetch(`${BACKEND_URL}/gold_api`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ method: 'user_balance', user_code: playerSession.username })
+            });
+            const data = await res.json();
+            if (data.user_balance !== undefined) {
+                const formatted = parseFloat(data.user_balance).toFixed(2);
+                document.getElementById('player-balance-val').innerText = formatted;
+                document.getElementById('sidebar-balance').innerText = formatted;
             }
-        }
+        } catch(e) {}
+    }
 
-        // 🌟 تفعيل تشغيل الألعاب الحقيقي عبر الباك إند
-        async function playCasinoGame(providerCode, gameCode) {
-            if (!playerSession) return openLoginModal();
-            document.body.style.cursor = 'wait';
-            try {
-                const res = await fetch(`${BACKEND_URL}/api/provider/launch-casino`, {
-                    method: 'POST',
-                    headers: getAuthHeaders(),
-                    body: JSON.stringify({ game_code: gameCode, provider_code: providerCode, user_code: playerSession.username })
-                });
-                const data = await res.json();
-                if (data.launch_url) {
-                    window.open(data.launch_url, '_blank');
-                } else {
-                    alert(data.error || "Jeu non disponible");
-                }
-            } catch (error) {
-                alert("Erreur de connexion");
-            } finally {
-                document.body.style.cursor = 'default';
-            }
-        }
+    function logoutPlayer() {
+        playerSession = null;
+        localStorage.clear();
+        location.reload();
+    }
 
-        // 🌟 تفعيل تشغيل الرياضة الحقيقي عبر الباك إند
-        async function openSportsbookForProvider(providerCode) {
-            if (!playerSession) return openLoginModal();
-            switchSection('sport');
-            const iframe = document.getElementById('sportsbook-iframe');
-            const loader = document.getElementById('sport-loader');
-            loader.classList.remove('hidden');
+    // جلب الألعاب عبر الـ API
+    async function loadRandomCasinoGames() {
+        const grid = document.getElementById('random-casino-games-grid');
+        if (!grid) return;
+        try {
+            const response = await fetch(`${BACKEND_URL}/api/get-providers`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ provider_code: 'PRAGMATIC' })
+            });
+            if (!response.ok) throw new Error("Erreur");
+            const data = await response.json();
+            let allGames = data.games || data.data || [];
             
-            try {
-                const response = await fetch(`${BACKEND_URL}/api/provider/launch-sportsbook`, {
-                    method: 'POST',
-                    headers: getAuthHeaders(),
-                    body: JSON.stringify({
-                        provider_code: providerCode === 'nexus' ? 'SPORTSBOOK' : providerCode,
-                        user_code: playerSession.username,
-                        game_code: "SPORTSBOOK"
-                    })
-                });
-                const data = await response.json();
-                if (data.launch_url) {
-                    iframe.src = data.launch_url;
-                } else {
-                    alert(data.error || "Sportsbook non disponible");
-                }
-            } catch (error) {
-                alert("Erreur de connexion");
-            } finally {
-                setTimeout(() => { loader.classList.add('hidden'); }, 1000);
+            if (allGames.length > 0) {
+                const randomGames = allGames.slice(0, 12);
+                grid.innerHTML = randomGames.map(g => {
+                    const title = g.game_name || g.name || "Casino Game";
+                    const img = g.banner || g.image || `https://placehold.co/400x400/15243b/1e88e5?text=${encodeURIComponent(title.substring(0, 10))}`;
+                    const code = g.game_code || g.id;
+                    return `
+                    <div class="game-card" onclick="playCasinoGame('PRAGMATIC', '${code}')">
+                        <div class="game-img-box">
+                            <img src="${img}" alt="${title}">
+                            <div class="game-overlay"><span class="play-btn">JOUER</span></div>
+                        </div>
+                        <div class="game-info"><div class="game-name">${title}</div><div class="game-provider">Pragmatic</div></div>
+                    </div>`;
+                }).join('');
             }
+        } catch (error) {
+            grid.innerHTML = '<div class="col-span-full text-center text-red-500 py-6 text-xs font-bold">Erreur de chargement des jeux.</div>';
         }
+    }
 
-        // محرك الجاكبوت الحي
-        function startLiveJackpots() {
-            const wsUrl = BACKEND_URL.replace("http", "ws").replace("https", "wss") + "/ws/jackpot";
-            const socket = new WebSocket(wsUrl);
-
-            socket.onmessage = function (event) {
-                const data = JSON.parse(event.data);
-                const elMini = document.getElementById('jackpot-mini');
-                const elMajor = document.getElementById('jackpot-major');
-                const elGrand = document.getElementById('jackpot-grand');
-
-                if (elMini) elMini.innerText = parseFloat(data.mini).toLocaleString('fr-FR', {minimumFractionDigits: 2});
-                if (elMajor) elMajor.innerText = parseFloat(data.major).toLocaleString('fr-FR', {minimumFractionDigits: 2});
-                if (elGrand) elGrand.innerText = parseFloat(data.grand).toLocaleString('fr-FR', {minimumFractionDigits: 2});
-            };
-            socket.onclose = () => setTimeout(startLiveJackpots, 5000);
+    // تشغيل الألعاب عبر الباك إند
+    async function playCasinoGame(providerCode, gameCode) {
+        if (!playerSession) return openLoginModal();
+        document.body.style.cursor = 'wait';
+        try {
+            const res = await fetch(`${BACKEND_URL}/api/provider/launch-casino`, {
+                method: 'POST',
+                headers: getAuthHeaders(),
+                body: JSON.stringify({ game_code: gameCode, provider_code: providerCode, user_code: playerSession.username })
+            });
+            const data = await res.json();
+            if (data.launch_url) {
+                window.open(data.launch_url, '_blank');
+            } else {
+                alert(data.error || "Jeu non disponible");
+            }
+        } catch (error) {
+            alert("Erreur de connexion");
+        } finally {
+            document.body.style.cursor = 'default';
         }
+    }
 
-        function toggleLeftSidebar() {
+    // تشغيل الرياضة عبر الباك إند
+    async function openSportsbookForProvider(providerCode) {
+        if (!playerSession) return openLoginModal();
+        switchSection('sport');
+        const iframe = document.getElementById('sportsbook-iframe');
+        const loader = document.getElementById('sport-loader');
+        loader.classList.remove('hidden');
+        
+        try {
+            const response = await fetch(`${BACKEND_URL}/api/provider/launch-sportsbook`, {
+                method: 'POST',
+                headers: getAuthHeaders(),
+                body: JSON.stringify({
+                    provider_code: providerCode === 'nexus' ? 'SPORTSBOOK' : providerCode,
+                    user_code: playerSession.username,
+                    game_code: "SPORTSBOOK"
+                })
+            });
+            const data = await response.json();
+            if (data.launch_url) {
+                iframe.src = data.launch_url;
+            } else {
+                alert(data.error || "Sportsbook non disponible");
+            }
+        } catch (error) {
+            alert("Erreur de connexion");
+        } finally {
+            setTimeout(() => { loader.classList.add('hidden'); }, 1000);
+        }
+    }
+
+    // محرك الجاكبوت الحي
+    function startLiveJackpots() {
+        const wsUrl = BACKEND_URL.replace("http", "ws").replace("https", "wss") + "/ws/jackpot";
+        const socket = new WebSocket(wsUrl);
+
+        socket.onmessage = function (event) {
+            const data = JSON.parse(event.data);
+            const elMini = document.getElementById('jackpot-mini');
+            const elMajor = document.getElementById('jackpot-major');
+            const elGrand = document.getElementById('jackpot-grand');
+
+            if (elMini) elMini.innerText = parseFloat(data.mini).toLocaleString('fr-FR', {minimumFractionDigits: 2});
+            if (elMajor) elMajor.innerText = parseFloat(data.major).toLocaleString('fr-FR', {minimumFractionDigits: 2});
+            if (elGrand) elGrand.innerText = parseFloat(data.grand).toLocaleString('fr-FR', {minimumFractionDigits: 2});
+        };
+        socket.onclose = () => setTimeout(startLiveJackpots, 5000);
+    }
+
+    function toggleLeftSidebar() {
+        const sidebar = document.getElementById('left-sidebar');
+        const overlay = document.getElementById('left-sidebar-overlay');
+        if (!sidebar || !overlay) return;
+
+        if (sidebar.classList.contains('open')) {
+            sidebar.classList.remove('open');
+            overlay.classList.add('hidden');
+        } else {
+            sidebar.classList.add('open');
+            overlay.classList.remove('hidden');
+        }
+    }
+
+    function closeLeftSidebarOnMobile() {
+        if (window.innerWidth <= 900) {
             const sidebar = document.getElementById('left-sidebar');
             const overlay = document.getElementById('left-sidebar-overlay');
-            if (!sidebar || !overlay) return;
-
-            if (sidebar.classList.contains('open')) {
-                sidebar.classList.remove('open');
-                overlay.classList.add('hidden');
-            } else {
-                sidebar.classList.add('open');
-                overlay.classList.remove('hidden');
-            }
+            if (sidebar) sidebar.classList.remove('open');
+            if (overlay) overlay.classList.add('hidden');
         }
-
-        function closeLeftSidebarOnMobile() {
-            if (window.innerWidth <= 900) {
-                const sidebar = document.getElementById('left-sidebar');
-                const overlay = document.getElementById('left-sidebar-overlay');
-                if (sidebar) sidebar.classList.remove('open');
-                if (overlay) overlay.classList.add('hidden');
-            }
-        }
-    </script>
-</body>
-</html>
+    }
+</script>
