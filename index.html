@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coutabet - Light & Pro UI</title>
-    <!-- Tailwind CSS (للحفاظ على توافق النوافذ القديمة) -->
+    <title>Coutabet - Premium Sports & Casino</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* الألوان المستوحاة من الواجهة الاحترافية المشرقة */
         :root {
             --bg-navy: #0b1a30;
             --bg-navy-light: #15243b;
@@ -34,7 +33,6 @@
             overflow: hidden;
         }
 
-        /* --- Header (Navy Blue) --- */
         .top-header {
             background-color: var(--bg-navy);
             display: flex; justify-content: space-between; align-items: center;
@@ -43,20 +41,18 @@
             z-index: 50;
         }
         .header-nav { display: flex; gap: 20px; align-items: center; }
-        .header-nav a { color: var(--text-light); text-decoration: none; font-weight: 600; font-size: 13px; text-transform: uppercase; opacity: 0.9; transition: 0.2s; }
+        .header-nav a { color: var(--text-light); text-decoration: none; font-weight: 600; font-size: 13px; text-transform: uppercase; opacity: 0.9; transition: 0.2s; cursor: pointer; }
         .header-nav a:hover { opacity: 1; color: var(--primary-blue); }
-        .search-bar { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 6px 15px; color: #fff; display: flex; align-items: center; gap: 10px; font-size: 13px; margin-left: 20px; }
         
         .header-actions { display: flex; gap: 15px; align-items: center; }
-        .btn-outline { background: transparent; border: 1px solid var(--primary-blue); color: #fff; padding: 8px 20px; border-radius: 20px; font-weight: 700; font-size: 12px; transition: 0.2s; }
+        .btn-outline { background: transparent; border: 1px solid var(--primary-blue); color: #fff; padding: 8px 20px; border-radius: 20px; font-weight: 700; font-size: 12px; transition: 0.2s; cursor: pointer; }
         .btn-outline:hover { background: rgba(30, 136, 229, 0.1); }
-        .btn-solid { background: var(--accent-orange); color: #fff; padding: 8px 20px; border-radius: 20px; font-weight: 700; font-size: 12px; box-shadow: 0 4px 10px rgba(255, 152, 0, 0.3); transition: 0.2s; }
+        .btn-solid { background: var(--accent-orange); color: #fff; padding: 8px 20px; border-radius: 20px; font-weight: 700; font-size: 12px; box-shadow: 0 4px 10px rgba(255, 152, 0, 0.3); transition: 0.2s; cursor: pointer; }
         .btn-solid:hover { background: #f57c00; transform: scale(1.05); }
 
         .logo-area { color: #fff; font-size: 22px; font-weight: 900; letter-spacing: 1px; display: flex; align-items: center; gap: 5px; cursor: pointer; }
         .logo-area span { color: var(--accent-orange); }
 
-        /* --- Main Grid --- */
         .main-container {
             display: grid;
             grid-template-columns: 220px 1fr;
@@ -64,7 +60,6 @@
             overflow: hidden;
         }
 
-        /* --- Sidebar (Navy Blue) --- */
         .sidebar-left {
             background-color: var(--bg-navy);
             border-right: 1px solid #1a2a42;
@@ -76,10 +71,8 @@
         .nav-item { display: flex; align-items: center; gap: 12px; padding: 10px 20px; color: var(--text-muted); font-size: 13px; font-weight: 500; text-decoration: none; transition: 0.2s; cursor: pointer; }
         .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.05); color: var(--text-light); border-left: 3px solid var(--primary-blue); }
         
-        /* --- Main Content --- */
         .center-content { background-color: var(--bg-light); padding: 25px 40px; overflow-y: auto; width: 100%; }
 
-        /* البانر الرئيسي + 3D + Carousel */
         .main-banner-wrapper { position: relative; height: 280px; margin-bottom: 40px; }
         .banner-tiger-3d {
             position: absolute; left: 10px; bottom: -20px; height: 115%; z-index: 10;
@@ -92,9 +85,8 @@
         }
         
         .slider-track { display: flex; height: 100%; transition: transform 0.5s ease-in-out; }
-        .slide { min-width: 100%; height: 100%; position: relative; display: flex; align-items: center; justify-content: center; padding-left: 200px; /* لترك مساحة لصورة الـ 3D */ }
+        .slide { min-width: 100%; height: 100%; position: relative; display: flex; align-items: center; justify-content: center; padding-left: 200px; }
         
-        /* تأثير الشهاب الضوئي الدوار */
         .meteor-border { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
         .meteor-border::before {
             content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
@@ -102,33 +94,20 @@
             animation: rotateMeteor 2.5s linear infinite;
         }
         .slide-bg {
-            position: absolute; 
-            inset: 4px; 
-            border-radius: 12px; 
-            z-index: 2;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            text-align: center; 
-            color: #fff;
-            padding-left: 180px;
-            padding-right: 20px;
+            position: absolute; inset: 4px; border-radius: 12px; z-index: 2;
+            background-size: cover; background-position: center; background-repeat: no-repeat;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: #fff;
+            padding-left: 180px; padding-right: 20px;
         }
         @keyframes rotateMeteor { 100% { transform: rotate(360deg); } }
 
         .slide-title { font-size: 32px; font-weight: 900; margin-bottom: 10px; text-shadow: 0 4px 10px rgba(0,0,0,0.5); text-transform: uppercase; }
         .slide-desc { font-size: 16px; font-weight: 500; }
 
-        /* الجاكبوت المتعدد الألوان مع الـ 3D */
         .jackpots-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 40px; }
         .jackpot-card {
             background: var(--bg-navy-light); border-radius: 12px; display: flex; 
-            overflow: visible; /* لبروز الصور */
-            box-shadow: 0 6px 15px rgba(0,0,0,0.1); position: relative; height: 90px; align-items: center;
+            overflow: visible; box-shadow: 0 6px 15px rgba(0,0,0,0.1); position: relative; height: 90px; align-items: center;
         }
         
         .jp-side { width: 40px; height: 100%; display: flex; justify-content: center; align-items: center; color: #fff; font-weight: 900; font-size: 12px; writing-mode: vertical-rl; transform: rotate(180deg); letter-spacing: 2px; border-radius: 12px 0 0 12px; }
@@ -143,13 +122,11 @@
         .jp-grand .jp-amount { color: var(--accent-orange); }
         .jp-mineur .jp-amount { color: var(--accent-red); }
         
-        /* صور الجاكبوت 3D */
         .jackpot-tiger-3d {
             position: absolute; left: 20px; bottom: 0; height: 125%; z-index: 10;
             pointer-events: none; filter: drop-shadow(2px 4px 8px rgba(0,0,0,0.5));
         }
 
-        /* أقسام الألعاب الجديدة */
         .section-header { font-size: 18px; font-weight: 800; color: var(--bg-navy); margin: 30px 0 15px 0; display: flex; align-items: center; gap: 8px; border-left: 4px solid var(--primary-blue); padding-left: 10px; }
         .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
         .game-card { background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: transform 0.2s; cursor: pointer; border: 1px solid #ddd; }
@@ -163,111 +140,39 @@
         .game-name { font-weight: 700; font-size: 12px; color: var(--bg-navy); margin-bottom: 2px; }
         .game-provider { font-size: 10px; color: var(--text-muted); }
 
-        /* شريط الهاتف السفلي */
         .bottom-nav { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: var(--bg-navy); border-top: 1px solid #1a2a42; z-index: 100; box-shadow: 0 -5px 15px rgba(0,0,0,0.2); }
-        .bottom-nav-item { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10px 0; color: var(--text-muted); transition: 0.2s; }
+        .bottom-nav-item { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10px 0; color: var(--text-muted); transition: 0.2s; cursor: pointer; }
         .bottom-nav-item.active { border-top: 2px solid var(--primary-blue); color: #fff; background: rgba(255,255,255,0.05); }
         .bottom-nav-item i { font-size: 20px; margin-bottom: 4px; filter: drop-shadow(0 0 5px currentColor); }
         .bottom-nav-item span { font-size: 10px; font-weight: 600; }
 
-        /* إخفاء زر ورأس القائمة في شاشة الحاسوب */
         .mobile-menu-btn { display: none; }
         .mobile-sidebar-header { display: none; }
 
         @media (max-width: 900px) {
             .main-container { grid-template-columns: 1fr; }
-            .header-nav, .search-bar { display: none; }
+            .header-nav { display: none; }
             .center-content { padding: 15px; padding-bottom: 70px; }
             .bottom-nav { display: flex; }
-
-            /* إظهار زر فتح القائمة في الهيدر */
             .mobile-menu-btn { display: block; }
 
-            /* تحويل القائمة الجانبية اليسرى إلى سلايدر ينزلق من اليسار */
             .sidebar-left {
-                display: flex !important;
-                position: fixed;
-                top: 0;
-                left: 0;
-                height: 100vh;
-                width: 260px;
-                z-index: 150;
-                transform: translateX(-100%);
-                transition: transform 0.3s ease-in-out;
-                box-shadow: 5px 0 25px rgba(0,0,0,0.5);
+                display: flex !important; position: fixed; top: 0; left: 0; height: 100vh; width: 260px; z-index: 150;
+                transform: translateX(-100%); transition: transform 0.3s ease-in-out; box-shadow: 5px 0 25px rgba(0,0,0,0.5);
             }
-
-            /* إظهار القائمة عند الضغط */
-            .sidebar-left.open {
-                transform: translateX(0);
-            }
-
-            /* رأس القائمة الداخلي في الهاتف */
+            .sidebar-left.open { transform: translateX(0); }
             .mobile-sidebar-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 15px 20px;
-                background: #06101e;
-                border-bottom: 1px solid #1a2a42;
+                display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: #06101e; border-bottom: 1px solid #1a2a42;
             }
-            
-            /* --- 1. ضبط ارتفاع البانر في الهاتف --- */
-            .main-banner-wrapper { 
-                height: 165px; 
-                margin-bottom: 25px; 
-                margin-top: 10px;
-            }
-            
-            /* --- 2. إزاحة النص لليمين بعيداً عن الشخصية --- */
-            .slide-bg { 
-                padding-left: 125px !important; /* حجز المساحة اليسرى للصورة */
-                padding-right: 12px !important;
-                align-items: flex-start !important; /* محاذاة النص لليسار داخل مساحته الجديدة */
-                text-align: left !important;
-            }
-            
-            .slide-title { 
-                font-size: 17px !important; 
-                line-height: 1.2 !important; 
-                margin-bottom: 4px !important; 
-            }
-            
-            .slide-desc { 
-                font-size: 11px !important; 
-                line-height: 1.3 !important; 
-                opacity: 0.95;
-            }
-            
-            /* --- 3. ضبط حجم ومكان شخصية البانر --- */
-            .banner-tiger-3d { 
-                opacity: 1 !important;
-                left: -5px !important; 
-                bottom: 0 !important;
-                height: 112% !important; /* بروز خفيف من الأعلى فقط */
-                max-width: 135px !important; /* منع الصورة من التمدد أفقياً على النص */
-                object-fit: contain;
-                z-index: 20 !important;
-            }
-
-            /* --- 4. ضبط كروت الجاكبوت في الهاتف --- */
-            .jackpots-container { 
-                grid-template-columns: 1fr; 
-                gap: 12px; 
-                margin-bottom: 25px; 
-            }
+            .main-banner-wrapper { height: 165px; margin-bottom: 25px; margin-top: 10px; }
+            .slide-bg { padding-left: 125px !important; padding-right: 12px !important; align-items: flex-start !important; text-align: left !important; }
+            .slide-title { font-size: 17px !important; line-height: 1.2 !important; margin-bottom: 4px !important; }
+            .slide-desc { font-size: 11px !important; line-height: 1.3 !important; opacity: 0.95; }
+            .banner-tiger-3d { opacity: 1 !important; left: -5px !important; bottom: 0 !important; height: 112% !important; max-width: 135px !important; object-fit: contain; z-index: 20 !important; }
+            .jackpots-container { grid-template-columns: 1fr; gap: 12px; margin-bottom: 25px; }
             .jackpot-card { height: 70px; }
-            
-            .jackpot-tiger-3d { 
-                height: 115% !important; 
-                left: 15px !important; 
-                bottom: 0 !important;
-            }
-            .jp-grand .jackpot-tiger-3d {
-                height: 122% !important; 
-                left: 10px !important;
-            }
-            
+            .jackpot-tiger-3d { height: 115% !important; left: 15px !important; bottom: 0 !important; }
+            .jp-grand .jackpot-tiger-3d { height: 122% !important; left: 10px !important; }
             .jp-amount { font-size: 18px; }
             .jp-title { font-size: 11px; }
         }
@@ -275,13 +180,11 @@
 </head>
 <body>
 
-    <!-- طبقة تظليل خلفية القائمة الجانبية اليسرى للهاتف (ضرورية لعمل الدالة) -->
     <div id="left-sidebar-overlay" onclick="toggleLeftSidebar()" class="fixed inset-0 bg-black/60 z-[140] hidden backdrop-blur-sm transition-opacity"></div>
 
     <!-- Header -->
     <header class="top-header">
         <div class="flex items-center gap-3">
-            <!-- زر الهمبرغر (☰) لفتح القائمة في الهاتف -->
             <button onclick="toggleLeftSidebar()" class="mobile-menu-btn text-white hover:text-[var(--accent-orange)] transition text-xl">
                 <i class="fas fa-bars"></i>
             </button>
@@ -291,20 +194,17 @@
         </div>
         
         <div class="header-nav">
-            <a href="#" onclick="switchSection('accueil')">ACCUEIL</a>
-            <a href="#" onclick="switchSection('casino')">CASINO</a>
-            <a href="#" onclick="switchSection('live-casino')">LIVE CASINO</a>
-            <a href="#" onclick="openSportsbookForProvider('nexus')">SPORT</a>
+            <a onclick="switchSection('accueil')">ACCUEIL</a>
+            <a onclick="switchSection('casino')">CASINO</a>
+            <a onclick="switchSection('live-casino')">LIVE CASINO</a>
+            <a onclick="openSportsbookForProvider('nexus')">SPORT</a>
         </div>
 
         <div class="header-actions">
-            <!-- أزرار الزائر -->
             <div id="auth-buttons-container" class="flex gap-3">
-                <button class="btn-outline hidden md:block">INSCRIPTION</button>
-                <button class="btn-solid" onclick="openLoginModal()">SE CONNECTER</button>
+                <button onclick="openLoginModal()" class="btn-solid">SE CONNECTER</button>
             </div>
 
-            <!-- لوحة المستخدم المسجل -->
             <div id="top-user-profile" class="hidden items-center gap-3">
                 <div class="flex flex-col items-end">
                     <span class="text-[10px] text-[var(--text-muted)] font-bold">Solde</span>
@@ -320,10 +220,9 @@
     <div class="main-container">
         <!-- Sidebar -->
         <aside id="left-sidebar" class="sidebar-left">
-            <!-- رأس القائمة في الهاتف فقط لإغلاقها -->
             <div class="mobile-sidebar-header">
                 <div class="logo-area" style="font-size: 18px;">
-                    <i class="fas fa-crown text-[var(--accent-orange)]"></i> ALPHA<span>WIN</span>
+                    <i class="fas fa-crown text-[var(--accent-orange)]"></i>COUTA<span>BET</span>
                 </div>
                 <button onclick="toggleLeftSidebar()" class="text-gray-400 hover:text-white text-lg">
                     <i class="fas fa-times"></i>
@@ -348,56 +247,30 @@
         <!-- Main Content -->
         <main class="relative h-full overflow-y-auto w-full bg-[var(--bg-light)]">
             
-            <!-- قسم الرئيسية (Accueil) -->
             <div id="pane-accueil" class="player-view-section block center-content">
                 
-                <!-- البانر المدمج مع الـ 3D والشهاب المتحرك -->
                 <div class="main-banner-wrapper">
-                    <!-- شخصية Gates الثابتة والبارزة -->
-                    
                     <div class="slider-container">
                         <div class="slider-track" id="sliderTrack">
-    <!-- البانر 1 -->
-    <div class="slide">
-        <div class="meteor-border"></div>
-        <div class="slide-bg" style="background-image: linear-gradient(90deg, rgba(11, 26, 48, 0.85) 0%, rgba(11, 26, 48, 0.4) 100%), url('images/bg1.jpg');">
-            <div class="slide-title">Retraits Instantanés</div>
-            <div class="slide-desc">Vos gains traités en quelques secondes. Sécurité absolue.</div>
-        </div>
-    </div>
-
-    <!-- البانر 2 -->
-    <div class="slide">
-        <div class="meteor-border"></div>
-        <div class="slide-bg" style="background-image: linear-gradient(90deg, rgba(11, 26, 48, 0.85) 0%, rgba(11, 26, 48, 0.4) 100%), url('images/bg2.jpg');">
-            <div class="slide-title">Support VIP 24/7</div>
-            <div class="slide-desc">Une équipe de professionnels dédiée à votre service.</div>
-        </div>
-    </div>
-
-    <!-- البانر 3 -->
-    <div class="slide">
-        <div class="meteor-border"></div>
-        <div class="slide-bg" style="background-image: linear-gradient(90deg, rgba(11, 26, 48, 0.85) 0%, rgba(11, 26, 48, 0.4) 100%), url('images/bg4.jfif');">
-            <div class="slide-title">Jeux Originaux</div>
-            <div class="slide-desc">Les meilleurs fournisseurs certifiés mondialement.</div>
-        </div>
-    </div>
-
-    <!-- البانر 4 -->
-    <div class="slide">
-        <div class="meteor-border"></div>
-        <div class="slide-bg" style="background-image: linear-gradient(90deg, rgba(11, 26, 48, 0.85) 0%, rgba(11, 26, 48, 0.4) 100%), url('images/bg4.jpg');">
-            <div class="slide-title">Plafonds Élevés</div>
-            <div class="slide-desc">L'expérience ultime pour les joueurs VIP.</div>
-        </div>
-    </div>
-</div>
+                            <div class="slide">
+                                <div class="meteor-border"></div>
+                                <div class="slide-bg" style="background-image: linear-gradient(90deg, rgba(11, 26, 48, 0.85) 0%, rgba(11, 26, 48, 0.4) 100%), url('images/bg1.jpg');">
+                                    <div class="slide-title">Retraits Instantanés</div>
+                                    <div class="slide-desc">Vos gains traités en quelques secondes. Sécurité absolue.</div>
+                                </div>
+                            </div>
+                            <div class="slide">
+                                <div class="meteor-border"></div>
+                                <div class="slide-bg" style="background-image: linear-gradient(90deg, rgba(11, 26, 48, 0.85) 0%, rgba(11, 26, 48, 0.4) 100%), url('images/bg2.jpg');">
+                                    <div class="slide-title">Support VIP 24/7</div>
+                                    <div class="slide-desc">Une équipe de professionnels dédiée à votre service.</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <img src="images/gatesbenner.png" alt="Gates Character" class="banner-tiger-3d">
+                    <img src="images/gatesbenner.png" alt="Character" class="banner-tiger-3d">
                 </div>
 
-                <!-- كروت الجاكبوت مع الـ 3D -->
                 <div class="jackpots-container">
                     <div class="jackpot-card jp-mini">
                         <div class="jp-side">MINI</div>
@@ -427,35 +300,14 @@
                     </div>
                 </div>
 
-                <!-- قسم: العاب اليوم -->
                 <h2 class="section-header"><i class="fas fa-bolt text-[var(--accent-orange)]"></i> Jeux du Jour</h2>
                 <div class="games-grid" id="random-casino-games-grid">
-                    <!-- سيتم حقن الألعاب العشوائية هنا بواسطة دالة loadRandomCasinoGames() الموجودة في سكريبتك -->
-                    <div class="col-span-full text-center py-5">Chargement...</div>
-                </div>
-
-                <!-- قسم: المفضلة -->
-                <h2 class="section-header"><i class="fas fa-heart text-red-500"></i> Vos Favoris</h2>
-                <div class="games-grid">
-                    <div class="game-card" onclick="playCasinoGame('01TECH', 'sweet_bonanza')">
-                        <div class="game-img-box">
-                            <img src="https://placehold.co/400x400/12151d/10b981?text=Sweet+Bonanza" alt="Game">
-                            <div class="game-overlay"><span class="play-btn">JOUER</span></div>
-                        </div>
-                        <div class="game-info"><div class="game-name">Sweet Bonanza</div><div class="game-provider">Pragmatic Play</div></div>
-                    </div>
-                    <div class="game-card" onclick="playCasinoGame('01TECH', 'gates_of_olympus')">
-                        <div class="game-img-box">
-                            <img src="https://placehold.co/400x400/12151d/10b981?text=Gates+Olympus" alt="Game">
-                            <div class="game-overlay"><span class="play-btn">JOUER</span></div>
-                        </div>
-                        <div class="game-info"><div class="game-name">Gates of Olympus</div><div class="game-provider">Pragmatic Play</div></div>
-                    </div>
+                    <div class="col-span-full text-center py-5 font-bold">Chargement...</div>
                 </div>
 
             </div>
 
-            <!-- قسم الرياضة (Iframe) -->
+            <!-- Sport Section -->
             <div id="pane-sport" class="player-view-section hidden w-full h-full bg-[var(--bg-navy)]">
                 <div id="sport-loader" class="absolute inset-0 flex flex-col items-center justify-center bg-[var(--bg-navy)] z-[5] hidden">
                     <i class="fas fa-futbol text-[var(--accent-orange)] animate-bounce text-4xl mb-3"></i>
@@ -464,32 +316,28 @@
                 <iframe id="sportsbook-iframe" class="w-full h-full border-0 block m-0 p-0" allowfullscreen></iframe>
             </div>
             
-            <!-- الأقسام الأخرى (سيتم محاكاتها ليتم التحكم بها بالسكربت) -->
-            <div id="pane-casino" class="player-view-section hidden w-full h-full p-6"><h2 class="text-2xl font-bold">Casino Lobby (Ici votre grille de jeux)</h2></div>
+            <div id="pane-casino" class="player-view-section hidden w-full h-full p-6"><h2 class="text-2xl font-bold">Casino Lobby</h2></div>
             <div id="pane-live-casino" class="player-view-section hidden w-full h-full p-6"><h2 class="text-2xl font-bold">Live Casino</h2></div>
             <div id="pane-virtuals" class="player-view-section hidden w-full h-full p-6"><h2 class="text-2xl font-bold">Sports Virtuels</h2></div>
         </main>
     </div>
 
-    <!-- شريط الهاتف السفلي -->
+    <!-- Mobile Bottom Nav -->
     <nav class="bottom-nav">
-        <a href="#" onclick="switchSection('accueil')" class="bottom-nav-item active">
+        <a onclick="switchSection('accueil')" class="bottom-nav-item active">
             <i class="fas fa-home" style="color: #00e5ff;"></i><span>Accueil</span>
         </a>
-        <a href="#" onclick="openSportsbookForProvider('nexus')" class="bottom-nav-item">
+        <a onclick="openSportsbookForProvider('nexus')" class="bottom-nav-item">
             <i class="fas fa-futbol" style="color: #ff3333;"></i><span>Sports</span>
         </a>
-        <a href="#" onclick="switchSection('casino');" class="bottom-nav-item">
+        <a onclick="switchSection('casino');" class="bottom-nav-item">
             <i class="fas fa-gem" style="color: #ffdf1b;"></i><span>Casino</span>
         </a>
-        <a href="#" onclick="toggleProfileSidebar()" class="bottom-nav-item">
+        <a onclick="toggleProfileSidebar()" class="bottom-nav-item">
             <i class="fas fa-user" style="color: #d900ff;"></i><span>Profil</span>
         </a>
     </nav>
 
-
-    <!-- ================= النوافذ المنبثقة (Modals من الكود الأصلي) ================= -->
-    
     <!-- Login Modal -->
     <div id="player-login-modal" class="fixed inset-0 z-[700] bg-black/80 hidden items-center justify-center p-4 backdrop-blur-sm">
         <div class="w-full max-w-sm bg-[#15243b] border border-[#1e88e5] rounded-2xl p-8 relative shadow-2xl">
@@ -507,12 +355,12 @@
                     <label class="block text-gray-400 text-[10px] font-black mb-2 uppercase pl-1">Mot de passe</label>
                     <input type="password" id="p-auth-password" class="w-full bg-[#0b1a30] border border-gray-600 rounded-xl py-3 px-4 text-white font-bold outline-none focus:border-[var(--accent-orange)]">
                 </div>
-                <button onclick="handlePlayerAuth()" class="w-full bg-[var(--accent-orange)] text-white font-black py-3 rounded-xl uppercase shadow-lg hover:scale-105 transition">Entrer</button>
+                <button onclick="handlePlayerAuth()" class="w-full bg-[var(--accent-orange)] text-white font-black py-3 rounded-xl uppercase shadow-lg hover:scale-105 transition cursor-pointer">Entrer</button>
             </div>
         </div>
     </div>
 
-    <!-- Profile Sidebar (القائمة الجانبية للحساب) -->
+    <!-- Profile Sidebar -->
     <div id="profile-overlay" onclick="toggleProfileSidebar()" class="fixed inset-0 bg-black/60 z-[190] hidden backdrop-blur-sm"></div>
     <div id="profile-sidebar" class="fixed right-0 top-0 h-full w-80 bg-[#15243b] border-l border-[#1e88e5] z-[200] shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col text-white">
         <div class="p-5 border-b border-gray-700 flex justify-between items-center bg-[#0b1a30]">
@@ -523,31 +371,39 @@
                     <p class="text-[var(--accent-orange)] font-black text-sm"><span id="sidebar-balance">0.00</span> TND</p>
                 </div>
             </div>
-            <button onclick="toggleProfileSidebar()" class="text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+            <button onclick="toggleProfileSidebar()" class="text-gray-400 hover:text-white cursor-pointer"><i class="fas fa-times"></i></button>
         </div>
         <div class="flex-1 overflow-y-auto p-3 space-y-2">
-            <a href="javascript:void(0)" onclick="alert('Historique')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition"><i class="fas fa-history text-gray-400"></i> Historique</a>
-            <a href="javascript:void(0)" onclick="alert('Transactions')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition"><i class="fas fa-exchange-alt text-gray-400"></i> Transactions</a>
+            <a onclick="alert('Historique')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer"><i class="fas fa-history text-gray-400"></i> Historique</a>
+            <a onclick="alert('Transactions')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer"><i class="fas fa-exchange-alt text-gray-400"></i> Transactions</a>
         </div>
         <div class="p-4 bg-[#0b1a30]">
-            <button onclick="toggleProfileSidebar(); logoutPlayer();" class="w-full bg-red-600 text-white font-bold py-3 rounded-lg uppercase">Déconnexion</button>
+            <button onclick="toggleProfileSidebar(); logoutPlayer();" class="w-full bg-red-600 text-white font-bold py-3 rounded-lg uppercase cursor-pointer">Déconnexion</button>
         </div>
     </div>
 
-    <!-- ================= JAVASCRIPT (تم الاحتفاظ بقلب السكربت الخاص بك) ================= -->
+    <!-- ================= JAVASCRIPT (Backend Connected) ================= -->
     <script>
-        
-        // 1. تحريك البانر الرئيسي كل ثانيتين
+        // 🌟 الرابط المركزي الموحد للباك إند
+        const BACKEND_URL = "https://alpha-backend-server.onrender.com";
+        let playerSession = null;
+
+        function getAuthHeaders() { 
+            return { 'Authorization': `Bearer ${localStorage.getItem('token')}`, 'Content-Type': 'application/json' }; 
+        }
+
+        // تحريك البانر الرئيسي
         const track = document.getElementById('sliderTrack');
         let currentIndex = 0;
-        const totalSlides = 4;
+        const totalSlides = 2;
         function moveToNextSlide() {
+            if(!track) return;
             currentIndex = (currentIndex + 1) % totalSlides;
-            if(track) track.style.transform = `translateX(-${currentIndex * 100}%)`;
+            track.style.transform = `translateX(-${currentIndex * 100}%)`;
         }
-        setInterval(moveToNextSlide, 2000);
+        setInterval(moveToNextSlide, 3000);
 
-        // 2. دوال التنقل
+        // التنقل بين الأقسام
         function switchSection(sectionId) {
             document.querySelectorAll('.player-view-section').forEach(el => {
                 el.classList.add('hidden');
@@ -558,15 +414,9 @@
                 panel.classList.remove('hidden');
                 panel.classList.add('block');
             }
-            
-            // تحديث الشريط السفلي
-            document.querySelectorAll('.bottom-nav-item').forEach(item => item.classList.remove('active'));
-            if(event && event.currentTarget.classList.contains('bottom-nav-item')) {
-                event.currentTarget.classList.add('active');
-            }
         }
 
-        // 3. النوافذ المنبثقة
+        // الن النوافذ المنبثقة
         function openLoginModal() { document.getElementById('player-login-modal').classList.remove('hidden'); document.getElementById('player-login-modal').classList.add('flex'); }
         function closeLoginModal() { document.getElementById('player-login-modal').classList.add('hidden'); document.getElementById('player-login-modal').classList.remove('flex'); }
         
@@ -582,7 +432,27 @@
             }
         }
 
-       
+        // 🌟 تفعيل تسجيل الدخول الحقيقي مع الباك إند
+        async function handlePlayerAuth() {
+            const username = document.getElementById('p-auth-username').value.trim();
+            const password = document.getElementById('p-auth-password').value;
+            if (!username || !password) return alert("Veuillez remplir tous les champs");
+            
+            try {
+                const res = await fetch(`${BACKEND_URL}/api/login`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    playerSession = data;
+                    localStorage.setItem('token', data.access_token);
+                    setupLoggedInUI();
+                } else {
+                    alert(data.detail || "Erreur de connexion");
+                }
+            } catch (e) { alert("Erreur serveur"); }
+        }
 
         function setupLoggedInUI() {
             closeLoginModal();
@@ -592,20 +462,39 @@
             const userProfile = document.getElementById('top-user-profile');
             if(userProfile) { userProfile.classList.remove('hidden'); userProfile.classList.add('flex'); }
             
-            document.getElementById('player-balance-val').innerText = playerSession.balance;
-            document.getElementById('sidebar-balance').innerText = playerSession.balance;
+            document.getElementById('player-balance-val').innerText = parseFloat(playerSession.balance || 0).toFixed(2);
+            document.getElementById('sidebar-balance').innerText = parseFloat(playerSession.balance || 0).toFixed(2);
             document.getElementById('sidebar-username').innerText = playerSession.username;
             
-            startLiveJackpots(); // تشغيل الويسوكت
+            startLiveJackpots();
             loadRandomCasinoGames();
+            refreshBalance();
+            setInterval(refreshBalance, 6000);
+        }
+
+        async function refreshBalance() {
+            if (!playerSession) return;
+            try {
+                const res = await fetch(`${BACKEND_URL}/gold_api`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ method: 'user_balance', user_code: playerSession.username })
+                });
+                const data = await res.json();
+                if (data.user_balance !== undefined) {
+                    const formatted = parseFloat(data.user_balance).toFixed(2);
+                    document.getElementById('player-balance-val').innerText = formatted;
+                    document.getElementById('sidebar-balance').innerText = formatted;
+                }
+            } catch(e) {}
         }
 
         function logoutPlayer() {
             playerSession = null;
+            localStorage.clear();
             location.reload();
         }
 
-        // 5. جلب ألعاب اليوم (العشوائية) عبر الـ API
+        // جلب الألعاب عبر الـ API
         async function loadRandomCasinoGames() {
             const grid = document.getElementById('random-casino-games-grid');
             if (!grid) return;
@@ -613,24 +502,25 @@
                 const response = await fetch(`${BACKEND_URL}/api/get-providers`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ provider_code: '01TECH' })
+                    body: JSON.stringify({ provider_code: 'PRAGMATIC' })
                 });
                 if (!response.ok) throw new Error("Erreur");
                 const data = await response.json();
-                let allGames = data.games || [];
+                let allGames = data.games || data.data || [];
                 
                 if (allGames.length > 0) {
-                    const randomGames = allGames.slice(0, 6); // نأخذ 6 ألعاب
+                    const randomGames = allGames.slice(0, 12);
                     grid.innerHTML = randomGames.map(g => {
-                        const title = g.game_name || "Casino Game";
-                        const img = g.banner || `https://placehold.co/400x400/15243b/1e88e5?text=${encodeURIComponent(title.substring(0, 10))}`;
+                        const title = g.game_name || g.name || "Casino Game";
+                        const img = g.banner || g.image || `https://placehold.co/400x400/15243b/1e88e5?text=${encodeURIComponent(title.substring(0, 10))}`;
+                        const code = g.game_code || g.id;
                         return `
-                        <div class="game-card" onclick="playCasinoGame('01TECH', '${g.game_code}')">
+                        <div class="game-card" onclick="playCasinoGame('PRAGMATIC', '${code}')">
                             <div class="game-img-box">
                                 <img src="${img}" alt="${title}">
                                 <div class="game-overlay"><span class="play-btn">JOUER</span></div>
                             </div>
-                            <div class="game-info"><div class="game-name">${title}</div><div class="game-provider">01TECH</div></div>
+                            <div class="game-info"><div class="game-name">${title}</div><div class="game-provider">Pragmatic</div></div>
                         </div>`;
                     }).join('');
                 }
@@ -639,93 +529,61 @@
             }
         }
 
-        
-
-        // 1. توجيه الرابط إلى السيرفر المركزي الموحد
-const BACKEND_URL = "https://alpha-backend-server.onrender.com";
-let playerSession = null;
-
-function getAuthHeaders() { 
-    return { 'Authorization': `Bearer ${localStorage.getItem('token')}`, 'Content-Type': 'application/json' }; 
-}
-
-// 2. تفعيل تسجيل الدخول الحقيقي
-async function handlePlayerAuth() {
-    const username = document.getElementById('p-auth-username').value.trim();
-    const password = document.getElementById('p-auth-password').value;
-    if (!username || !password) return alert("Veuillez remplir tous les champs");
-    
-    try {
-        const res = await fetch(`${BACKEND_URL}/api/login`, {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password })
-        });
-        const data = await res.json();
-        if (res.ok) {
-            playerSession = data;
-            localStorage.setItem('token', data.access_token);
-            setupLoggedInUI();
-        } else {
-            alert(data.detail);
+        // 🌟 تفعيل تشغيل الألعاب الحقيقي عبر الباك إند
+        async function playCasinoGame(providerCode, gameCode) {
+            if (!playerSession) return openLoginModal();
+            document.body.style.cursor = 'wait';
+            try {
+                const res = await fetch(`${BACKEND_URL}/api/provider/launch-casino`, {
+                    method: 'POST',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify({ game_code: gameCode, provider_code: providerCode, user_code: playerSession.username })
+                });
+                const data = await res.json();
+                if (data.launch_url) {
+                    window.open(data.launch_url, '_blank');
+                } else {
+                    alert(data.error || "Jeu non disponible");
+                }
+            } catch (error) {
+                alert("Erreur de connexion");
+            } finally {
+                document.body.style.cursor = 'default';
+            }
         }
-    } catch (e) { alert("Erreur serveur"); }
-}
 
-// 3. تفعيل تشغيل ألعاب الكازينو
-async function playCasinoGame(providerCode, gameCode) {
-    if (!playerSession) return openLoginModal();
-    document.body.style.cursor = 'wait';
-    try {
-        const res = await fetch(`${BACKEND_URL}/api/provider/launch-casino`, {
-            method: 'POST',
-            headers: getAuthHeaders(),
-            body: JSON.stringify({ game_code: gameCode, provider_code: providerCode, user_code: playerSession.username })
-        });
-        const data = await res.json();
-        if (data.launch_url) {
-            // فتح اللعبة في نافذة جديدة (بما أن iframe الكازينو غير موجود في تصميم Coutabet الحالي)
-            window.open(data.launch_url, '_self'); 
-        } else {
-            alert(data.error || "Jeu non disponible");
+        // 🌟 تفعيل تشغيل الرياضة الحقيقي عبر الباك إند
+        async function openSportsbookForProvider(providerCode) {
+            if (!playerSession) return openLoginModal();
+            switchSection('sport');
+            const iframe = document.getElementById('sportsbook-iframe');
+            const loader = document.getElementById('sport-loader');
+            loader.classList.remove('hidden');
+            
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/provider/launch-sportsbook`, {
+                    method: 'POST',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify({
+                        provider_code: providerCode === 'nexus' ? 'SPORTSBOOK' : providerCode,
+                        user_code: playerSession.username,
+                        game_code: "SPORTSBOOK"
+                    })
+                });
+                const data = await response.json();
+                if (data.launch_url) {
+                    iframe.src = data.launch_url;
+                } else {
+                    alert(data.error || "Sportsbook non disponible");
+                }
+            } catch (error) {
+                alert("Erreur de connexion");
+            } finally {
+                setTimeout(() => { loader.classList.add('hidden'); }, 1000);
+            }
         }
-    } catch (error) {
-        alert("Erreur de connexion");
-    } finally {
-        document.body.style.cursor = 'default';
-    }
-}
 
-// 4. تفعيل تشغيل الرياضة
-async function openSportsbookForProvider(providerCode) {
-    if (!playerSession) return openLoginModal();
-    switchSection('sport');
-    const iframe = document.getElementById('sportsbook-iframe');
-    const loader = document.getElementById('sport-loader');
-    loader.classList.remove('hidden');
-    
-    try {
-        const response = await fetch(`${BACKEND_URL}/api/provider/launch-sportsbook`, {
-            method: 'POST',
-            headers: getAuthHeaders(),
-            body: JSON.stringify({
-                provider_code: providerCode === 'nexus' ? 'SPORTSBOOK' : providerCode,
-                user_code: playerSession.username,
-                game_code: "SPORTSBOOK"
-            })
-        });
-        const data = await response.json();
-        if (data.launch_url) {
-            iframe.src = data.launch_url;
-        } else {
-            alert(data.error || "Sportsbook non disponible");
-        }
-    } catch (error) {
-        alert("Erreur de connexion");
-    } finally {
-        setTimeout(() => { loader.classList.add('hidden'); }, 1000);
-    }
-}
-        // 8. تشغيل محرك الجاكبوت الحي (WebSocket) مع הIDs الجديدة
+        // محرك الجاكبوت الحي
         function startLiveJackpots() {
             const wsUrl = BACKEND_URL.replace("http", "ws").replace("https", "wss") + "/ws/jackpot";
             const socket = new WebSocket(wsUrl);
@@ -733,7 +591,7 @@ async function openSportsbookForProvider(providerCode) {
             socket.onmessage = function (event) {
                 const data = JSON.parse(event.data);
                 const elMini = document.getElementById('jackpot-mini');
-                const elMajor = document.getElementById('jackpot-major'); // ربطناه بالماينور في التصميم
+                const elMajor = document.getElementById('jackpot-major');
                 const elGrand = document.getElementById('jackpot-grand');
 
                 if (elMini) elMini.innerText = parseFloat(data.mini).toLocaleString('fr-FR', {minimumFractionDigits: 2});
@@ -743,7 +601,6 @@ async function openSportsbookForProvider(providerCode) {
             socket.onclose = () => setTimeout(startLiveJackpots, 5000);
         }
 
-        // فتح وإغلاق القائمة الجانبية اليسرى في الهاتف
         function toggleLeftSidebar() {
             const sidebar = document.getElementById('left-sidebar');
             const overlay = document.getElementById('left-sidebar-overlay');
@@ -758,7 +615,6 @@ async function openSportsbookForProvider(providerCode) {
             }
         }
 
-        // إغلاق القائمة تلقائياً عند اختيار قسم في الهاتف
         function closeLeftSidebarOnMobile() {
             if (window.innerWidth <= 900) {
                 const sidebar = document.getElementById('left-sidebar');
