@@ -536,10 +536,7 @@
 
     <!-- ================= JAVASCRIPT (تم الاحتفاظ بقلب السكربت الخاص بك) ================= -->
     <script>
-        // متغيرات البيئة
-        const BACKEND_URL = "https://coutabet-backend-server.onrender.com";
-        let playerSession = null;
-
+        
         // 1. تحريك البانر الرئيسي كل ثانيتين
         const track = document.getElementById('sliderTrack');
         let currentIndex = 0;
@@ -585,12 +582,7 @@
             }
         }
 
-        // 4. محاكاة تسجيل الدخول (ليعمل الموقع معك الآن)
-        async function handlePlayerAuth() {
-            // محاكاة فورية للسرعة (يمكنك إرجاع الكود الأصلي لاحقاً)
-            playerSession = { username: "Fethi_Pro", balance: "1450.50" };
-            setupLoggedInUI();
-        }
+       
 
         function setupLoggedInUI() {
             closeLoginModal();
@@ -647,22 +639,92 @@
             }
         }
 
-        // 6. تشغيل اللعبة
-        async function playCasinoGame(providerCode, gameCode) {
-            if (!playerSession) return openLoginModal();
-            alert(`Lancement du jeu: ${gameCode} par ${providerCode}`);
-            // الكود الأصلي لفتح اللعبة موجود في السكربت الخاص بك ويمكنك إضافته هنا
-        }
+        
 
-        // 7. فتح الرياضة
-        function openSportsbookForProvider(providerCode) {
-            switchSection('sport');
-            const iframe = document.getElementById('sportsbook-iframe');
-            const loader = document.getElementById('sport-loader');
-            loader.classList.remove('hidden');
-            setTimeout(() => { loader.classList.add('hidden'); iframe.src = "https://example.com/sportsbook"; }, 1000);
-        }
+        // 1. توجيه الرابط إلى السيرفر المركزي الموحد
+const BACKEND_URL = "https://alpha-backend-server.onrender.com";
+let playerSession = null;
 
+function getAuthHeaders() { 
+    return { 'Authorization': `Bearer ${localStorage.getItem('token')}`, 'Content-Type': 'application/json' }; 
+}
+
+// 2. تفعيل تسجيل الدخول الحقيقي
+async function handlePlayerAuth() {
+    const username = document.getElementById('p-auth-username').value.trim();
+    const password = document.getElementById('p-auth-password').value;
+    if (!username || !password) return alert("Veuillez remplir tous les champs");
+    
+    try {
+        const res = await fetch(`${BACKEND_URL}/api/login`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+        if (res.ok) {
+            playerSession = data;
+            localStorage.setItem('token', data.access_token);
+            setupLoggedInUI();
+        } else {
+            alert(data.detail);
+        }
+    } catch (e) { alert("Erreur serveur"); }
+}
+
+// 3. تفعيل تشغيل ألعاب الكازينو
+async function playCasinoGame(providerCode, gameCode) {
+    if (!playerSession) return openLoginModal();
+    document.body.style.cursor = 'wait';
+    try {
+        const res = await fetch(`${BACKEND_URL}/api/provider/launch-casino`, {
+            method: 'POST',
+            headers: getAuthHeaders(),
+            body: JSON.stringify({ game_code: gameCode, provider_code: providerCode, user_code: playerSession.username })
+        });
+        const data = await res.json();
+        if (data.launch_url) {
+            // فتح اللعبة في نافذة جديدة (بما أن iframe الكازينو غير موجود في تصميم Coutabet الحالي)
+            window.open(data.launch_url, '_self'); 
+        } else {
+            alert(data.error || "Jeu non disponible");
+        }
+    } catch (error) {
+        alert("Erreur de connexion");
+    } finally {
+        document.body.style.cursor = 'default';
+    }
+}
+
+// 4. تفعيل تشغيل الرياضة
+async function openSportsbookForProvider(providerCode) {
+    if (!playerSession) return openLoginModal();
+    switchSection('sport');
+    const iframe = document.getElementById('sportsbook-iframe');
+    const loader = document.getElementById('sport-loader');
+    loader.classList.remove('hidden');
+    
+    try {
+        const response = await fetch(`${BACKEND_URL}/api/provider/launch-sportsbook`, {
+            method: 'POST',
+            headers: getAuthHeaders(),
+            body: JSON.stringify({
+                provider_code: providerCode === 'nexus' ? 'SPORTSBOOK' : providerCode,
+                user_code: playerSession.username,
+                game_code: "SPORTSBOOK"
+            })
+        });
+        const data = await response.json();
+        if (data.launch_url) {
+            iframe.src = data.launch_url;
+        } else {
+            alert(data.error || "Sportsbook non disponible");
+        }
+    } catch (error) {
+        alert("Erreur de connexion");
+    } finally {
+        setTimeout(() => { loader.classList.add('hidden'); }, 1000);
+    }
+}
         // 8. تشغيل محرك الجاكبوت الحي (WebSocket) مع הIDs الجديدة
         function startLiveJackpots() {
             const wsUrl = BACKEND_URL.replace("http", "ws").replace("https", "wss") + "/ws/jackpot";
