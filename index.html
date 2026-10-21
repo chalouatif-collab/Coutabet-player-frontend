@@ -128,7 +128,108 @@
         }
 
         .section-header { font-size: 18px; font-weight: 800; color: var(--bg-navy); margin: 30px 0 15px 0; display: flex; align-items: center; gap: 8px; border-left: 4px solid var(--primary-blue); padding-left: 10px; }
-        .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
+        .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
+
+        /* Game Card Styles Refined to match image */
+        .game-card {
+            background-color: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+            border-color: var(--accent-orange);
+        }
+
+        .game-img-box {
+            position: relative;
+            width: 100%;
+            padding-top: 75%; /* 4:3 Aspect Ratio */
+            overflow: hidden;
+            background-color: #1a1a2e;
+        }
+
+        .game-img-box img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .game-card:hover .game-img-box img {
+            transform: scale(1.1);
+        }
+
+        .game-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(11, 26, 48, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+
+        .game-card:hover .game-overlay {
+            opacity: 1;
+        }
+
+        .play-btn {
+            background: var(--accent-orange);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 800;
+            padding: 10px 24px;
+            border-radius: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.4);
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .game-card:hover .play-btn {
+            transform: translateY(0);
+        }
+
+        .game-info {
+            padding: 12px 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .game-name {
+            color: var(--bg-navy);
+            font-size: 14px;
+            font-weight: 800;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .game-provider {
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
 
         .bottom-nav { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: var(--bg-navy); border-top: 1px solid #1a2a42; z-index: 100; box-shadow: 0 -5px 15px rgba(0,0,0,0.2); }
         .bottom-nav-item { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10px 0; color: var(--text-muted); transition: 0.2s; cursor: pointer; }
@@ -142,11 +243,6 @@
         .hide-scroll::-webkit-scrollbar { display: none; }
         .player-view-section { display: none; }
         .player-view-section.block { display: block; }
-        
-        @keyframes float-dice { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
-        .animate-bounce-slow { animation: float-dice 3s ease-in-out infinite; }
-        @keyframes continuous-zoom { 0% { transform: scale(1); } 50% { transform: scale(1.12); } 100% { transform: scale(1); } }
-        .auto-zoom-img { animation: continuous-zoom 6s ease-in-out infinite; }
 
         @media (max-width: 900px) {
             .main-container { grid-template-columns: 1fr; }
@@ -154,6 +250,7 @@
             .center-content { padding: 15px; padding-bottom: 70px; }
             .bottom-nav { display: flex; }
             .mobile-menu-btn { display: block; }
+            .games-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
 
             .sidebar-left {
                 display: flex !important; position: fixed; top: 0; left: 0; height: 100vh; width: 260px; z-index: 150;
@@ -316,7 +413,6 @@
                     <h2 class="text-2xl font-bold text-[var(--bg-navy)]">Casino & Slots</h2>
                 </div>
 
-                <!-- شريط البحث والمزودين مدمج ومحدث -->
                 <div class="flex flex-col md:flex-row gap-3 mb-6 relative z-[100]">
                     <div class="relative flex-1">
                         <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
@@ -446,7 +542,7 @@
         </div>
     </div>
 
-    <!-- ================= JAVASCRIPT (محرك الألعاب المستخرج من ألفا بات) ================= -->
+    <!-- ================= JAVASCRIPT ================= -->
     <script>
         const BACKEND_URL = "https://alpha-backend-server.onrender.com";
         let playerSession = null;
@@ -460,7 +556,6 @@
             return str.toString().replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag));
         }
 
-        // إشعارات احترافية
         function showNotification(message, type = "success") {
             const toast = document.createElement('div');
             toast.className = `fixed top-5 right-5 z-[9999] px-4 py-3 rounded-xl text-white font-bold text-xs shadow-xl transition-transform transform translate-x-full flex items-center gap-2 ${type === 'error' ? 'bg-red-600' : 'bg-emerald-500'}`;
@@ -473,7 +568,7 @@
             }, 3000);
         }
 
-        // السلايدر
+        // Slider
         const track = document.getElementById('sliderTrack');
         let currentIndex = 0;
         const totalSlides = 2;
@@ -577,7 +672,7 @@
             loadRandomCasinoGames();
         };
 
-        // ================= 1. الكازينو والسلوتس =================
+        // ================= 1. CASINO & SLOTS =================
         window.currentProviderGames = [];
         window.nexusProviders = [
             { code: 'PRAGMATIC', name: 'Pragmatic Play' },
@@ -641,20 +736,26 @@
             }
 
             const gamesToDisplay = window.currentProviderGames.slice(0, currentDisplayLimit);
+            
+            // Re-use the Card template matching the image
             container.innerHTML = gamesToDisplay.map(g => {
                 const title = escapeHTML(String(g.game_name || g.name || "Game"));
+                const providerName = escapeHTML(String(g.provider || "Pragmatic"));
                 const img = g.banner || g.image || g.thumb || `https://placehold.co/400x400/15243b/ff9800?text=${encodeURIComponent(title.substring(0, 15))}`;
                 const code = g.game_code || g.id;
 
                 return `
-                <div onclick="playCasinoGame('${currentActiveProviderCode}', '${code}')" class="bg-white border border-gray-200 rounded-xl overflow-hidden cursor-pointer transition-all flex flex-col group shadow-sm hover:shadow-[0_8px_15px_rgba(255,152,0,0.2)] hover:border-[var(--accent-orange)] relative">
-                    <div class="relative w-full aspect-square overflow-hidden bg-gray-100">
-                        <img src="${img}" alt="${title}" loading="lazy" class="w-full h-full object-cover auto-zoom-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/15243b/ff9800?text=${encodeURIComponent(title.substring(0, 15))}';">
-                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300 z-10">
-                            <span class="bg-[var(--accent-orange)] text-white text-[10px] font-bold px-4 py-2 rounded-full shadow-lg uppercase">JOUER</span>
+                <div class="game-card" onclick="playCasinoGame('${currentActiveProviderCode}', '${code}')">
+                    <div class="game-img-box">
+                        <img src="${img}" alt="${title}" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/400x400/15243b/ff9800?text=${encodeURIComponent(title.substring(0, 15))}';">
+                        <div class="game-overlay">
+                            <span class="play-btn">JOUER</span>
                         </div>
                     </div>
-                    <div class="p-2 text-[11px] text-[var(--bg-navy)] font-bold truncate text-center">${title}</div>
+                    <div class="game-info">
+                        <div class="game-name">${title}</div>
+                        <div class="game-provider">${providerName}</div>
+                    </div>
                 </div>`;
             }).join('');
         }
@@ -697,24 +798,28 @@
             }
 
             container.innerHTML = filtered.map(g => {
-                const title = String(g.game_name || g.name || "Game");
+                const title = escapeHTML(String(g.game_name || g.name || "Game"));
+                const providerName = escapeHTML(String(g.provider || "Pragmatic"));
                 const img = g.banner || g.image || g.thumb || `https://placehold.co/400x400/15243b/ff9800?text=${encodeURIComponent(title.substring(0, 15))}`;
                 const code = g.game_code || g.id;
 
                 return `
-                <div onclick="playCasinoGame('${currentActiveProviderCode}', '${code}')" class="bg-white border border-gray-200 rounded-xl overflow-hidden cursor-pointer transition-all flex flex-col group shadow-sm hover:shadow-[0_8px_15px_rgba(255,152,0,0.2)] hover:border-[var(--accent-orange)] relative">
-                    <div class="relative w-full aspect-square overflow-hidden bg-gray-100">
-                        <img src="${img}" alt="${title}" loading="lazy" class="w-full h-full object-cover auto-zoom-img">
-                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300 z-10">
-                            <span class="bg-[var(--accent-orange)] text-white text-[10px] font-bold px-4 py-2 rounded-full shadow-lg uppercase">JOUER</span>
+                <div class="game-card" onclick="playCasinoGame('${currentActiveProviderCode}', '${code}')">
+                    <div class="game-img-box">
+                        <img src="${img}" alt="${title}" loading="lazy">
+                        <div class="game-overlay">
+                            <span class="play-btn">JOUER</span>
                         </div>
                     </div>
-                    <div class="p-2 text-[11px] text-[var(--bg-navy)] font-bold truncate text-center">${title}</div>
+                    <div class="game-info">
+                        <div class="game-name">${title}</div>
+                        <div class="game-provider">${providerName}</div>
+                    </div>
                 </div>`;
             }).join('');
         }
 
-        // ================= 2. الألعاب العشوائية في الرئيسية =================
+        // ================= 2. RANDOM GAMES (HOME) =================
         async function loadRandomCasinoGames() {
             const grid = document.getElementById('random-casino-games-grid');
             if (!grid) return;
@@ -729,16 +834,21 @@
                 if (allGames.length > 0) {
                     const randomGames = allGames.slice(0, 12);
                     grid.innerHTML = randomGames.map(g => {
-                        const title = g.game_name || g.name || "Casino Game";
+                        const title = escapeHTML(g.game_name || g.name || "Casino Game");
                         const img = g.banner || g.image || `https://placehold.co/400x400/15243b/ff9800?text=${encodeURIComponent(title.substring(0, 10))}`;
                         const code = g.game_code || g.id;
+                        
+                        // Render with the new card style
                         return `
                         <div class="game-card" onclick="playCasinoGame('PRAGMATIC', '${code}')">
                             <div class="game-img-box">
-                                <img src="${img}" alt="${title}" class="auto-zoom-img">
+                                <img src="${img}" alt="${title}" loading="lazy">
                                 <div class="game-overlay"><span class="play-btn">JOUER</span></div>
                             </div>
-                            <div class="game-info"><div class="game-name">${title}</div><div class="game-provider">Pragmatic</div></div>
+                            <div class="game-info">
+                                <div class="game-name">${title}</div>
+                                <div class="game-provider">Pragmatic</div>
+                            </div>
                         </div>`;
                     }).join('');
                 }
@@ -747,7 +857,7 @@
             }
         }
 
-        // ================= 3. كازينو لايف =================
+        // ================= 3. LIVE CASINO =================
         async function openLiveCasino() {
             const grid = document.getElementById('live-games-grid');
             if (grid) grid.innerHTML = '<div class="col-span-full text-red-500 text-center py-10 font-bold">Chargement Live...</div>';
@@ -760,22 +870,25 @@
                 if (grid) grid.innerHTML = (data.games || []).map(g => {
                     const safeName = escapeHTML(g.game_name || g.name || "Live Game");
                     const img = g.banner || g.image || 'https://placehold.co/400x400/15243b/FFF';
+                    const code = g.game_code || g.id;
+                    
                     return `
-                    <div onclick="playCasinoGame('PP_LIVE_PRO', '${g.game_code || g.id}')" class="bg-white border border-gray-200 rounded-xl overflow-hidden cursor-pointer hover:border-red-500 transition-all relative shadow-sm group">
-                        <div class="absolute top-0 right-0 bg-red-600 text-white text-[8px] font-black px-2 py-0.5 z-10 animate-pulse rounded-bl">LIVE</div>
-                        <div class="relative w-full aspect-square overflow-hidden bg-gray-100">
-                            <img src="${img}" class="w-full h-full object-cover auto-zoom-img">
-                            <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300 z-10">
-                                <span class="bg-red-500 text-white text-[10px] font-bold px-4 py-2 rounded-full shadow-lg uppercase">JOUER</span>
-                            </div>
+                    <div class="game-card" onclick="playCasinoGame('PP_LIVE_PRO', '${code}')">
+                        <div class="absolute top-0 right-0 bg-red-600 text-white text-[10px] font-black px-3 py-1 z-20 rounded-bl-lg uppercase tracking-wide">LIVE</div>
+                        <div class="game-img-box">
+                            <img src="${img}" alt="${safeName}" loading="lazy">
+                            <div class="game-overlay"><span class="play-btn" style="background: #ef4444; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);">JOUER</span></div>
                         </div>
-                        <div class="p-2 text-[10px] text-[var(--bg-navy)] font-bold truncate text-center">${safeName}</div>
-                    </div>
-                `}).join('');
+                        <div class="game-info">
+                            <div class="game-name">${safeName}</div>
+                            <div class="game-provider">Pragmatic Live</div>
+                        </div>
+                    </div>`;
+                }).join('');
             } catch (e) { }
         }
 
-        // ================= 4. الألعاب الافتراضية =================
+        // ================= 4. VIRTUALS (EUROVIRTUALS) =================
         async function initVirtualsLobby() {
             const grid = document.getElementById('virtuals-games-grid');
             if (grid) grid.innerHTML = '<div class="col-span-full text-blue-500 text-center py-10 animate-pulse font-bold">Chargement Virtuels...</div>';
@@ -785,35 +898,50 @@
                 const data = await res.json();
                 let games = data.games || data.data || data || [];
 
-                const allowedProviders = ['eurovirtuelle', 'eurovirtual', 'eurovirtuals', 'aviator', 'spribe', 'maya crash'];
-                const filteredGames = games.filter(g => allowedProviders.some(allowed => String(g.provider || g.partner_name || '').toLowerCase().includes(allowed)));
+                const allowedProviders = [
+                    'eurovirtuelle', 'eurovirtual', 'eurovirtuals',
+                    'aviator', 'aviatron', 'aviatrix', 'spribe', 'spride',
+                    'maya crash', 'beon', 'black lagoon', 'skay control', 'only play', 'onlyplay'
+                ];
+
+                let filteredGames = games.filter(g => {
+                    const prov = String(g.provider || g.partner_name || g.game_name || g.name || '').toLowerCase();
+                    return allowedProviders.some(allowed => prov.includes(allowed));
+                });
+
+                if (filteredGames.length === 0 && games.length > 0) {
+                    filteredGames = games;
+                }
 
                 if (filteredGames.length > 0) {
                     if (grid) grid.innerHTML = filteredGames.map(g => {
                         const uuid = g.uuid || g.game_uuid || g.id || g.game_code;
                         const safeName = escapeHTML(g.game_name || g.name || "Virtual Game");
-                        const img = g.banner || g.image || `https://placehold.co/400x400/15243b/FFF?text=${encodeURIComponent(safeName.substring(0, 10))}`;
-                        const provider = escapeHTML(g.provider || g.partner_name || 'Virtuals');
+                        const img = g.banner || g.image || g.img || `https://placehold.co/400x400/15243b/FFF?text=${encodeURIComponent(safeName.substring(0, 10))}`;
+                        const provider = escapeHTML(g.provider || g.partner_name || 'EuroVirtuals');
 
                         return `
-                        <div onclick="launchEuroVirtuals('${uuid}')" class="bg-white border border-gray-200 rounded-xl overflow-hidden cursor-pointer hover:border-blue-500 transition-all shadow-sm group relative">
-                            <div class="absolute top-0 right-0 bg-[var(--bg-navy)] text-blue-400 text-[8px] font-black px-2 py-1 rounded-bl-lg z-20">${provider}</div>
-                            <div class="relative w-full aspect-square overflow-hidden bg-gray-100">
-                                <img src="${img}" class="w-full h-full object-cover auto-zoom-img">
-                                <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300 z-10">
-                                    <span class="bg-blue-500 text-white text-[10px] font-bold px-4 py-2 rounded-full">JOUER</span>
-                                </div>
+                        <div class="game-card" onclick="launchEuroVirtuals('${uuid}')">
+                            <div class="absolute top-0 right-0 bg-[#0b1a30] text-blue-400 text-[9px] font-black px-3 py-1 rounded-bl-lg z-20 uppercase tracking-widest border-b border-l border-[#1a2a42] shadow-sm">${provider}</div>
+                            <div class="game-img-box">
+                                <img src="${img}" alt="${safeName}" loading="lazy">
+                                <div class="game-overlay"><span class="play-btn" style="background: #3b82f6; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);">JOUER</span></div>
                             </div>
-                            <div class="p-2 text-[10px] text-[var(--bg-navy)] font-bold truncate text-center">${safeName}</div>
-                        </div>`
+                            <div class="game-info">
+                                <div class="game-name">${safeName}</div>
+                                <div class="game-provider">${provider}</div>
+                            </div>
+                        </div>`;
                     }).join('');
                 } else {
                     if (grid) grid.innerHTML = '<div class="col-span-full text-yellow-500 text-center py-10 font-bold">Aucun jeu trouvé.</div>';
                 }
-            } catch (e) {}
+            } catch (e) {
+                 if (grid) grid.innerHTML = '<div class="col-span-full text-red-500 text-center py-10 font-bold">Erreur de chargement</div>';
+            }
         }
 
-        // ================= 5. الإطلاق الحقيقي عبر الـ Iframe =================
+        // ================= 5. GAME LAUNCHERS =================
         async function playCasinoGame(providerCode, gameCode) {
             if (!playerSession) return openLoginModal();
             document.body.style.cursor = 'wait';
@@ -851,7 +979,7 @@
             try {
                 const res = await fetch(`${BACKEND_URL}/api/provider/launch-eurovirtuals`, {
                     method: 'POST', headers: getAuthHeaders(),
-                    body: JSON.stringify({ user_code: playerSession.username, game_uuid: gameId })
+                    body: JSON.stringify({ user_code: playerSession.username, game_uuid: gameId, game_code: gameId })
                 });
                 const data = await res.json();
                 if (data.launch_url) {
@@ -863,7 +991,7 @@
                         if (bottomBar) bottomBar.style.display = 'none';
                         iframe.src = data.launch_url;
                     }
-                } else { showNotification("Jeu non disponible", "error"); }
+                } else { showNotification(data.error || "Jeu non disponible", "error"); }
             } catch (error) { showNotification("Erreur", "error"); } finally { document.body.style.cursor = 'default'; }
         }
 
@@ -886,7 +1014,6 @@
                 });
                 const data = await response.json();
                 if (data.launch_url) {
-                    // فتح في الـ Iframe المخصص للرياضة
                     switchSection('sport');
                     const iframe = document.getElementById('sportsbook-iframe');
                     const loader = document.getElementById('sport-loader');
