@@ -5,7 +5,101 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coutabet - Premium Sports & Casino</title>
     <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com">
+        function closeHistoryModal() {
+            document.getElementById('player-history-modal').classList.add('hidden');
+            document.getElementById('player-history-modal').classList.remove('flex');
+        }
+
+        async function fetchAndShowUserHistory(type) {
+            if (!playerSession) return openLoginModal();
+            
+            // إغلاق القائمة الجانبية عند الفتح
+            const sidebar = document.getElementById('profile-sidebar');
+            const overlay = document.getElementById('profile-overlay');
+            if(sidebar) sidebar.classList.add('translate-x-full');
+            if(overlay) overlay.classList.add('hidden');
+            
+            const modal = document.getElementById('player-history-modal');
+            const titleEl = document.getElementById('history-modal-title');
+            const contentEl = document.getElementById('history-modal-content');
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            if (type === 'bets') {
+                titleEl.innerHTML = '<i class="fas fa-dice text-[var(--accent-orange)] mr-2"></i> Historique des Jeux';
+            } else {
+                titleEl.innerHTML = '<i class="fas fa-exchange-alt text-[var(--primary-blue)] mr-2"></i> Transactions';
+            }
+            
+            contentEl.innerHTML = '<div class="text-center text-[var(--primary-blue)] py-10 font-bold animate-pulse">Chargement en cours...</div>';
+            
+            try {
+                const endpoint = type === 'bets' ? '/api/user/bet-history' : '/api/user/transactions-history';
+                const res = await fetch(`${BACKEND_URL}${endpoint}`, {
+                    headers: getAuthHeaders()
+                });
+                const data = await res.json();
+                
+                if (data.status === 'success') {
+                    if (!data.data || data.data.length === 0) {
+                        contentEl.innerHTML = '<div class="text-center text-gray-500 py-10 font-bold">Aucun enregistrement trouvé.</div>';
+                        return;
+                    }
+                    
+                    let html = '<div class="flex flex-col gap-2">';
+                    data.data.forEach(item => {
+                        if (type === 'bets') {
+                            const isWin = item.type === 'win';
+                            const color = isWin ? 'text-emerald-400' : 'text-red-400';
+                            const sign = isWin ? '+' : '-';
+                            const icon = isWin ? 'fa-trophy' : 'fa-times-circle';
+                            html += `
+                            <div class="bg-[#0b1a30] border border-[#1a2a42] rounded-xl p-3 flex justify-between items-center">
+                                <div>
+                                    <div class="text-white text-sm font-bold">${escapeHTML(item.provider)}</div>
+                                    <div class="text-gray-500 text-[10px] mt-1"><i class="far fa-clock"></i> ${item.date}</div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="${color} font-black text-sm">${sign}${parseFloat(item.amount).toFixed(2)} TND</div>
+                                    <div class="${color} text-[10px] uppercase font-bold mt-1"><i class="fas ${icon}"></i> ${isWin ? 'Gain' : 'Mise'}</div>
+                                </div>
+                            </div>`;
+                        } else {
+                            const isDep = item.type.toLowerCase().includes('dépôt') || item.type.toLowerCase().includes('deposit');
+                            const colorClass = isDep ? 'text-emerald-400' : 'text-red-400';
+                            const sign = isDep ? '+' : '-';
+                            
+                            let statusColor = 'text-gray-400';
+                            if(item.status.toLowerCase().includes('approuvé')) statusColor = 'text-emerald-400';
+                            else if(item.status.toLowerCase().includes('refusé')) statusColor = 'text-red-400';
+                            else statusColor = 'text-yellow-400';
+
+                            html += `
+                            <div class="bg-[#0b1a30] border border-[#1a2a42] rounded-xl p-3 flex justify-between items-center">
+                                <div>
+                                    <div class="text-white text-sm font-bold">${escapeHTML(item.type)} <span class="bg-[#15243b] px-2 py-0.5 rounded text-[10px] ml-1 border border-[#1a2a42] text-[var(--primary-blue)]">${escapeHTML(item.method)}</span></div>
+                                    <div class="text-gray-500 text-[10px] mt-1"><i class="far fa-clock"></i> ${item.date}</div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="${colorClass} font-black text-sm">${sign}${parseFloat(item.amount).toFixed(2)} TND</div>
+                                    <div class="${statusColor} text-[10px] font-bold mt-1 uppercase">${escapeHTML(item.status)}</div>
+                                </div>
+                            </div>`;
+                        }
+                    });
+                    html += '</div>';
+                    contentEl.innerHTML = html;
+                } else {
+                    contentEl.innerHTML = '<div class="text-center text-red-500 py-10 font-bold">Erreur de chargement des données.</div>';
+                }
+            } catch(e) {
+                contentEl.innerHTML = '<div class="text-center text-red-500 py-10 font-bold">Erreur de connexion au serveur.</div>';
+            }
+        }
+
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -498,6 +592,20 @@
         </a>
     </nav>
 
+    
+    <!-- User History Modal -->
+    <div id="player-history-modal" class="fixed inset-0 z-[800] bg-black/80 hidden items-center justify-center p-4 backdrop-blur-sm">
+        <div class="w-full max-w-lg bg-[#15243b] border border-[#1e88e5] rounded-2xl flex flex-col max-h-[80vh] relative shadow-2xl overflow-hidden">
+            <div class="p-4 border-b border-[#1a2a42] flex justify-between items-center bg-[#0b1a30]">
+                <h2 id="history-modal-title" class="text-white text-lg font-black uppercase"><i class="fas fa-history text-[var(--accent-orange)]"></i> Historique</h2>
+                <button onclick="closeHistoryModal()" class="text-gray-400 hover:text-white transition"><i class="fas fa-times text-lg"></i></button>
+            </div>
+            <div class="p-4 overflow-y-auto hide-scroll flex-1 bg-[var(--bg-navy)]" id="history-modal-content">
+                <!-- Content injected here -->
+            </div>
+        </div>
+    </div>
+
     <!-- Login Modal -->
     <div id="player-login-modal" class="fixed inset-0 z-[700] bg-black/80 hidden items-center justify-center p-4 backdrop-blur-sm">
         <div class="w-full max-w-sm bg-[#15243b] border border-[#1e88e5] rounded-2xl p-8 relative shadow-2xl">
@@ -534,8 +642,8 @@
             <button onclick="toggleProfileSidebar()" class="text-gray-400 hover:text-white cursor-pointer"><i class="fas fa-times"></i></button>
         </div>
         <div class="flex-1 overflow-y-auto p-3 space-y-2">
-            <a onclick="alert('Historique')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer"><i class="fas fa-history text-gray-400"></i> Historique</a>
-            <a onclick="alert('Transactions')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer"><i class="fas fa-exchange-alt text-gray-400"></i> Transactions</a>
+            <a onclick="fetchAndShowUserHistory('bets')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer"><i class="fas fa-history text-[var(--accent-orange)]"></i> Historique des jeux</a>
+            <a onclick="fetchAndShowUserHistory('transactions')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer"><i class="fas fa-exchange-alt text-[var(--primary-blue)]"></i> Transactions</a>
         </div>
         <div class="p-4 bg-[#0b1a30]">
             <button onclick="toggleProfileSidebar(); logoutPlayer();" class="w-full bg-red-600 text-white font-bold py-3 rounded-lg uppercase cursor-pointer">Déconnexion</button>
@@ -1056,6 +1164,100 @@
                 if (overlay) overlay.classList.add('hidden');
             }
         }
+    
+        function closeHistoryModal() {
+            document.getElementById('player-history-modal').classList.add('hidden');
+            document.getElementById('player-history-modal').classList.remove('flex');
+        }
+
+        async function fetchAndShowUserHistory(type) {
+            if (!playerSession) return openLoginModal();
+            
+            // إغلاق القائمة الجانبية عند الفتح
+            const sidebar = document.getElementById('profile-sidebar');
+            const overlay = document.getElementById('profile-overlay');
+            if(sidebar) sidebar.classList.add('translate-x-full');
+            if(overlay) overlay.classList.add('hidden');
+            
+            const modal = document.getElementById('player-history-modal');
+            const titleEl = document.getElementById('history-modal-title');
+            const contentEl = document.getElementById('history-modal-content');
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            if (type === 'bets') {
+                titleEl.innerHTML = '<i class="fas fa-dice text-[var(--accent-orange)] mr-2"></i> Historique des Jeux';
+            } else {
+                titleEl.innerHTML = '<i class="fas fa-exchange-alt text-[var(--primary-blue)] mr-2"></i> Transactions';
+            }
+            
+            contentEl.innerHTML = '<div class="text-center text-[var(--primary-blue)] py-10 font-bold animate-pulse">Chargement en cours...</div>';
+            
+            try {
+                const endpoint = type === 'bets' ? '/api/user/bet-history' : '/api/user/transactions-history';
+                const res = await fetch(`${BACKEND_URL}${endpoint}`, {
+                    headers: getAuthHeaders()
+                });
+                const data = await res.json();
+                
+                if (data.status === 'success') {
+                    if (!data.data || data.data.length === 0) {
+                        contentEl.innerHTML = '<div class="text-center text-gray-500 py-10 font-bold">Aucun enregistrement trouvé.</div>';
+                        return;
+                    }
+                    
+                    let html = '<div class="flex flex-col gap-2">';
+                    data.data.forEach(item => {
+                        if (type === 'bets') {
+                            const isWin = item.type === 'win';
+                            const color = isWin ? 'text-emerald-400' : 'text-red-400';
+                            const sign = isWin ? '+' : '-';
+                            const icon = isWin ? 'fa-trophy' : 'fa-times-circle';
+                            html += `
+                            <div class="bg-[#0b1a30] border border-[#1a2a42] rounded-xl p-3 flex justify-between items-center">
+                                <div>
+                                    <div class="text-white text-sm font-bold">${escapeHTML(item.provider)}</div>
+                                    <div class="text-gray-500 text-[10px] mt-1"><i class="far fa-clock"></i> ${item.date}</div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="${color} font-black text-sm">${sign}${parseFloat(item.amount).toFixed(2)} TND</div>
+                                    <div class="${color} text-[10px] uppercase font-bold mt-1"><i class="fas ${icon}"></i> ${isWin ? 'Gain' : 'Mise'}</div>
+                                </div>
+                            </div>`;
+                        } else {
+                            const isDep = item.type.toLowerCase().includes('dépôt') || item.type.toLowerCase().includes('deposit');
+                            const colorClass = isDep ? 'text-emerald-400' : 'text-red-400';
+                            const sign = isDep ? '+' : '-';
+                            
+                            let statusColor = 'text-gray-400';
+                            if(item.status.toLowerCase().includes('approuvé')) statusColor = 'text-emerald-400';
+                            else if(item.status.toLowerCase().includes('refusé')) statusColor = 'text-red-400';
+                            else statusColor = 'text-yellow-400';
+
+                            html += `
+                            <div class="bg-[#0b1a30] border border-[#1a2a42] rounded-xl p-3 flex justify-between items-center">
+                                <div>
+                                    <div class="text-white text-sm font-bold">${escapeHTML(item.type)} <span class="bg-[#15243b] px-2 py-0.5 rounded text-[10px] ml-1 border border-[#1a2a42] text-[var(--primary-blue)]">${escapeHTML(item.method)}</span></div>
+                                    <div class="text-gray-500 text-[10px] mt-1"><i class="far fa-clock"></i> ${item.date}</div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="${colorClass} font-black text-sm">${sign}${parseFloat(item.amount).toFixed(2)} TND</div>
+                                    <div class="${statusColor} text-[10px] font-bold mt-1 uppercase">${escapeHTML(item.status)}</div>
+                                </div>
+                            </div>`;
+                        }
+                    });
+                    html += '</div>';
+                    contentEl.innerHTML = html;
+                } else {
+                    contentEl.innerHTML = '<div class="text-center text-red-500 py-10 font-bold">Erreur de chargement des données.</div>';
+                }
+            } catch(e) {
+                contentEl.innerHTML = '<div class="text-center text-red-500 py-10 font-bold">Erreur de connexion au serveur.</div>';
+            }
+        }
+
     </script>
 </body>
 </html>
