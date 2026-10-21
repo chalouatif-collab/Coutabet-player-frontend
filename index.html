@@ -547,6 +547,11 @@
         const BACKEND_URL = "https://alpha-backend-server.onrender.com";
         let playerSession = null;
 
+        // 🌟 Tracking active provider name to display under games dynamically
+        let currentDisplayLimit = 50;
+        let currentActiveProviderCode = "PRAGMATIC";
+        let currentActiveProviderName = "Pragmatic Play";
+
         function getAuthHeaders() { 
             return { 'Authorization': `Bearer ${localStorage.getItem('token')}`, 'Content-Type': 'application/json' }; 
         }
@@ -687,9 +692,6 @@
             { code: 'EGT', name: 'EGT Digital' }
         ];
 
-        let currentDisplayLimit = 50;
-        let currentActiveProviderCode = "PRAGMATIC";
-
         async function initCasinoLobby() {
             filterProviders();
             if (window.nexusProviders.length > 0) {
@@ -699,6 +701,7 @@
 
         async function loadProviderGames(providerCode, providerName = null) {
             currentActiveProviderCode = providerCode;
+            if (providerName) currentActiveProviderName = providerName;
             currentDisplayLimit = 50;
             const grid = document.getElementById('games-grid');
             const label = document.getElementById('current-provider-label');
@@ -737,10 +740,9 @@
 
             const gamesToDisplay = window.currentProviderGames.slice(0, currentDisplayLimit);
             
-            // Re-use the Card template matching the image
             container.innerHTML = gamesToDisplay.map(g => {
                 const title = escapeHTML(String(g.game_name || g.name || "Game"));
-                const providerName = escapeHTML(String(g.provider || "Pragmatic"));
+                const providerName = escapeHTML(String(g.provider || currentActiveProviderName || "Pragmatic"));
                 const img = g.banner || g.image || g.thumb || `https://placehold.co/400x400/15243b/ff9800?text=${encodeURIComponent(title.substring(0, 15))}`;
                 const code = g.game_code || g.id;
 
@@ -799,7 +801,7 @@
 
             container.innerHTML = filtered.map(g => {
                 const title = escapeHTML(String(g.game_name || g.name || "Game"));
-                const providerName = escapeHTML(String(g.provider || "Pragmatic"));
+                const providerName = escapeHTML(String(g.provider || currentActiveProviderName || "Pragmatic"));
                 const img = g.banner || g.image || g.thumb || `https://placehold.co/400x400/15243b/ff9800?text=${encodeURIComponent(title.substring(0, 15))}`;
                 const code = g.game_code || g.id;
 
@@ -838,7 +840,6 @@
                         const img = g.banner || g.image || `https://placehold.co/400x400/15243b/ff9800?text=${encodeURIComponent(title.substring(0, 10))}`;
                         const code = g.game_code || g.id;
                         
-                        // Render with the new card style
                         return `
                         <div class="game-card" onclick="playCasinoGame('PRAGMATIC', '${code}')">
                             <div class="game-img-box">
@@ -847,7 +848,7 @@
                             </div>
                             <div class="game-info">
                                 <div class="game-name">${title}</div>
-                                <div class="game-provider">Pragmatic</div>
+                                <div class="game-provider">Pragmatic Play</div>
                             </div>
                         </div>`;
                     }).join('');
