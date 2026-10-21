@@ -329,8 +329,6 @@
             <div class="sidebar-section mt-4">
                 <div class="section-title">JEUX <span>+</span></div>
                 <a class="nav-item active" onclick="switchSection('accueil'); closeLeftSidebarOnMobile();"><i class="fas fa-home w-5 text-[var(--primary-blue)]"></i> Accueil</a>
-                <a class="nav-item" onclick="openSportsbookForProvider('nexus'); closeLeftSidebarOnMobile();"><i class="fas fa-futbol w-5 text-green-500"></i> Paris Sportifs</a>
-                <a class="nav-item" onclick="openSportsbookForProvider('nexus'); closeLeftSidebarOnMobile();"><i class="fas fa-ticket-alt w-5 text-yellow-400"></i> Mes Paris</a>
                 <a class="nav-item" onclick="switchSection('casino'); initCasinoLobby(); closeLeftSidebarOnMobile();"><i class="fas fa-slot-machine w-5 text-[var(--accent-orange)]"></i> Machines à Sous</a>
                 <a class="nav-item" onclick="switchSection('live-casino'); openLiveCasino(); closeLeftSidebarOnMobile();"><i class="fas fa-dice w-5 text-red-500"></i> Casino Live</a>
                 <a class="nav-item" onclick="switchSection('virtuals'); initVirtualsLobby(); closeLeftSidebarOnMobile();"><i class="fas fa-gamepad w-5 text-blue-400"></i> Virtuels</a>
@@ -551,8 +549,39 @@
             <button onclick="toggleProfileSidebar()" class="text-gray-400 hover:text-white cursor-pointer"><i class="fas fa-times"></i></button>
         </div>
         <div class="flex-1 overflow-y-auto p-3 space-y-2">
-            <a onclick="fetchAndShowUserHistory('bets')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer"><i class="fas fa-history text-[var(--accent-orange)]"></i> Historique des jeux</a>
-            <a onclick="fetchAndShowUserHistory('transactions')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer"><i class="fas fa-exchange-alt text-[var(--primary-blue)]"></i> Transactions</a>
+            <div class="flex-1 overflow-y-auto p-3 space-y-1">
+            
+            <!-- قسم المالية (بارز) -->
+            <div class="mb-2">
+                <a onclick="alert('Ouvrir Modal Dépôt')" class="flex items-center gap-3 bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/20 p-3 rounded-lg transition cursor-pointer text-emerald-400 font-bold">
+                    <i class="fas fa-plus-circle text-lg"></i> Dépôt
+                </a>
+            </div>
+            
+            <a onclick="alert('Ouvrir Modal Retrait')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer text-gray-200">
+                <i class="fas fa-hand-holding-usd text-gray-400 w-5 text-center"></i> Retrait
+            </a>
+
+            <hr class="border-[#1a2a42] my-2">
+
+            <!-- قسم السجلات -->
+            <a onclick="fetchAndShowUserHistory('bets')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer text-gray-200">
+                <i class="fas fa-history text-[var(--accent-orange)] w-5 text-center"></i> Historique des jeux
+            </a>
+            <a onclick="fetchAndShowUserHistory('transactions')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer text-gray-200">
+                <i class="fas fa-exchange-alt text-[var(--primary-blue)] w-5 text-center"></i> Transactions
+            </a>
+
+            <hr class="border-[#1a2a42] my-2">
+
+            <!-- قسم المكافآت والإعدادات -->
+            <a onclick="alert('Réclamer Cashback')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer text-gray-200">
+                <i class="fas fa-gift text-purple-400 w-5 text-center"></i> Bonus & Cashback
+            </a>
+            <a onclick="alert('Changer Mot de passe')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer text-gray-200">
+                <i class="fas fa-cog text-gray-400 w-5 text-center"></i> Paramètres
+            </a>
+
         </div>
         <div class="p-4 bg-[#0b1a30]">
             <button onclick="toggleProfileSidebar(); logoutPlayer();" class="w-full bg-red-600 text-white font-bold py-3 rounded-lg uppercase cursor-pointer">Déconnexion</button>
@@ -657,7 +686,7 @@
             if(userProfile) { userProfile.classList.remove('hidden'); userProfile.classList.add('flex'); }
             
             document.getElementById('player-balance-val').innerText = parseFloat(playerSession.balance || 0).toFixed(2);
-            document.getElementById('sidebar-balance').innerText = parseFloat(playerSession.balance || 0).toFixed(2) + ' TND';
+            document.getElementById('sidebar-balance').innerText = parseFloat(playerSession.balance || 0).toFixed(2);
             document.getElementById('sidebar-username').innerText = playerSession.username;
             
             startLiveJackpots();
