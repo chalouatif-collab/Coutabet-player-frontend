@@ -286,6 +286,45 @@
             .jp-amount { font-size: 18px; }
             .jp-title { font-size: 11px; }
         }
+    
+        /* Light Mode Styles */
+        body.light-mode { background-color: #f0f2f5 !important; color: #1a1a1a !important; }
+        body.light-mode .top-header, 
+        body.light-mode .sidebar-left, 
+        body.light-mode #profile-sidebar, 
+        body.light-mode .bottom-nav { background-color: #ffffff !important; border-color: #e5e7eb !important; }
+        
+        body.light-mode .header-nav a { color: #4b5563 !important; }
+        body.light-mode .header-nav a:hover { color: var(--primary-blue) !important; }
+        
+        body.light-mode .text-white { color: #1f2937 !important; }
+        body.light-mode .text-gray-400 { color: #6b7280 !important; }
+        body.light-mode .text-gray-200 { color: #374151 !important; }
+        
+        body.light-mode .bg-\[\#15243b\], body.light-mode .bg-\[\#0b1a30\] { background-color: #ffffff !important; border-color:#e5e7eb !important; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1) !important; }
+        body.light-mode .hover\:bg-\[\#0b1a30\]:hover { background-color: #f3f4f6 !important; }
+        
+        body.light-mode .section-title { color: #374151 !important; background: #f3f4f6 !important; }
+        body.light-mode .nav-item { color: #4b5563 !important; }
+        body.light-mode .nav-item:hover, body.light-mode .nav-item.active { background: #f3f4f6 !important; color: var(--primary-blue) !important; border-left-color: var(--primary-blue) !important; }
+        
+        body.light-mode .game-card { background-color: #ffffff !important; border-color: #e5e7eb !important; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        body.light-mode .game-name { color: #111827 !important; }
+        
+        body.light-mode .slide-bg { color: #ffffff !important; } 
+        body.light-mode .slide-bg .slide-title, body.light-mode .slide-bg .slide-desc { color: #ffffff !important; }
+        
+        body.light-mode .jackpot-card { background: #ffffff !important; }
+        body.light-mode .jp-title { color: #4b5563 !important; }
+        
+        body.light-mode #action-modal > div, 
+        body.light-mode #player-history-modal > div,
+        body.light-mode #settings-modal > div,
+        body.light-mode #player-login-modal > div { background-color: #ffffff !important; border-color: #e5e7eb !important; }
+        
+        body.light-mode input { background-color: #f9fafb !important; color: #111827 !important; border-color: #d1d5db !important; }
+        body.light-mode hr { border-color: #e5e7eb !important; }
+
     </style>
 </head>
 <body>
@@ -347,6 +386,7 @@
                 <a class="nav-item" onclick="switchSection('casino'); initCasinoLobby(); closeLeftSidebarOnMobile();"><i class="fas fa-slot-machine w-5 text-[var(--accent-orange)]"></i> Machines à Sous</a>
                 <a class="nav-item" onclick="switchSection('live-casino'); openLiveCasino(); closeLeftSidebarOnMobile();"><i class="fas fa-dice w-5 text-red-500"></i> Casino Live</a>
                 <a class="nav-item" onclick="switchSection('virtuals'); initVirtualsLobby(); closeLeftSidebarOnMobile();"><i class="fas fa-gamepad w-5 text-blue-400"></i> Virtuels</a>
+                <a class="nav-item" onclick="switchSection('favoris'); renderFavoritesAndRecents(); closeLeftSidebarOnMobile();"><i class="fas fa-heart w-5 text-red-500"></i> Vos Favoris</a>
             </div>
         </aside>
 
@@ -480,6 +520,18 @@
                 <div id="live-games-grid" class="games-grid pb-10"></div>
             </div>
 
+            
+            <!-- PANE: FAVORIS -->
+            <div id="pane-favoris" class="player-view-section hidden w-full p-6">
+                <div class="flex items-center gap-2 mb-6">
+                    <i class="fas fa-heart text-2xl text-red-500"></i>
+                    <h2 class="text-2xl font-bold text-[var(--bg-navy)]">Vos Favoris</h2>
+                </div>
+                <div id="dedicated-favorite-games-grid" class="games-grid pb-10">
+                    <div class="col-span-full text-center text-gray-500 py-10 font-bold">Aucun favori ajouté. Cliquez sur le cœur ❤️ d'un jeu pour l'ajouter ici.</div>
+                </div>
+            </div>
+
             <!-- PANE: VIRTUALS -->
             <div id="pane-virtuals" class="player-view-section hidden w-full p-6">
                 <div class="flex items-center gap-2 mb-6">
@@ -551,6 +603,40 @@
         </div>
     </div>
 
+    
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="fixed inset-0 z-[800] bg-black/80 hidden items-center justify-center p-4 backdrop-blur-sm">
+        <div class="w-full max-w-sm bg-[#15243b] border border-[#1e88e5] rounded-2xl p-6 relative shadow-2xl">
+            <button onclick="closeSettingsModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition"><i class="fas fa-times text-lg"></i></button>
+            <div class="text-center mb-6">
+                <i class="fas fa-cog text-4xl text-[var(--accent-orange)] mb-2"></i>
+                <h2 class="text-white text-xl font-black uppercase">Paramètres</h2>
+            </div>
+            
+            <!-- Theme Toggle -->
+            <div class="mb-6 bg-[#0b1a30] p-4 rounded-xl border border-[#1a2a42] flex justify-between items-center">
+                <span class="text-white font-bold text-sm">Mode Clair</span>
+                <button onclick="toggleTheme()" id="theme-toggle-btn" class="bg-gray-700 w-12 h-6 rounded-full relative transition-colors duration-300">
+                    <div id="theme-toggle-circle" class="bg-white w-5 h-5 rounded-full absolute top-0.5 left-0.5 transition-transform duration-300 transform translate-x-0 flex items-center justify-center">
+                        <i class="fas fa-moon text-[10px] text-gray-700"></i>
+                    </div>
+                </button>
+            </div>
+
+            <!-- Password Change -->
+            <div class="space-y-4 bg-[#0b1a30] p-4 rounded-xl border border-[#1a2a42]">
+                <h3 class="text-white font-bold text-sm mb-2 border-b border-[#1a2a42] pb-2">Changer de mot de passe</h3>
+                <div>
+                    <input type="password" id="settings-new-password" placeholder="Nouveau mot de passe" class="w-full bg-[#15243b] border border-[#1a2a42] rounded-lg py-2 px-3 text-white text-sm outline-none focus:border-[var(--accent-orange)]">
+                </div>
+                <div>
+                    <input type="password" id="settings-confirm-password" placeholder="Confirmer mot de passe" class="w-full bg-[#15243b] border border-[#1a2a42] rounded-lg py-2 px-3 text-white text-sm outline-none focus:border-[var(--accent-orange)]">
+                </div>
+                <button onclick="changeMyPassword()" class="w-full bg-[var(--primary-blue)] text-white font-bold py-2 rounded-lg text-sm shadow hover:bg-blue-600 transition">Mettre à jour</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Login Modal -->
     <div id="player-login-modal" class="fixed inset-0 z-[700] bg-black/80 hidden items-center justify-center p-4 backdrop-blur-sm">
         <div class="w-full max-w-sm bg-[#15243b] border border-[#1e88e5] rounded-2xl p-8 relative shadow-2xl">
@@ -586,36 +672,9 @@
             </div>
             <button onclick="toggleProfileSidebar()" class="text-gray-400 hover:text-white cursor-pointer"><i class="fas fa-times"></i></button>
         </div>
-        <div class="flex-1 overflow-y-auto p-3 space-y-1">
-            <!-- Section Finance -->
-            <div class="mb-2">
-                <a onclick="openActionModal('Dépôt', 'fa-plus-circle', 'Veuillez contacter votre agent pour effectuer un dépôt. Vous pouvez également recharger via la page de caisse si disponible.')" class="flex items-center gap-3 bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/20 p-3 rounded-lg transition cursor-pointer text-emerald-400 font-bold">
-                    <i class="fas fa-plus-circle text-lg"></i> Dépôt
-                </a>
-            </div>
-            <a onclick="openActionModal('Retrait', 'fa-hand-holding-usd', 'Pour retirer vos gains, veuillez soumettre une demande de retrait à votre agent ou via la caisse.')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer text-gray-200">
-                <i class="fas fa-hand-holding-usd text-gray-400 w-5 text-center"></i> Retrait
-            </a>
-
-            <hr class="border-[#1a2a42] my-2">
-
-            <!-- Section Historique -->
-            <a onclick="fetchAndShowUserHistory('bets')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer text-gray-200">
-                <i class="fas fa-history text-[var(--accent-orange)] w-5 text-center"></i> Historique des jeux
-            </a>
-            <a onclick="fetchAndShowUserHistory('transactions')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer text-gray-200">
-                <i class="fas fa-exchange-alt text-[var(--primary-blue)] w-5 text-center"></i> Transactions
-            </a>
-
-            <hr class="border-[#1a2a42] my-2">
-
-            <!-- Section Paramètres -->
-            <a onclick="openActionModal('Bonus & Cashback', 'fa-gift', 'Récupérez 10% de Cashback sur vos pertes journalières. Le solde minimum requis est de 10 TND pour le réclamer.')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer text-gray-200">
-                <i class="fas fa-gift text-purple-400 w-5 text-center"></i> Bonus & Cashback
-            </a>
-            <a onclick="openActionModal('Paramètres', 'fa-cog', 'La modification du mot de passe et les paramètres du profil seront bientôt disponibles.')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer text-gray-200">
-                <i class="fas fa-cog text-gray-400 w-5 text-center"></i> Paramètres
-            </a>
+        <div class="flex-1 overflow-y-auto p-3 space-y-2">
+            <a onclick="fetchAndShowUserHistory('bets')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer"><i class="fas fa-history text-[var(--accent-orange)]"></i> Historique des jeux</a>
+            <a onclick="fetchAndShowUserHistory('transactions')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer"><i class="fas fa-exchange-alt text-[var(--primary-blue)]"></i> Transactions</a>
         </div>
         <div class="p-4 bg-[#0b1a30]">
             <button onclick="toggleProfileSidebar(); logoutPlayer();" class="w-full bg-red-600 text-white font-bold py-3 rounded-lg uppercase cursor-pointer">Déconnexion</button>
@@ -626,6 +685,95 @@
     <script>
         const BACKEND_URL = "https://alpha-backend-server.onrender.com";
         let playerSession = null;
+
+        
+        function initTheme() {
+            const savedTheme = localStorage.getItem('alpha_theme') || 'dark';
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-mode');
+            }
+        }
+        initTheme();
+
+        function toggleTheme() {
+            const isLight = document.body.classList.contains('light-mode');
+            if (isLight) {
+                document.body.classList.remove('light-mode');
+                localStorage.setItem('alpha_theme', 'dark');
+            } else {
+                document.body.classList.add('light-mode');
+                localStorage.setItem('alpha_theme', 'light');
+            }
+            updateThemeToggleUI();
+        }
+
+        function updateThemeToggleUI() {
+            const isLight = document.body.classList.contains('light-mode');
+            const btn = document.getElementById('theme-toggle-btn');
+            const circle = document.getElementById('theme-toggle-circle');
+            if(btn && circle) {
+                if (isLight) {
+                    btn.classList.replace('bg-gray-700', 'bg-[var(--primary-blue)]');
+                    circle.classList.replace('translate-x-0', 'translate-x-6');
+                    circle.innerHTML = '<i class="fas fa-sun text-[10px] text-yellow-500"></i>';
+                } else {
+                    btn.classList.replace('bg-[var(--primary-blue)]', 'bg-gray-700');
+                    circle.classList.replace('translate-x-6', 'translate-x-0');
+                    circle.innerHTML = '<i class="fas fa-moon text-[10px] text-gray-700"></i>';
+                }
+            }
+        }
+
+        function openSettingsModal() {
+            const sidebar = document.getElementById('profile-sidebar');
+            const overlay = document.getElementById('profile-overlay');
+            if(sidebar) sidebar.classList.add('translate-x-full');
+            if(overlay) overlay.classList.add('hidden');
+            
+            document.getElementById('settings-new-password').value = '';
+            document.getElementById('settings-confirm-password').value = '';
+            document.getElementById('settings-modal').classList.remove('hidden');
+            document.getElementById('settings-modal').classList.add('flex');
+            updateThemeToggleUI();
+        }
+
+        function closeSettingsModal() {
+            document.getElementById('settings-modal').classList.add('hidden');
+            document.getElementById('settings-modal').classList.remove('flex');
+        }
+
+        async function changeMyPassword() {
+            if (!playerSession) return showNotification("Veuillez vous connecter d'abord", "error");
+            const newPwd = document.getElementById('settings-new-password').value;
+            const confirmPwd = document.getElementById('settings-confirm-password').value;
+            
+            if(!newPwd) return showNotification("Entrez un mot de passe", "error");
+            if(newPwd !== confirmPwd) return showNotification("Les mots de passe ne correspondent pas", "error");
+            
+            const btn = event.target;
+            btn.innerText = "Chargement...";
+            btn.disabled = true;
+            
+            try {
+                const res = await fetch(`${BACKEND_URL}/api/user/change-password`, {
+                    method: 'POST',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify({ username: playerSession.username, new_password: newPwd })
+                });
+                const data = await res.json();
+                if(data.status === 'success') {
+                    showNotification("Mot de passe mis à jour avec succès !");
+                    closeSettingsModal();
+                } else {
+                    showNotification(data.detail || "Erreur lors de la mise à jour", "error");
+                }
+            } catch(e) {
+                showNotification("Erreur de connexion", "error");
+            } finally {
+                btn.innerText = "Mettre à jour";
+                btn.disabled = false;
+            }
+        }
 
         // 🌟 Tracking active provider name to display under games dynamically
         let currentDisplayLimit = 50;
@@ -716,6 +864,14 @@
                     favGrid.innerHTML = favoriteGames.map(g => generateCardHTML(g, g.providerCode, g.providerName, g.providerCode === 'PP_LIVE_PRO', g.providerName.toLowerCase().includes('eurovirtual'))).join('');
                 } else {
                     document.getElementById('favorite-games-container').style.display = 'none';
+                }
+            }
+            const dedFavGrid = document.getElementById('dedicated-favorite-games-grid');
+            if (dedFavGrid) {
+                if (favoriteGames.length > 0) {
+                    dedFavGrid.innerHTML = favoriteGames.map(g => generateCardHTML(g, g.providerCode, g.providerName, g.providerCode === 'PP_LIVE_PRO', g.providerName.toLowerCase().includes('eurovirtual'))).join('');
+                } else {
+                    dedFavGrid.innerHTML = '<div class="col-span-full text-center text-gray-500 py-10 font-bold">Aucun favori ajouté. Cliquez sur le cœur ❤️ d\'un jeu pour l\'ajouter ici.</div>';
                 }
             }
             if (recGrid) {
@@ -816,7 +972,7 @@
             if(userProfile) { userProfile.classList.remove('hidden'); userProfile.classList.add('flex'); }
             
             document.getElementById('player-balance-val').innerText = parseFloat(playerSession.balance || 0).toFixed(2);
-            document.getElementById('sidebar-balance').innerText = parseFloat(playerSession.balance || 0).toFixed(2);
+            document.getElementById('sidebar-balance').innerText = parseFloat(playerSession.balance || 0).toFixed(2) + ' TND';
             document.getElementById('sidebar-username').innerText = playerSession.username;
             
             startLiveJackpots();
