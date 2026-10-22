@@ -73,7 +73,7 @@
         
         .center-content { background-color: var(--bg-light); padding: 25px 40px; overflow-y: auto; width: 100%; }
 
-        .main-banner-wrapper { position: relative; height: 280px; margin-bottom: 40px; }
+        .main-banner-wrapper { position: relative; height: 280px; margin-bottom: 20px; }
         .banner-tiger-3d {
             position: absolute; left: 10px; bottom: -20px; height: 115%; z-index: 10;
             pointer-events: none; filter: drop-shadow(5px 5px 15px rgba(0,0,0,0.5));
@@ -103,6 +103,65 @@
 
         .slide-title { font-size: 32px; font-weight: 900; margin-bottom: 10px; text-shadow: 0 4px 10px rgba(0,0,0,0.5); text-transform: uppercase; }
         .slide-desc { font-size: 16px; font-weight: 500; }
+
+        /* Live Winners Ticker */
+        .winners-ticker-wrap {
+            background: var(--bg-navy);
+            border: 1px solid #1a2a42;
+            border-radius: 12px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            position: relative;
+        }
+        .ticker-badge {
+            background: linear-gradient(90deg, var(--accent-orange), #f57c00);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 900;
+            padding: 0 16px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            z-index: 10;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            flex-shrink: 0;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.3);
+        }
+        .ticker-track {
+            display: flex;
+            align-items: center;
+            gap: 35px;
+            white-space: nowrap;
+            animation: tickerScroll 28s linear infinite;
+            padding-left: 20px;
+        }
+        .ticker-track:hover { animation-play-state: paused; }
+        .ticker-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #e2e8f0;
+            font-weight: 600;
+        }
+        .ticker-item .win-amount {
+            color: #4ade80;
+            font-weight: 900;
+            background: rgba(74, 222, 128, 0.12);
+            padding: 2px 8px;
+            border-radius: 6px;
+            border: 1px solid rgba(74, 222, 128, 0.25);
+        }
+        @keyframes tickerScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
 
         .jackpots-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 40px; }
         .jackpot-card {
@@ -275,7 +334,7 @@
             .mobile-sidebar-header {
                 display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: #06101e; border-bottom: 1px solid #1a2a42;
             }
-            .main-banner-wrapper { height: 165px; margin-bottom: 25px; margin-top: 10px; }
+            .main-banner-wrapper { height: 165px; margin-bottom: 20px; margin-top: 10px; }
             .slide-bg { padding-left: 125px !important; padding-right: 12px !important; align-items: flex-start !important; text-align: left !important; }
             .slide-title { font-size: 17px !important; line-height: 1.2 !important; margin-bottom: 4px !important; }
             .slide-desc { font-size: 11px !important; line-height: 1.3 !important; opacity: 0.95; }
@@ -319,9 +378,13 @@
         body.light-mode .jackpot-card { background: #ffffff !important; }
         body.light-mode .jp-title { color: #4b5563 !important; }
         
+        body.light-mode .winners-ticker-wrap { background: #ffffff !important; border-color: #e5e7eb !important; }
+        body.light-mode .ticker-item { color: #374151 !important; }
+
         body.light-mode #action-modal > div, 
         body.light-mode #player-history-modal > div,
         body.light-mode #settings-modal > div,
+        body.light-mode #notifications-modal > div,
         body.light-mode #player-login-modal > div { background-color: #ffffff !important; border-color: #e5e7eb !important; }
         
         body.light-mode input { background-color: #f9fafb !important; color: #111827 !important; border-color: #d1d5db !important; }
@@ -356,11 +419,20 @@
             </div>
 
             <div id="top-user-profile" class="hidden items-center gap-3">
+                <button onclick="openActionModal('Dépôt', 'fa-plus-circle', 'Veuillez contacter votre agent pour effectuer un dépôt. Vous pouvez également recharger via la page de caisse si disponible.')" class="bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-extrabold px-3.5 py-1.5 rounded-full shadow flex items-center gap-1.5 transition cursor-pointer">
+                    <i class="fas fa-plus-circle"></i> <span class="hidden sm:inline">Dépôt</span>
+                </button>
+
+                <button onclick="openNotificationsModal()" class="relative w-9 h-9 rounded-full bg-[#15243b] border border-[#1a2a42] text-gray-300 hover:text-white flex items-center justify-center transition cursor-pointer">
+                    <i class="fas fa-bell text-sm"></i>
+                    <span id="notif-badge" class="hidden absolute -top-1 -right-1 bg-red-600 text-white text-[9px] font-black w-4 h-4 rounded-full items-center justify-center">0</span>
+                </button>
+
                 <div class="flex flex-col items-end">
                     <span class="text-[10px] text-[var(--text-muted)] font-bold">Solde</span>
                     <span class="text-white font-black text-sm"><span id="player-balance-val">0.00</span> TND</span>
                 </div>
-                <button onclick="toggleProfileSidebar()" class="w-9 h-9 rounded-full bg-[var(--primary-blue)] text-white flex items-center justify-center shadow-lg hover:bg-blue-600 transition">
+                <button onclick="toggleProfileSidebar()" class="w-9 h-9 rounded-full bg-[var(--primary-blue)] text-white flex items-center justify-center shadow-lg hover:bg-blue-600 transition cursor-pointer">
                     <i class="fas fa-user"></i>
                 </button>
             </div>
@@ -384,7 +456,7 @@
                 <a class="nav-item active" onclick="switchSection('accueil'); closeLeftSidebarOnMobile();"><i class="fas fa-home w-5 text-[var(--primary-blue)]"></i> Accueil</a>
                 <a class="nav-item" onclick="openSportsbookForProvider('nexus'); closeLeftSidebarOnMobile();"><i class="fas fa-futbol w-5 text-green-500"></i> Paris Sportifs</a>
                 <a class="nav-item" onclick="openSportsbookForProvider('nexus'); closeLeftSidebarOnMobile();"><i class="fas fa-ticket-alt w-5 text-yellow-400"></i> Mes Paris</a>
-                <a class="nav-item" onclick="switchSection('casino'); initCasinoLobby(); closeLeftSidebarOnMobile();"><i class="fas fa-slot-machine w-5 text-[var(--accent-orange)]"></i> Machines à Sous</a>
+                <a class="nav-item" onclick="switchSection('casino'); initCasinoLobby(); closeLeftSidebarOnMobile();"><i class="fas fa-gem w-5 text-[var(--accent-orange)]"></i> Machines à Sous</a>
                 <a class="nav-item" onclick="switchSection('live-casino'); openLiveCasino(); closeLeftSidebarOnMobile();"><i class="fas fa-dice w-5 text-red-500"></i> Casino Live</a>
                 <a class="nav-item" onclick="switchSection('virtuals'); initVirtualsLobby(); closeLeftSidebarOnMobile();"><i class="fas fa-gamepad w-5 text-blue-400"></i> Virtuels</a>
                 <a class="nav-item" onclick="switchSection('favoris'); renderFavoritesAndRecents(); closeLeftSidebarOnMobile();"><i class="fas fa-heart w-5 text-red-500"></i> Vos Favoris</a>
@@ -401,14 +473,14 @@
                         <div class="slider-track" id="sliderTrack">
                             <div class="slide">
                                 <div class="meteor-border"></div>
-                                <div class="slide-bg" style="background-image: linear-gradient(90deg, rgba(11, 26, 48, 0.85) 0%, rgba(11, 26, 48, 0.4) 100%), url('images/bg1.jpg');">
+                                <div class="slide-bg" style="background: linear-gradient(115deg, #0b1a30 0%, #15243b 45%, #b45309 100%);">
                                     <div class="slide-title">Retraits Instantanés</div>
                                     <div class="slide-desc">Vos gains traités en quelques secondes. Sécurité absolue.</div>
                                 </div>
                             </div>
                             <div class="slide">
                                 <div class="meteor-border"></div>
-                                <div class="slide-bg" style="background-image: linear-gradient(90deg, rgba(11, 26, 48, 0.85) 0%, rgba(11, 26, 48, 0.4) 100%), url('images/bg2.jpg');">
+                                <div class="slide-bg" style="background: linear-gradient(115deg, #0b1a30 0%, #1e3a8a 50%, #0284c7 100%);">
                                     <div class="slide-title">Support VIP 24/7</div>
                                     <div class="slide-desc">Une équipe de professionnels dédiée à votre service.</div>
                                 </div>
@@ -418,13 +490,26 @@
                     <img src="images/gatesbenner.png" alt="Character" class="banner-tiger-3d" onerror="this.style.display='none'">
                 </div>
 
+                <!-- Live Winners Ticker -->
+                <div class="winners-ticker-wrap">
+                    <div class="ticker-badge"><i class="fas fa-trophy"></i> Gagnants</div>
+                    <div class="ticker-track" id="live-winners-track">
+                        <div class="ticker-item"><i class="fas fa-bolt text-yellow-400"></i> <span>Sami***</span> a gagné <span class="win-amount">145.00 TND</span> sur <span class="text-[var(--accent-orange)]">Sweet Bonanza</span></div>
+                        <div class="ticker-item"><i class="fas fa-bolt text-yellow-400"></i> <span>rami***</span> a gagné <span class="win-amount">320.50 TND</span> sur <span class="text-[var(--accent-orange)]">Gates of Olympus</span></div>
+                        <div class="ticker-item"><i class="fas fa-bolt text-yellow-400"></i> <span>khal***</span> a gagné <span class="win-amount">85.00 TND</span> sur <span class="text-[var(--accent-orange)]">Aviator</span></div>
+                        <div class="ticker-item"><i class="fas fa-bolt text-yellow-400"></i> <span>med9***</span> a gagné <span class="win-amount">610.00 TND</span> sur <span class="text-[var(--accent-orange)]">Wanted Dead or a Wild</span></div>
+                        <div class="ticker-item"><i class="fas fa-bolt text-yellow-400"></i> <span>yass***</span> a gagné <span class="win-amount">210.00 TND</span> sur <span class="text-[var(--accent-orange)]">Big Bass Splash</span></div>
+                        <div class="ticker-item"><i class="fas fa-bolt text-yellow-400"></i> <span>amin***</span> a gagné <span class="win-amount">95.00 TND</span> sur <span class="text-[var(--accent-orange)]">Sugar Rush</span></div>
+                    </div>
+                </div>
+
                 <div class="jackpots-container">
                     <div class="jackpot-card jp-mini">
                         <div class="jp-side">MINI</div>
                         <img src="images/gatemini.png" alt="Mini" class="jackpot-tiger-3d" onerror="this.style.display='none'">
                         <div class="jp-content">
                             <div class="jp-title">Mini Jackpot</div>
-                            <div class="jp-amount"><span id="jackpot-mini">0.00</span> <span style="font-size:12px;">TND</span></div>
+                            <div class="jp-amount"><span id="jackpot-mini">30,00</span> <span style="font-size:12px;">TND</span></div>
                         </div>
                     </div>
                     
@@ -433,7 +518,7 @@
                         <img src="images/gatesmajor.png" alt="Major" class="jackpot-tiger-3d" onerror="this.style.display='none'">
                         <div class="jp-content">
                             <div class="jp-title">Major Jackpot</div>
-                            <div class="jp-amount"><span id="jackpot-major">0.00</span> <span style="font-size:12px;">TND</span></div>
+                            <div class="jp-amount"><span id="jackpot-major">150,00</span> <span style="font-size:12px;">TND</span></div>
                         </div>
                     </div>
 
@@ -442,7 +527,7 @@
                         <img src="images/gatesgrand.png" alt="Grand" class="jackpot-tiger-3d" style="left: 15px; height: 135%;" onerror="this.style.display='none'">
                         <div class="jp-content">
                             <div class="jp-title">Grand Jackpot</div>
-                            <div class="jp-amount"><span id="jackpot-grand">0.00</span> <span style="font-size:12px;">TND</span></div>
+                            <div class="jp-amount"><span id="jackpot-grand">750,00</span> <span style="font-size:12px;">TND</span></div>
                         </div>
                     </div>
                 </div>
@@ -473,6 +558,16 @@
                     <div class="col-span-full text-center py-5 font-bold">Chargement...</div>
                 </div>
 
+                <!-- Footer -->
+                <footer class="mt-12 pt-8 pb-6 border-t border-gray-300 text-center text-xs text-gray-500">
+                    <div class="flex justify-center items-center gap-4 mb-4 flex-wrap">
+                        <span class="bg-[#0b1a30] text-white px-3 py-1 rounded font-bold border border-[#1a2a42]">+18 Jeu Responsable</span>
+                        <span class="bg-[#0b1a30] text-[var(--accent-orange)] px-3 py-1 rounded font-bold border border-[#1a2a42]"><i class="fas fa-shield-alt"></i> Paiements Sécurisés</span>
+                        <span class="bg-[#0b1a30] text-blue-400 px-3 py-1 rounded font-bold border border-[#1a2a42]">Support 24/7</span>
+                    </div>
+                    <p class="font-semibold">© 2026 Coutabet. Tous droits réservés.</p>
+                </footer>
+
             </div>
 
             <!-- Sport Section -->
@@ -487,7 +582,7 @@
             <!-- PANE: CASINO -->
             <div id="pane-casino" class="player-view-section hidden w-full p-6">
                 <div class="flex items-center gap-2 mb-4">
-                    <i class="fas fa-slot-machine text-2xl text-[var(--accent-orange)]"></i>
+                    <i class="fas fa-gem text-2xl text-[var(--accent-orange)]"></i>
                     <h2 class="text-2xl font-bold text-[var(--bg-navy)]">Casino & Slots</h2>
                 </div>
 
@@ -599,6 +694,19 @@
                 <!-- Content -->
             </div>
             <button onclick="closeActionModal()" class="w-full bg-[var(--primary-blue)] text-white font-black py-2.5 rounded-xl uppercase shadow-lg hover:scale-105 transition cursor-pointer">Fermer</button>
+        </div>
+    </div>
+
+    <!-- Notifications Modal -->
+    <div id="notifications-modal" class="fixed inset-0 z-[800] bg-black/80 hidden items-center justify-center p-4 backdrop-blur-sm">
+        <div class="w-full max-w-md bg-[#15243b] border border-[#1e88e5] rounded-2xl flex flex-col max-h-[80vh] relative shadow-2xl overflow-hidden">
+            <div class="p-4 border-b border-[#1a2a42] flex justify-between items-center bg-[#0b1a30]">
+                <h2 class="text-white text-base font-black uppercase"><i class="fas fa-bell text-[var(--accent-orange)] mr-2"></i> Notifications</h2>
+                <button onclick="closeNotificationsModal()" class="text-gray-400 hover:text-white transition"><i class="fas fa-times text-lg"></i></button>
+            </div>
+            <div class="p-4 overflow-y-auto hide-scroll flex-1 bg-[var(--bg-navy)]" id="notifications-modal-content">
+                <div class="text-center text-gray-500 py-8 font-bold text-sm">Aucune notification pour le moment.</div>
+            </div>
         </div>
     </div>
 
@@ -846,7 +954,6 @@
             renderFavoritesAndRecents();
         }
 
-        // Safe string helper for inline onclick handlers
         function safeJSArg(str) {
             return String(str || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;');
         }
@@ -1029,8 +1136,8 @@
             document.getElementById('sidebar-balance').innerText = parseFloat(playerSession.balance || 0).toFixed(2);
             document.getElementById('sidebar-username').innerText = playerSession.username;
             
-            startLiveJackpots();
             refreshBalance();
+            fetchNotifications();
             setInterval(refreshBalance, 6000);
         }
 
@@ -1050,6 +1157,58 @@
             } catch(e) {}
         }
 
+        // Notifications System
+        async function fetchNotifications() {
+            if (!playerSession) return;
+            try {
+                const res = await fetch(`${BACKEND_URL}/api/user/notifications`, { headers: getAuthHeaders() });
+                const data = await res.json();
+                const badge = document.getElementById('notif-badge');
+                if (badge) {
+                    if (data.unread && data.unread > 0) {
+                        badge.innerText = data.unread;
+                        badge.classList.remove('hidden');
+                        badge.classList.add('flex');
+                    } else {
+                        badge.classList.add('hidden');
+                        badge.classList.remove('flex');
+                    }
+                }
+                window.userNotifications = data.notifications || [];
+            } catch(e) {}
+        }
+
+        function openNotificationsModal() {
+            const modal = document.getElementById('notifications-modal');
+            const content = document.getElementById('notifications-modal-content');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            const notifs = window.userNotifications || [];
+            if (notifs.length === 0) {
+                content.innerHTML = '<div class="text-center text-gray-500 py-8 font-bold text-sm">Aucune notification pour le moment.</div>';
+                return;
+            }
+            content.innerHTML = '<div class="flex flex-col gap-2">' + notifs.map(n => `
+                <div class="bg-[#0b1a30] border border-[#1a2a42] rounded-xl p-3 flex gap-3 items-start">
+                    <div class="w-8 h-8 rounded-full bg-[var(--primary-blue)]/20 text-[var(--primary-blue)] flex items-center justify-center shrink-0 mt-0.5">
+                        <i class="fas ${escapeHTML(n.icon || 'fa-bell')}"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="text-white font-bold text-xs">${escapeHTML(n.title)}</div>
+                        <div class="text-gray-400 text-xs mt-1">${escapeHTML(n.message)}</div>
+                        <div class="text-gray-500 text-[10px] mt-1.5">${escapeHTML(n.date || '')}</div>
+                    </div>
+                </div>
+            `).join('') + '</div>';
+        }
+
+        function closeNotificationsModal() {
+            const modal = document.getElementById('notifications-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
         function logoutPlayer() {
             playerSession = null; localStorage.clear(); location.reload();
         }
@@ -1060,6 +1219,8 @@
                 playerSession = JSON.parse(savedSession);
                 setupLoggedInUI();
             }
+            startLiveJackpots();
+            startBigWinsSocket();
             loadRandomCasinoGames();
             renderFavoritesAndRecents();
         };
@@ -1356,19 +1517,42 @@
             } catch (error) { showNotification("Erreur", "error"); } finally { document.body.style.cursor = 'default'; }
         }
 
+        // Jackpots Live Socket (Fixed 2 decimal places)
         function startLiveJackpots() {
-            const wsUrl = BACKEND_URL.replace("http", "ws").replace("https", "wss") + "/ws/jackpot";
-            const socket = new WebSocket(wsUrl);
-            socket.onmessage = function (event) {
-                const data = JSON.parse(event.data);
-                const elMini = document.getElementById('jackpot-mini');
-                const elMajor = document.getElementById('jackpot-major');
-                const elGrand = document.getElementById('jackpot-grand');
-                if (elMini) elMini.innerText = parseFloat(data.mini).toLocaleString('fr-FR', {minimumFractionDigits: 2});
-                if (elMajor) elMajor.innerText = parseFloat(data.major).toLocaleString('fr-FR', {minimumFractionDigits: 2});
-                if (elGrand) elGrand.innerText = parseFloat(data.grand).toLocaleString('fr-FR', {minimumFractionDigits: 2});
-            };
-            socket.onclose = () => setTimeout(startLiveJackpots, 5000);
+            try {
+                const wsUrl = BACKEND_URL.replace("http", "ws").replace("https", "wss") + "/ws/jackpot";
+                const socket = new WebSocket(wsUrl);
+                const opts = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
+                socket.onmessage = function (event) {
+                    const data = JSON.parse(event.data);
+                    const elMini = document.getElementById('jackpot-mini');
+                    const elMajor = document.getElementById('jackpot-major');
+                    const elGrand = document.getElementById('jackpot-grand');
+                    if (elMini && data.mini !== undefined) elMini.innerText = parseFloat(data.mini).toLocaleString('fr-FR', opts);
+                    if (elMajor && data.major !== undefined) elMajor.innerText = parseFloat(data.major).toLocaleString('fr-FR', opts);
+                    if (elGrand && data.grand !== undefined) elGrand.innerText = parseFloat(data.grand).toLocaleString('fr-FR', opts);
+                };
+                socket.onclose = () => setTimeout(startLiveJackpots, 5000);
+            } catch(e) {}
+        }
+
+        // Big Wins Live Ticker Socket
+        function startBigWinsSocket() {
+            try {
+                const wsUrl = BACKEND_URL.replace("http", "ws").replace("https", "wss") + "/ws/bigwins";
+                const socket = new WebSocket(wsUrl);
+                socket.onmessage = function (event) {
+                    const data = JSON.parse(event.data);
+                    const track = document.getElementById('live-winners-track');
+                    if (track && data.player && data.amount) {
+                        const item = document.createElement('div');
+                        item.className = 'ticker-item';
+                        item.innerHTML = `<i class="fas fa-bolt text-yellow-400"></i> <span>${escapeHTML(data.player)}</span> a gagné <span class="win-amount">${parseFloat(data.amount).toFixed(2)} TND</span> sur <span class="text-[var(--accent-orange)]">${escapeHTML(data.game || 'Casino')}</span>`;
+                        track.prepend(item);
+                    }
+                };
+                socket.onclose = () => setTimeout(startBigWinsSocket, 8000);
+            } catch(e) {}
         }
 
         function toggleLeftSidebar() {
