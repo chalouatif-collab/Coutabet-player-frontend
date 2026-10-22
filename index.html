@@ -128,7 +128,7 @@
         }
 
         .section-header { font-size: 18px; font-weight: 800; color: var(--bg-navy); margin: 30px 0 15px 0; display: flex; align-items: center; gap: 8px; border-left: 4px solid var(--primary-blue); padding-left: 10px; }
-        .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; justify-content: center; }
+        .games-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; }
 
         .fav-btn {
             position: absolute; top: 8px; left: 8px; z-index: 20;
@@ -140,8 +140,8 @@
         .fav-btn i { color: rgba(255,255,255,0.5); font-size: 15px; transition: 0.3s; }
         .fav-btn.active i, .fav-btn:hover i { color: #ef4444; }
         
-        
-        @media (max-width: 600px) { .games-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; } }
+        @media (max-width: 1200px) { .games-grid { grid-template-columns: repeat(4, 1fr); } }
+        @media (max-width: 600px) { .games-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
 
         /* Game Card Styles Refined to match image */
         .game-card {
@@ -264,7 +264,7 @@
             .center-content { padding: 15px; padding-bottom: 70px; }
             .bottom-nav { display: flex; }
             .mobile-menu-btn { display: block; }
-            .games-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
+            .games-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
 
             .sidebar-left {
                 display: flex !important; position: fixed; top: 0; left: 0; height: 100vh; width: 260px; z-index: 150;
@@ -408,6 +408,13 @@
 
                 <h2 class="section-header"><i class="fas fa-bolt text-[var(--accent-orange)]"></i> Jeux du Jour</h2>
                 <div class="games-grid" id="random-casino-games-grid">
+                    <div class="col-span-full text-center py-5 font-bold">Chargement...</div>
+                </div>
+
+                <div class="mt-8 mb-4">
+                    <h2 class="section-header m-0"><i class="fas fa-fire text-red-500"></i> Jeux Chauds</h2>
+                </div>
+                <div class="games-grid mb-10" id="hot-games-grid">
                     <div class="col-span-full text-center py-5 font-bold">Chargement...</div>
                 </div>
 
@@ -579,36 +586,9 @@
             </div>
             <button onclick="toggleProfileSidebar()" class="text-gray-400 hover:text-white cursor-pointer"><i class="fas fa-times"></i></button>
         </div>
-        <div class="flex-1 overflow-y-auto p-3 space-y-1">
-            <!-- Section Finance -->
-            <div class="mb-2">
-                <a onclick="openActionModal('Dépôt', 'fa-plus-circle', 'Veuillez contacter votre agent pour effectuer un dépôt. Vous pouvez également recharger via la page de caisse si disponible.')" class="flex items-center gap-3 bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/20 p-3 rounded-lg transition cursor-pointer text-emerald-400 font-bold">
-                    <i class="fas fa-plus-circle text-lg"></i> Dépôt
-                </a>
-            </div>
-            <a onclick="openActionModal('Retrait', 'fa-hand-holding-usd', 'Pour retirer vos gains, veuillez soumettre une demande de retrait à votre agent ou via la caisse.')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer text-gray-200">
-                <i class="fas fa-hand-holding-usd text-gray-400 w-5 text-center"></i> Retrait
-            </a>
-
-            <hr class="border-[#1a2a42] my-2">
-
-            <!-- Section Historique -->
-            <a onclick="fetchAndShowUserHistory('bets')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer text-gray-200">
-                <i class="fas fa-history text-[var(--accent-orange)] w-5 text-center"></i> Historique des jeux
-            </a>
-            <a onclick="fetchAndShowUserHistory('transactions')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer text-gray-200">
-                <i class="fas fa-exchange-alt text-[var(--primary-blue)] w-5 text-center"></i> Transactions
-            </a>
-
-            <hr class="border-[#1a2a42] my-2">
-
-            <!-- Section Paramètres -->
-            <a onclick="openActionModal('Bonus & Cashback', 'fa-gift', 'Récupérez 10% de Cashback sur vos pertes journalières. Le solde minimum requis est de 10 TND pour le réclamer.')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer text-gray-200">
-                <i class="fas fa-gift text-purple-400 w-5 text-center"></i> Bonus & Cashback
-            </a>
-            <a onclick="openActionModal('Paramètres', 'fa-cog', 'La modification du mot de passe et les paramètres du profil seront bientôt disponibles.')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer text-gray-200">
-                <i class="fas fa-cog text-gray-400 w-5 text-center"></i> Paramètres
-            </a>
+        <div class="flex-1 overflow-y-auto p-3 space-y-2">
+            <a onclick="fetchAndShowUserHistory('bets')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer"><i class="fas fa-history text-[var(--accent-orange)]"></i> Historique des jeux</a>
+            <a onclick="fetchAndShowUserHistory('transactions')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer"><i class="fas fa-exchange-alt text-[var(--primary-blue)]"></i> Transactions</a>
         </div>
         <div class="p-4 bg-[#0b1a30]">
             <button onclick="toggleProfileSidebar(); logoutPlayer();" class="w-full bg-red-600 text-white font-bold py-3 rounded-lg uppercase cursor-pointer">Déconnexion</button>
@@ -975,21 +955,59 @@
         // ================= 2. RANDOM GAMES (HOME) =================
         async function loadRandomCasinoGames() {
             const grid = document.getElementById('random-casino-games-grid');
+            const hotGrid = document.getElementById('hot-games-grid');
             if (!grid) return;
+            
             try {
-                const response = await fetch(`${BACKEND_URL}/api/get-providers`, {
+                // Fetch Pragmatic for Jeux du Jour
+                const resPragmatic = await fetch(`${BACKEND_URL}/api/get-providers`, {
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ provider_code: 'PRAGMATIC' })
                 });
-                const data = await response.json();
-                let allGames = data.games || data.data || [];
+                const dataPragmatic = await resPragmatic.json();
+                let pragmaticGames = dataPragmatic.games || dataPragmatic.data || [];
                 
-                if (allGames.length > 0) {
-                    const randomGames = allGames.slice(0, 12);
-                    grid.innerHTML = randomGames.map(g => generateCardHTML(g, 'PRAGMATIC', 'Pragmatic Play')).join('');
+                if (pragmaticGames.length > 0) {
+                    // Jeux du Jour: 15 Games (3 rows of 5)
+                    const dayGames = pragmaticGames.slice(0, 15);
+                    grid.innerHTML = dayGames.map(g => generateCardHTML(g, 'PRAGMATIC', 'Pragmatic Play')).join('');
+                    
+                    // Jeux Chauds: 10 Games changing daily from another provider (e.g., Hacksaw or PGSoft)
+                    if (hotGrid) {
+                        let mixGames = [];
+                        let hotProviderCode = 'HACKSAW';
+                        let hotProviderName = 'Hacksaw Gaming';
+                        
+                        try {
+                            const resMix = await fetch(`${BACKEND_URL}/api/get-providers`, {
+                                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ provider_code: 'HACKSAW' })
+                            });
+                            const dataMix = await resMix.json();
+                            mixGames = dataMix.games || dataMix.data || [];
+                        } catch(e) {}
+                        
+                        // Fallback to pragmatic if Hacksaw is empty
+                        if(mixGames.length < 10) {
+                            mixGames = pragmaticGames;
+                            hotProviderCode = 'PRAGMATIC';
+                            hotProviderName = 'Pragmatic Play';
+                        }
+                        
+                        // Seed based on day of the year
+                        let now = new Date();
+                        let dayOfYear = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+                        
+                        let startIndex = (dayOfYear * 7) % Math.max(1, mixGames.length - 10);
+                        if (startIndex < 0 || isNaN(startIndex)) startIndex = 0;
+                        
+                        const hotGamesList = mixGames.slice(startIndex, startIndex + 10);
+                        hotGrid.innerHTML = hotGamesList.map(g => generateCardHTML(g, hotProviderCode, hotProviderName)).join('');
+                    }
                 }
             } catch (error) {
-                grid.innerHTML = '<div class="col-span-full text-center text-red-500 py-6 text-xs font-bold">Erreur de chargement.</div>';
+                if(grid) grid.innerHTML = '<div class="col-span-full text-center text-red-500 py-6 text-xs font-bold">Erreur de chargement.</div>';
+                if(hotGrid) hotGrid.innerHTML = '<div class="col-span-full text-center text-red-500 py-6 text-xs font-bold">Erreur de chargement.</div>';
             }
         }
 
