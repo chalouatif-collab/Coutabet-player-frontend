@@ -128,22 +128,25 @@
         }
 
         .section-header { font-size: 18px; font-weight: 800; color: var(--bg-navy); margin: 30px 0 15px 0; display: flex; align-items: center; gap: 8px; border-left: 4px solid var(--primary-blue); padding-left: 10px; }
+        
+        /* 5 Cards per row */
         .games-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; }
 
         .fav-btn {
             position: absolute; top: 8px; left: 8px; z-index: 20;
-            background: rgba(11, 26, 48, 0.6); border-radius: 50%;
+            background: rgba(11, 26, 48, 0.7); border-radius: 50%;
             width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
-            transition: all 0.3s ease; border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease; border: 1px solid rgba(255,255,255,0.15);
         }
-        .fav-btn:hover { background: rgba(0,0,0,0.9); transform: scale(1.1); border-color: rgba(255,255,255,0.3); }
+        .fav-btn:hover { background: rgba(0,0,0,0.9); transform: scale(1.1); border-color: rgba(255,255,255,0.4); }
         .fav-btn i { color: rgba(255,255,255,0.5); font-size: 15px; transition: 0.3s; }
         .fav-btn.active i, .fav-btn:hover i { color: #ef4444; }
         
         @media (max-width: 1200px) { .games-grid { grid-template-columns: repeat(4, 1fr); } }
+        @media (max-width: 900px) { .games-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; } }
         @media (max-width: 600px) { .games-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
 
-        /* Game Card Styles Refined to match image */
+        /* Game Card Styles */
         .game-card {
             background-color: var(--bg-navy-light);
             border-radius: 16px;
@@ -244,7 +247,6 @@
             letter-spacing: 0.5px;
         }
 
-
         .bottom-nav { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: var(--bg-navy); border-top: 1px solid #1a2a42; z-index: 100; box-shadow: 0 -5px 15px rgba(0,0,0,0.2); }
         .bottom-nav-item { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10px 0; color: var(--text-muted); transition: 0.2s; cursor: pointer; }
         .bottom-nav-item.active { border-top: 2px solid var(--primary-blue); color: #fff; background: rgba(255,255,255,0.05); }
@@ -264,7 +266,6 @@
             .center-content { padding: 15px; padding-bottom: 70px; }
             .bottom-nav { display: flex; }
             .mobile-menu-btn { display: block; }
-            .games-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
 
             .sidebar-left {
                 display: flex !important; position: fixed; top: 0; left: 0; height: 100vh; width: 260px; z-index: 150;
@@ -310,6 +311,7 @@
         
         body.light-mode .game-card { background-color: #ffffff !important; border-color: #e5e7eb !important; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         body.light-mode .game-name { color: #111827 !important; }
+        body.light-mode .game-info { border-top-color: #e5e7eb !important; }
         
         body.light-mode .slide-bg { color: #ffffff !important; } 
         body.light-mode .slide-bg .slide-title, body.light-mode .slide-bg .slide-desc { color: #ffffff !important; }
@@ -324,7 +326,6 @@
         
         body.light-mode input { background-color: #f9fafb !important; color: #111827 !important; border-color: #d1d5db !important; }
         body.light-mode hr { border-color: #e5e7eb !important; }
-
     </style>
 </head>
 <body>
@@ -367,7 +368,7 @@
     </header>
 
     <div class="main-container">
-        <!-- Sidebar -->
+        <!-- Left Sidebar -->
         <aside id="left-sidebar" class="sidebar-left">
             <div class="mobile-sidebar-header">
                 <div class="logo-area" style="font-size: 18px;">
@@ -446,11 +447,25 @@
                     </div>
                 </div>
 
+                <!-- Section: Joués Récemment (Home) -->
+                <div id="recent-games-container" style="display:none;" class="mb-8">
+                    <h2 class="section-header"><i class="fas fa-clock text-[var(--primary-blue)]"></i> Joués Récemment</h2>
+                    <div class="games-grid" id="recent-games-grid"></div>
+                </div>
+                
+                <!-- Section: Vos Favoris (Home) -->
+                <div id="favorite-games-container" style="display:none;" class="mb-8">
+                    <h2 class="section-header"><i class="fas fa-heart text-red-500"></i> Vos Favoris</h2>
+                    <div class="games-grid" id="favorite-games-grid"></div>
+                </div>
+
+                <!-- Section: Jeux du Jour (15 Games) -->
                 <h2 class="section-header"><i class="fas fa-bolt text-[var(--accent-orange)]"></i> Jeux du Jour</h2>
                 <div class="games-grid" id="random-casino-games-grid">
                     <div class="col-span-full text-center py-5 font-bold">Chargement...</div>
                 </div>
 
+                <!-- Section: Jeux Chauds (10 Games) -->
                 <div class="mt-8 mb-4">
                     <h2 class="section-header m-0"><i class="fas fa-fire text-red-500"></i> Jeux Chauds</h2>
                 </div>
@@ -520,7 +535,6 @@
                 <div id="live-games-grid" class="games-grid pb-10"></div>
             </div>
 
-            
             <!-- PANE: FAVORIS -->
             <div id="pane-favoris" class="player-view-section hidden w-full p-6">
                 <div class="flex items-center gap-2 mb-6">
@@ -573,8 +587,6 @@
         </a>
     </nav>
 
-    
-    
     <!-- Modals for Sidebar Actions -->
     <div id="action-modal" class="fixed inset-0 z-[800] bg-black/80 hidden items-center justify-center p-4 backdrop-blur-sm">
         <div class="w-full max-w-sm bg-[#15243b] border border-[#1e88e5] rounded-2xl p-6 relative shadow-2xl">
@@ -603,7 +615,6 @@
         </div>
     </div>
 
-    
     <!-- Settings Modal -->
     <div id="settings-modal" class="fixed inset-0 z-[800] bg-black/80 hidden items-center justify-center p-4 backdrop-blur-sm">
         <div class="w-full max-w-sm bg-[#15243b] border border-[#1e88e5] rounded-2xl p-6 relative shadow-2xl">
@@ -632,7 +643,7 @@
                 <div>
                     <input type="password" id="settings-confirm-password" placeholder="Confirmer mot de passe" class="w-full bg-[#15243b] border border-[#1a2a42] rounded-lg py-2 px-3 text-white text-sm outline-none focus:border-[var(--accent-orange)]">
                 </div>
-                <button onclick="changeMyPassword()" class="w-full bg-[var(--primary-blue)] text-white font-bold py-2 rounded-lg text-sm shadow hover:bg-blue-600 transition">Mettre à jour</button>
+                <button onclick="changeMyPassword(event)" class="w-full bg-[var(--primary-blue)] text-white font-bold py-2 rounded-lg text-sm shadow hover:bg-blue-600 transition cursor-pointer">Mettre à jour</button>
             </div>
         </div>
     </div>
@@ -659,7 +670,7 @@
         </div>
     </div>
 
-    <!-- Profile Sidebar -->
+    <!-- Profile Right Sidebar (All 6 Buttons Included) -->
     <div id="profile-overlay" onclick="toggleProfileSidebar()" class="fixed inset-0 bg-black/60 z-[190] hidden backdrop-blur-sm"></div>
     <div id="profile-sidebar" class="fixed right-0 top-0 h-full w-80 bg-[#15243b] border-l border-[#1e88e5] z-[200] shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col text-white">
         <div class="p-5 border-b border-gray-700 flex justify-between items-center bg-[#0b1a30]">
@@ -672,10 +683,39 @@
             </div>
             <button onclick="toggleProfileSidebar()" class="text-gray-400 hover:text-white cursor-pointer"><i class="fas fa-times"></i></button>
         </div>
-        <div class="flex-1 overflow-y-auto p-3 space-y-2">
-            <a onclick="fetchAndShowUserHistory('bets')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer"><i class="fas fa-history text-[var(--accent-orange)]"></i> Historique des jeux</a>
-            <a onclick="fetchAndShowUserHistory('transactions')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer"><i class="fas fa-exchange-alt text-[var(--primary-blue)]"></i> Transactions</a>
+        
+        <div class="flex-1 overflow-y-auto p-3 space-y-1">
+            <!-- Section Finance -->
+            <div class="mb-2">
+                <a onclick="openActionModal('Dépôt', 'fa-plus-circle', 'Veuillez contacter votre agent pour effectuer un dépôt. Vous pouvez également recharger via la page de caisse si disponible.')" class="flex items-center gap-3 bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/20 p-3 rounded-lg transition cursor-pointer text-emerald-400 font-bold">
+                    <i class="fas fa-plus-circle text-lg"></i> Dépôt
+                </a>
+            </div>
+            <a onclick="openActionModal('Retrait', 'fa-hand-holding-usd', 'Pour retirer vos gains, veuillez soumettre une demande de retrait à votre agent ou via la caisse.')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer text-gray-200">
+                <i class="fas fa-hand-holding-usd text-gray-400 w-5 text-center"></i> Retrait
+            </a>
+
+            <hr class="border-[#1a2a42] my-2">
+
+            <!-- Section Historique -->
+            <a onclick="fetchAndShowUserHistory('bets')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer text-gray-200">
+                <i class="fas fa-history text-[var(--accent-orange)] w-5 text-center"></i> Historique des jeux
+            </a>
+            <a onclick="fetchAndShowUserHistory('transactions')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer text-gray-200">
+                <i class="fas fa-exchange-alt text-[var(--primary-blue)] w-5 text-center"></i> Transactions
+            </a>
+
+            <hr class="border-[#1a2a42] my-2">
+
+            <!-- Section Bonus & Paramètres -->
+            <a onclick="openActionModal('Bonus & Cashback', 'fa-gift', 'Récupérez 10% de Cashback sur vos pertes journalières. Le solde minimum requis est de 10 TND pour le réclamer.')" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer text-gray-200">
+                <i class="fas fa-gift text-purple-400 w-5 text-center"></i> Bonus & Cashback
+            </a>
+            <a onclick="openSettingsModal()" class="flex items-center gap-3 hover:bg-[#0b1a30] p-3 rounded-lg transition cursor-pointer text-gray-200">
+                <i class="fas fa-cog text-gray-400 w-5 text-center"></i> Paramètres
+            </a>
         </div>
+
         <div class="p-4 bg-[#0b1a30]">
             <button onclick="toggleProfileSidebar(); logoutPlayer();" class="w-full bg-red-600 text-white font-bold py-3 rounded-lg uppercase cursor-pointer">Déconnexion</button>
         </div>
@@ -686,7 +726,6 @@
         const BACKEND_URL = "https://alpha-backend-server.onrender.com";
         let playerSession = null;
 
-        
         function initTheme() {
             const savedTheme = localStorage.getItem('alpha_theme') || 'dark';
             if (savedTheme === 'light') {
@@ -742,7 +781,7 @@
             document.getElementById('settings-modal').classList.remove('flex');
         }
 
-        async function changeMyPassword() {
+        async function changeMyPassword(ev) {
             if (!playerSession) return showNotification("Veuillez vous connecter d'abord", "error");
             const newPwd = document.getElementById('settings-new-password').value;
             const confirmPwd = document.getElementById('settings-confirm-password').value;
@@ -750,9 +789,8 @@
             if(!newPwd) return showNotification("Entrez un mot de passe", "error");
             if(newPwd !== confirmPwd) return showNotification("Les mots de passe ne correspondent pas", "error");
             
-            const btn = event.target;
-            btn.innerText = "Chargement...";
-            btn.disabled = true;
+            const btn = ev ? ev.target : document.querySelector('#settings-modal button[onclick*="changeMyPassword"]');
+            if (btn) { btn.innerText = "Chargement..."; btn.disabled = true; }
             
             try {
                 const res = await fetch(`${BACKEND_URL}/api/user/change-password`, {
@@ -770,12 +808,10 @@
             } catch(e) {
                 showNotification("Erreur de connexion", "error");
             } finally {
-                btn.innerText = "Mettre à jour";
-                btn.disabled = false;
+                if (btn) { btn.innerText = "Mettre à jour"; btn.disabled = false; }
             }
         }
 
-        // 🌟 Tracking active provider name to display under games dynamically
         let currentDisplayLimit = 50;
         let currentActiveProviderCode = "PRAGMATIC";
         let currentActiveProviderName = "Pragmatic Play";
@@ -810,20 +846,33 @@
             renderFavoritesAndRecents();
         }
 
-        function generateCardHTML(g, forcedProviderCode = null, forcedProviderName = null, isLive = false, isEuro = false) {
-            const title = escapeHTML(String(g.game_name || g.name || g.title || "Game"));
-            const providerName = escapeHTML(String(forcedProviderName || g.provider || g.partner_name || currentActiveProviderName || "Provider"));
-            const img = g.banner || g.image || g.thumb || g.img || `https://placehold.co/400x400/15243b/ff9800?text=${encodeURIComponent(title.substring(0, 15))}`;
-            const code = g.game_code || g.id || g.uuid || g.code;
-            const providerCode = forcedProviderCode || g.providerCode || currentActiveProviderCode || 'PRAGMATIC';
+        // Safe string helper for inline onclick handlers
+        function safeJSArg(str) {
+            return String(str || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        }
 
-            const isFav = favoriteGames.some(fav => fav.code === code);
+        function generateCardHTML(g, forcedProviderCode = null, forcedProviderName = null, isLive = false, isEuro = false) {
+            const rawTitle = String(g.game_name || g.name || g.title || "Game");
+            const rawProviderName = String(forcedProviderName || g.provider || g.partner_name || currentActiveProviderName || "Provider");
+            const title = escapeHTML(rawTitle);
+            const providerName = escapeHTML(rawProviderName);
+            const img = g.banner || g.image || g.thumb || g.img || `https://placehold.co/400x400/15243b/ff9800?text=${encodeURIComponent(rawTitle.substring(0, 15))}`;
+            const code = String(g.game_code || g.id || g.uuid || g.code || "");
+            const providerCode = String(forcedProviderCode || g.providerCode || currentActiveProviderCode || 'PRAGMATIC');
+
+            const isFav = favoriteGames.some(fav => String(fav.code) === code);
             
-            let clickAction = `playCasinoGame('${providerCode}', '${code}', '${title.replace(/'/g,"\'")}', '${img}', '${providerName.replace(/'/g,"\'")}')`;
-            if (isEuro || providerName.toLowerCase().includes('eurovirtual')) {
-                clickAction = `launchEuroVirtuals('${code}', '${title.replace(/'/g,"\'")}', '${img}', '${providerName.replace(/'/g,"\'")}')`;
+            const sCode = safeJSArg(code);
+            const sTitle = safeJSArg(rawTitle);
+            const sImg = safeJSArg(img);
+            const sProvName = safeJSArg(rawProviderName);
+            const sProvCode = safeJSArg(providerCode);
+
+            let clickAction = `playCasinoGame('${sProvCode}', '${sCode}', '${sTitle}', '${sImg}', '${sProvName}')`;
+            if (isEuro || rawProviderName.toLowerCase().includes('eurovirtual')) {
+                clickAction = `launchEuroVirtuals('${sCode}', '${sTitle}', '${sImg}', '${sProvName}')`;
             } else if (isLive) {
-                clickAction = `playCasinoGame('PP_LIVE_PRO', '${code}', '${title.replace(/'/g,"\'")}', '${img}', '${providerName.replace(/'/g,"\'")}')`;
+                clickAction = `playCasinoGame('PP_LIVE_PRO', '${sCode}', '${sTitle}', '${sImg}', '${sProvName}')`;
             }
 
             let badgeHTML = '';
@@ -839,11 +888,11 @@
             return `
             <div class="game-card" onclick="${clickAction}">
                 ${badgeHTML}
-                <button onclick="toggleFavorite(event, '${code}', '${title.replace(/'/g,"\'")}', '${img}', '${providerName.replace(/'/g,"\'")}', '${providerCode}')" class="fav-btn ${isFav ? 'active' : ''}">
+                <button onclick="toggleFavorite(event, '${sCode}', '${sTitle}', '${sImg}', '${sProvName}', '${sProvCode}')" class="fav-btn ${isFav ? 'active' : ''}">
                     <i class="fas fa-heart"></i>
                 </button>
                 <div class="game-img-box">
-                    <img src="${img}" alt="${title}" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/400x400/15243b/ff9800?text=${encodeURIComponent(title.substring(0, 15))}';">
+                    <img src="${img}" alt="${title}" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/400x400/15243b/ff9800?text=${encodeURIComponent(rawTitle.substring(0, 15))}';">
                     <div class="game-overlay">
                         <span class="play-btn" ${btnStyle}>JOUER</span>
                     </div>
@@ -856,30 +905,35 @@
         }
 
         function renderFavoritesAndRecents() {
+            const favContainer = document.getElementById('favorite-games-container');
             const favGrid = document.getElementById('favorite-games-grid');
+            const recContainer = document.getElementById('recent-games-container');
             const recGrid = document.getElementById('recent-games-grid');
-            if (favGrid) {
+            
+            if (favGrid && favContainer) {
                 if (favoriteGames.length > 0) {
-                    document.getElementById('favorite-games-container').style.display = 'block';
-                    favGrid.innerHTML = favoriteGames.map(g => generateCardHTML(g, g.providerCode, g.providerName, g.providerCode === 'PP_LIVE_PRO', g.providerName.toLowerCase().includes('eurovirtual'))).join('');
+                    favContainer.style.display = 'block';
+                    favGrid.innerHTML = favoriteGames.map(g => generateCardHTML(g, g.providerCode, g.providerName, g.providerCode === 'PP_LIVE_PRO', String(g.providerName).toLowerCase().includes('eurovirtual'))).join('');
                 } else {
-                    document.getElementById('favorite-games-container').style.display = 'none';
+                    favContainer.style.display = 'none';
                 }
             }
+            
             const dedFavGrid = document.getElementById('dedicated-favorite-games-grid');
             if (dedFavGrid) {
                 if (favoriteGames.length > 0) {
-                    dedFavGrid.innerHTML = favoriteGames.map(g => generateCardHTML(g, g.providerCode, g.providerName, g.providerCode === 'PP_LIVE_PRO', g.providerName.toLowerCase().includes('eurovirtual'))).join('');
+                    dedFavGrid.innerHTML = favoriteGames.map(g => generateCardHTML(g, g.providerCode, g.providerName, g.providerCode === 'PP_LIVE_PRO', String(g.providerName).toLowerCase().includes('eurovirtual'))).join('');
                 } else {
                     dedFavGrid.innerHTML = '<div class="col-span-full text-center text-gray-500 py-10 font-bold">Aucun favori ajouté. Cliquez sur le cœur ❤️ d\'un jeu pour l\'ajouter ici.</div>';
                 }
             }
-            if (recGrid) {
+            
+            if (recGrid && recContainer) {
                 if (recentGames.length > 0) {
-                    document.getElementById('recent-games-container').style.display = 'block';
-                    recGrid.innerHTML = recentGames.map(g => generateCardHTML(g, g.providerCode, g.providerName, g.providerCode === 'PP_LIVE_PRO', g.providerName.toLowerCase().includes('eurovirtual'))).join('');
+                    recContainer.style.display = 'block';
+                    recGrid.innerHTML = recentGames.map(g => generateCardHTML(g, g.providerCode, g.providerName, g.providerCode === 'PP_LIVE_PRO', String(g.providerName).toLowerCase().includes('eurovirtual'))).join('');
                 } else {
-                    document.getElementById('recent-games-container').style.display = 'none';
+                    recContainer.style.display = 'none';
                 }
             }
         }
@@ -972,7 +1026,7 @@
             if(userProfile) { userProfile.classList.remove('hidden'); userProfile.classList.add('flex'); }
             
             document.getElementById('player-balance-val').innerText = parseFloat(playerSession.balance || 0).toFixed(2);
-            document.getElementById('sidebar-balance').innerText = parseFloat(playerSession.balance || 0).toFixed(2) + ' TND';
+            document.getElementById('sidebar-balance').innerText = parseFloat(playerSession.balance || 0).toFixed(2);
             document.getElementById('sidebar-username').innerText = playerSession.username;
             
             startLiveJackpots();
@@ -1072,7 +1126,6 @@
             }
 
             const gamesToDisplay = window.currentProviderGames.slice(0, currentDisplayLimit);
-            
             container.innerHTML = gamesToDisplay.map(g => generateCardHTML(g, currentActiveProviderCode, currentActiveProviderName)).join('');
         }
 
@@ -1091,13 +1144,16 @@
             const term = input ? input.value.toLowerCase() : "";
             const filtered = window.nexusProviders.filter(p => String(p.name || p.code || "").toLowerCase().includes(term));
 
-            list.innerHTML = filtered.map(p => `
-                <button onclick="loadProviderGames('${p.code}', '${p.name}'); toggleProviderDropdown();" 
+            list.innerHTML = filtered.map(p => {
+                const sCode = safeJSArg(p.code);
+                const sName = safeJSArg(p.name);
+                return `
+                <button onclick="loadProviderGames('${sCode}', '${sName}'); toggleProviderDropdown();" 
                     class="w-full flex items-center justify-between bg-white border border-gray-200 hover:border-[var(--accent-orange)] hover:bg-gray-50 text-[var(--bg-navy)] px-3 py-2.5 rounded-xl transition-all duration-300 shadow-sm mb-1.5 group">
-                    <span class="font-extrabold text-xs tracking-wide">${p.name}</span>
+                    <span class="font-extrabold text-xs tracking-wide">${escapeHTML(p.name)}</span>
                     <i class="fas fa-play text-[8px] text-gray-400 group-hover:text-[var(--accent-orange)] transition-colors"></i>
-                </button>
-            `).join('');
+                </button>`;
+            }).join('');
         }
 
         function filterGames() {
@@ -1113,36 +1169,16 @@
                 return;
             }
 
-            container.innerHTML = filtered.map(g => {
-                const title = escapeHTML(String(g.game_name || g.name || "Game"));
-                const providerName = escapeHTML(String(g.provider || currentActiveProviderName || "Pragmatic"));
-                const img = g.banner || g.image || g.thumb || `https://placehold.co/400x400/15243b/ff9800?text=${encodeURIComponent(title.substring(0, 15))}`;
-                const code = g.game_code || g.id;
-
-                return `
-                <div class="game-card" onclick="playCasinoGame('${currentActiveProviderCode}', '${code}')">
-                    <div class="game-img-box">
-                        <img src="${img}" alt="${title}" loading="lazy">
-                        <div class="game-overlay">
-                            <span class="play-btn">JOUER</span>
-                        </div>
-                    </div>
-                    <div class="game-info">
-                        <div class="game-name">${title}</div>
-                        <div class="game-provider">${providerName}</div>
-                    </div>
-                </div>`;
-            }).join('');
+            container.innerHTML = filtered.map(g => generateCardHTML(g, currentActiveProviderCode, currentActiveProviderName)).join('');
         }
 
-        // ================= 2. RANDOM GAMES (HOME) =================
+        // ================= 2. RANDOM & HOT GAMES (HOME) =================
         async function loadRandomCasinoGames() {
             const grid = document.getElementById('random-casino-games-grid');
             const hotGrid = document.getElementById('hot-games-grid');
             if (!grid) return;
             
             try {
-                // Fetch Pragmatic for Jeux du Jour
                 const resPragmatic = await fetch(`${BACKEND_URL}/api/get-providers`, {
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ provider_code: 'PRAGMATIC' })
@@ -1151,11 +1187,9 @@
                 let pragmaticGames = dataPragmatic.games || dataPragmatic.data || [];
                 
                 if (pragmaticGames.length > 0) {
-                    // Jeux du Jour: 15 Games (3 rows of 5)
                     const dayGames = pragmaticGames.slice(0, 15);
                     grid.innerHTML = dayGames.map(g => generateCardHTML(g, 'PRAGMATIC', 'Pragmatic Play')).join('');
                     
-                    // Jeux Chauds: 10 Games changing daily from another provider (e.g., Hacksaw or PGSoft)
                     if (hotGrid) {
                         let mixGames = [];
                         let hotProviderCode = 'HACKSAW';
@@ -1170,14 +1204,12 @@
                             mixGames = dataMix.games || dataMix.data || [];
                         } catch(e) {}
                         
-                        // Fallback to pragmatic if Hacksaw is empty
                         if(mixGames.length < 10) {
                             mixGames = pragmaticGames;
                             hotProviderCode = 'PRAGMATIC';
                             hotProviderName = 'Pragmatic Play';
                         }
                         
-                        // Seed based on day of the year
                         let now = new Date();
                         let dayOfYear = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
                         
@@ -1247,16 +1279,10 @@
         async function playCasinoGame(providerCode, gameCode, title="", img="", providerName="") {
             if (!playerSession) return openLoginModal();
             if (title && img) addToRecents(gameCode, title, img, providerName || 'Casino', providerCode);
-            if (!playerSession) return openLoginModal();
             document.body.style.cursor = 'wait';
             try {
                 let endpointUrl = `${BACKEND_URL}/api/provider/launch-casino`;
                 let requestBody = { game_code: gameCode, provider_code: providerCode, user_code: playerSession.username };
-
-                if (providerCode === 'SMPL') {
-                    endpointUrl = `${BACKEND_URL}/api/smpl/launch`;
-                    requestBody = { game_uuid: gameCode, user_code: playerSession.username };
-                }
 
                 const res = await fetch(endpointUrl, {
                     method: 'POST', headers: getAuthHeaders(),
@@ -1280,7 +1306,6 @@
         async function launchEuroVirtuals(gameId, title="", img="", providerName="") {
             if (!playerSession) return openLoginModal();
             if (title && img) addToRecents(gameId, title, img, providerName || 'EuroVirtuals', 'EUROVIRTUALS');
-            if (!playerSession) return openLoginModal();
             document.body.style.cursor = 'wait';
             try {
                 const res = await fetch(`${BACKEND_URL}/api/provider/launch-eurovirtuals`, {
@@ -1361,16 +1386,13 @@
                 if (overlay) overlay.classList.add('hidden');
             }
         }
-    
         
         function openActionModal(title, iconClass, message) {
-            // Close sidebar
             const sidebar = document.getElementById('profile-sidebar');
             const overlay = document.getElementById('profile-overlay');
             if(sidebar) sidebar.classList.add('translate-x-full');
             if(overlay) overlay.classList.add('hidden');
 
-            // Setup and show modal
             document.getElementById('action-modal-title').innerText = title;
             document.getElementById('action-modal-icon').className = `fas ${iconClass} text-4xl text-[var(--accent-orange)] mb-2`;
             document.getElementById('action-modal-body').innerHTML = message;
@@ -1394,7 +1416,6 @@
         async function fetchAndShowUserHistory(type) {
             if (!playerSession) return openLoginModal();
             
-            // إغلاق القائمة الجانبية عند الفتح
             const sidebar = document.getElementById('profile-sidebar');
             const overlay = document.getElementById('profile-overlay');
             if(sidebar) sidebar.classList.add('translate-x-full');
@@ -1478,7 +1499,6 @@
                 contentEl.innerHTML = '<div class="text-center text-red-500 py-10 font-bold">Erreur de connexion au serveur.</div>';
             }
         }
-
     </script>
 </body>
 </html>
