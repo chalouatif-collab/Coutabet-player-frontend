@@ -128,7 +128,20 @@
         }
 
         .section-header { font-size: 18px; font-weight: 800; color: var(--bg-navy); margin: 30px 0 15px 0; display: flex; align-items: center; gap: 8px; border-left: 4px solid var(--primary-blue); padding-left: 10px; }
-        .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
+        .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; justify-content: center; }
+
+        .fav-btn {
+            position: absolute; top: 8px; left: 8px; z-index: 20;
+            background: rgba(11, 26, 48, 0.6); border-radius: 50%;
+            width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s ease; border: 1px solid rgba(255,255,255,0.1);
+        }
+        .fav-btn:hover { background: rgba(0,0,0,0.9); transform: scale(1.1); border-color: rgba(255,255,255,0.3); }
+        .fav-btn i { color: rgba(255,255,255,0.5); font-size: 15px; transition: 0.3s; }
+        .fav-btn.active i, .fav-btn:hover i { color: #ef4444; }
+        
+        
+        @media (max-width: 600px) { .games-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; } }
 
         /* Game Card Styles Refined to match image */
         .game-card {
@@ -251,7 +264,7 @@
             .center-content { padding: 15px; padding-bottom: 70px; }
             .bottom-nav { display: flex; }
             .mobile-menu-btn { display: block; }
-            .games-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
+            .games-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
 
             .sidebar-left {
                 display: flex !important; position: fixed; top: 0; left: 0; height: 100vh; width: 260px; z-index: 150;
@@ -597,7 +610,6 @@
                 <i class="fas fa-cog text-gray-400 w-5 text-center"></i> Paramètres
             </a>
         </div>
-        
         <div class="p-4 bg-[#0b1a30]">
             <button onclick="toggleProfileSidebar(); logoutPlayer();" class="w-full bg-red-600 text-white font-bold py-3 rounded-lg uppercase cursor-pointer">Déconnexion</button>
         </div>
@@ -612,6 +624,102 @@
         let currentDisplayLimit = 50;
         let currentActiveProviderCode = "PRAGMATIC";
         let currentActiveProviderName = "Pragmatic Play";
+        let recentGames = JSON.parse(localStorage.getItem('alpha_recent_games')) || [];
+        let favoriteGames = JSON.parse(localStorage.getItem('alpha_favorite_games')) || [];
+
+        function toggleFavorite(event, code, title, img, providerName, providerCode) {
+            event.stopPropagation();
+            const index = favoriteGames.findIndex(g => g.code === code);
+            if (index > -1) {
+                favoriteGames.splice(index, 1);
+                showNotification("Retiré des favoris", "success");
+            } else {
+                favoriteGames.push({ code, title, img, providerName, providerCode });
+                showNotification("Ajouté aux favoris", "success");
+            }
+            localStorage.setItem('alpha_favorite_games', JSON.stringify(favoriteGames));
+            renderFavoritesAndRecents();
+            
+            if(document.getElementById('pane-casino').classList.contains('block')) renderCasinoGrid();
+            if(document.getElementById('pane-accueil').classList.contains('block')) loadRandomCasinoGames();
+            if(document.getElementById('pane-live-casino').classList.contains('block')) openLiveCasino();
+            if(document.getElementById('pane-virtuals').classList.contains('block')) initVirtualsLobby();
+        }
+
+        function addToRecents(code, title, img, providerName, providerCode) {
+            const index = recentGames.findIndex(g => g.code === code);
+            if (index > -1) recentGames.splice(index, 1);
+            recentGames.unshift({ code, title, img, providerName, providerCode });
+            if (recentGames.length > 10) recentGames.pop();
+            localStorage.setItem('alpha_recent_games', JSON.stringify(recentGames));
+            renderFavoritesAndRecents();
+        }
+
+        function generateCardHTML(g, forcedProviderCode = null, forcedProviderName = null, isLive = false, isEuro = false) {
+            const title = escapeHTML(String(g.game_name || g.name || g.title || "Game"));
+            const providerName = escapeHTML(String(forcedProviderName || g.provider || g.partner_name || currentActiveProviderName || "Provider"));
+            const img = g.banner || g.image || g.thumb || g.img || `https://placehold.co/400x400/15243b/ff9800?text=${encodeURIComponent(title.substring(0, 15))}`;
+            const code = g.game_code || g.id || g.uuid || g.code;
+            const providerCode = forcedProviderCode || g.providerCode || currentActiveProviderCode || 'PRAGMATIC';
+
+            const isFav = favoriteGames.some(fav => fav.code === code);
+            
+            let clickAction = `playCasinoGame('${providerCode}', '${code}', '${title.replace(/'/g,"\'")}', '${img}', '${providerName.replace(/'/g,"\'")}')`;
+            if (isEuro || providerName.toLowerCase().includes('eurovirtual')) {
+                clickAction = `launchEuroVirtuals('${code}', '${title.replace(/'/g,"\'")}', '${img}', '${providerName.replace(/'/g,"\'")}')`;
+            } else if (isLive) {
+                clickAction = `playCasinoGame('PP_LIVE_PRO', '${code}', '${title.replace(/'/g,"\'")}', '${img}', '${providerName.replace(/'/g,"\'")}')`;
+            }
+
+            let badgeHTML = '';
+            let btnStyle = '';
+            if(isLive) {
+                badgeHTML = `<div class="absolute top-0 right-0 bg-red-600 text-white text-[10px] font-black px-3 py-1 z-20 rounded-bl-lg uppercase tracking-wide">LIVE</div>`;
+                btnStyle = 'style="background: #ef4444; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);"';
+            } else if(isEuro) {
+                badgeHTML = `<div class="absolute top-0 right-0 bg-[#0b1a30] text-blue-400 text-[9px] font-black px-3 py-1 rounded-bl-lg z-20 uppercase tracking-widest border-b border-l border-[#1a2a42] shadow-sm">${providerName}</div>`;
+                btnStyle = 'style="background: #3b82f6; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);"';
+            }
+
+            return `
+            <div class="game-card" onclick="${clickAction}">
+                ${badgeHTML}
+                <button onclick="toggleFavorite(event, '${code}', '${title.replace(/'/g,"\'")}', '${img}', '${providerName.replace(/'/g,"\'")}', '${providerCode}')" class="fav-btn ${isFav ? 'active' : ''}">
+                    <i class="fas fa-heart"></i>
+                </button>
+                <div class="game-img-box">
+                    <img src="${img}" alt="${title}" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/400x400/15243b/ff9800?text=${encodeURIComponent(title.substring(0, 15))}';">
+                    <div class="game-overlay">
+                        <span class="play-btn" ${btnStyle}>JOUER</span>
+                    </div>
+                </div>
+                <div class="game-info">
+                    <div class="game-name">${title}</div>
+                    <div class="game-provider">${providerName}</div>
+                </div>
+            </div>`;
+        }
+
+        function renderFavoritesAndRecents() {
+            const favGrid = document.getElementById('favorite-games-grid');
+            const recGrid = document.getElementById('recent-games-grid');
+            if (favGrid) {
+                if (favoriteGames.length > 0) {
+                    document.getElementById('favorite-games-container').style.display = 'block';
+                    favGrid.innerHTML = favoriteGames.map(g => generateCardHTML(g, g.providerCode, g.providerName, g.providerCode === 'PP_LIVE_PRO', g.providerName.toLowerCase().includes('eurovirtual'))).join('');
+                } else {
+                    document.getElementById('favorite-games-container').style.display = 'none';
+                }
+            }
+            if (recGrid) {
+                if (recentGames.length > 0) {
+                    document.getElementById('recent-games-container').style.display = 'block';
+                    recGrid.innerHTML = recentGames.map(g => generateCardHTML(g, g.providerCode, g.providerName, g.providerCode === 'PP_LIVE_PRO', g.providerName.toLowerCase().includes('eurovirtual'))).join('');
+                } else {
+                    document.getElementById('recent-games-container').style.display = 'none';
+                }
+            }
+        }
 
         function getAuthHeaders() { 
             return { 'Authorization': `Bearer ${localStorage.getItem('token')}`, 'Content-Type': 'application/json' }; 
@@ -736,6 +844,7 @@
                 setupLoggedInUI();
             }
             loadRandomCasinoGames();
+            renderFavoritesAndRecents();
         };
 
         // ================= 1. CASINO & SLOTS =================
@@ -801,26 +910,7 @@
 
             const gamesToDisplay = window.currentProviderGames.slice(0, currentDisplayLimit);
             
-            container.innerHTML = gamesToDisplay.map(g => {
-                const title = escapeHTML(String(g.game_name || g.name || "Game"));
-                const providerName = escapeHTML(String(g.provider || currentActiveProviderName || "Pragmatic"));
-                const img = g.banner || g.image || g.thumb || `https://placehold.co/400x400/15243b/ff9800?text=${encodeURIComponent(title.substring(0, 15))}`;
-                const code = g.game_code || g.id;
-
-                return `
-                <div class="game-card" onclick="playCasinoGame('${currentActiveProviderCode}', '${code}')">
-                    <div class="game-img-box">
-                        <img src="${img}" alt="${title}" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/400x400/15243b/ff9800?text=${encodeURIComponent(title.substring(0, 15))}';">
-                        <div class="game-overlay">
-                            <span class="play-btn">JOUER</span>
-                        </div>
-                    </div>
-                    <div class="game-info">
-                        <div class="game-name">${title}</div>
-                        <div class="game-provider">${providerName}</div>
-                    </div>
-                </div>`;
-            }).join('');
+            container.innerHTML = gamesToDisplay.map(g => generateCardHTML(g, currentActiveProviderCode, currentActiveProviderName)).join('');
         }
 
         function toggleProviderDropdown() {
@@ -896,23 +986,7 @@
                 
                 if (allGames.length > 0) {
                     const randomGames = allGames.slice(0, 12);
-                    grid.innerHTML = randomGames.map(g => {
-                        const title = escapeHTML(g.game_name || g.name || "Casino Game");
-                        const img = g.banner || g.image || `https://placehold.co/400x400/15243b/ff9800?text=${encodeURIComponent(title.substring(0, 10))}`;
-                        const code = g.game_code || g.id;
-                        
-                        return `
-                        <div class="game-card" onclick="playCasinoGame('PRAGMATIC', '${code}')">
-                            <div class="game-img-box">
-                                <img src="${img}" alt="${title}" loading="lazy">
-                                <div class="game-overlay"><span class="play-btn">JOUER</span></div>
-                            </div>
-                            <div class="game-info">
-                                <div class="game-name">${title}</div>
-                                <div class="game-provider">Pragmatic Play</div>
-                            </div>
-                        </div>`;
-                    }).join('');
+                    grid.innerHTML = randomGames.map(g => generateCardHTML(g, 'PRAGMATIC', 'Pragmatic Play')).join('');
                 }
             } catch (error) {
                 grid.innerHTML = '<div class="col-span-full text-center text-red-500 py-6 text-xs font-bold">Erreur de chargement.</div>';
@@ -929,24 +1003,7 @@
                     body: JSON.stringify({ provider_code: 'PP_LIVE_PRO' })
                 });
                 const data = await res.json();
-                if (grid) grid.innerHTML = (data.games || []).map(g => {
-                    const safeName = escapeHTML(g.game_name || g.name || "Live Game");
-                    const img = g.banner || g.image || 'https://placehold.co/400x400/15243b/FFF';
-                    const code = g.game_code || g.id;
-                    
-                    return `
-                    <div class="game-card" onclick="playCasinoGame('PP_LIVE_PRO', '${code}')">
-                        <div class="absolute top-0 right-0 bg-red-600 text-white text-[10px] font-black px-3 py-1 z-20 rounded-bl-lg uppercase tracking-wide">LIVE</div>
-                        <div class="game-img-box">
-                            <img src="${img}" alt="${safeName}" loading="lazy">
-                            <div class="game-overlay"><span class="play-btn" style="background: #ef4444; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);">JOUER</span></div>
-                        </div>
-                        <div class="game-info">
-                            <div class="game-name">${safeName}</div>
-                            <div class="game-provider">Pragmatic Live</div>
-                        </div>
-                    </div>`;
-                }).join('');
+                if (grid) grid.innerHTML = (data.games || []).map(g => generateCardHTML(g, 'PP_LIVE_PRO', 'Pragmatic Live', true)).join('');
             } catch (e) { }
         }
 
@@ -976,25 +1033,7 @@
                 }
 
                 if (filteredGames.length > 0) {
-                    if (grid) grid.innerHTML = filteredGames.map(g => {
-                        const uuid = g.uuid || g.game_uuid || g.id || g.game_code;
-                        const safeName = escapeHTML(g.game_name || g.name || "Virtual Game");
-                        const img = g.banner || g.image || g.img || `https://placehold.co/400x400/15243b/FFF?text=${encodeURIComponent(safeName.substring(0, 10))}`;
-                        const provider = escapeHTML(g.provider || g.partner_name || 'EuroVirtuals');
-
-                        return `
-                        <div class="game-card" onclick="launchEuroVirtuals('${uuid}')">
-                            <div class="absolute top-0 right-0 bg-[#0b1a30] text-blue-400 text-[9px] font-black px-3 py-1 rounded-bl-lg z-20 uppercase tracking-widest border-b border-l border-[#1a2a42] shadow-sm">${provider}</div>
-                            <div class="game-img-box">
-                                <img src="${img}" alt="${safeName}" loading="lazy">
-                                <div class="game-overlay"><span class="play-btn" style="background: #3b82f6; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);">JOUER</span></div>
-                            </div>
-                            <div class="game-info">
-                                <div class="game-name">${safeName}</div>
-                                <div class="game-provider">${provider}</div>
-                            </div>
-                        </div>`;
-                    }).join('');
+                    if (grid) grid.innerHTML = filteredGames.map(g => generateCardHTML(g, 'EUROVIRTUALS', g.provider || g.partner_name || 'EuroVirtuals', false, true)).join('');
                 } else {
                     if (grid) grid.innerHTML = '<div class="col-span-full text-yellow-500 text-center py-10 font-bold">Aucun jeu trouvé.</div>';
                 }
@@ -1004,7 +1043,9 @@
         }
 
         // ================= 5. GAME LAUNCHERS =================
-        async function playCasinoGame(providerCode, gameCode) {
+        async function playCasinoGame(providerCode, gameCode, title="", img="", providerName="") {
+            if (!playerSession) return openLoginModal();
+            if (title && img) addToRecents(gameCode, title, img, providerName || 'Casino', providerCode);
             if (!playerSession) return openLoginModal();
             document.body.style.cursor = 'wait';
             try {
@@ -1035,7 +1076,9 @@
             } catch (error) { showNotification("Erreur de connexion", "error"); } finally { document.body.style.cursor = 'default'; }
         }
 
-        async function launchEuroVirtuals(gameId) {
+        async function launchEuroVirtuals(gameId, title="", img="", providerName="") {
+            if (!playerSession) return openLoginModal();
+            if (title && img) addToRecents(gameId, title, img, providerName || 'EuroVirtuals', 'EUROVIRTUALS');
             if (!playerSession) return openLoginModal();
             document.body.style.cursor = 'wait';
             try {
